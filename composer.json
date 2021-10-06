@@ -1,0 +1,19 @@
+{
+  "require": {
+    "php": ">=8.0.0",
+    "monolog/monolog": "2.3.5",
+    "ext-pdo": "*"
+  },
+
+
+  "autoload": {
+    "psr-4": {
+      "application\\": "application/",
+      "vendor\\": "vendor/",
+      "core\\": "application/core/",
+      "controllers\\": "application/controllers/",
+      "models\\": "application/models/"
+    }
+  }
+
+}

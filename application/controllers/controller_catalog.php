@@ -9,9 +9,10 @@ class Controller_Catalog extends Controller
         $this->view = new View();
     }
 
-    function action_product($params){
+    function action_product($params)
+    {
         $data = $this->model->getProduct($params);
-        $this->view->generate('product_view.php','template_view.php',$data);
+        $this->view->generate('product_view.php', 'template_view.php', $data);
     }
 
     function action_index()

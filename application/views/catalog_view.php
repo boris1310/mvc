@@ -1,4 +1,4 @@
-<h1 align="center">Каталог</h1>
+<h1 class="text-center">Каталог</h1>
 
 <div class="container">
 
@@ -18,7 +18,7 @@
                 
                 <div class="mt-3">
                   <button type="button" class="btn btn-success">Купить</button>
-                  <a class="btn btn-primary" href="/catalog/product/'.$row['name'].'">Подробнее</a>
+                  <a class="btn btn-primary" href="/catalog/product/' . $row['name'] . '">Подробнее</a>
                 </div>
                 
              

@@ -37,13 +37,13 @@ class Route
         }
 
 
-        $controller_file = strtolower($controller_name) . '.php';
+        $controller_file = $controller_name . '.php';
         $controller_path = "application/controllers/" . $controller_file;
 
         if (file_exists($controller_path)) {
             include "application/controllers/" . $controller_file;
         } else {
-            Route::ErrorPage404();
+            route::ErrorPage404();
         }
 
 
@@ -59,7 +59,7 @@ class Route
             }
         } else {
 
-            Route::ErrorPage404();
+            route::ErrorPage404();
         }
 
     }

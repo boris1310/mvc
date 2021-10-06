@@ -1,5 +1,4 @@
-
-<h1 align="center">Добро пожаловать!</h1>
+<h1 class="text-center">Добро пожаловать!</h1>
 
 
 <div class="container">
