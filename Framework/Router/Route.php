@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Framework\Router;
 
 class Route
 {
@@ -13,7 +13,7 @@ class Route
 
 
         if (!empty($routes[1])) {
-            $controller_name = $routes[1];
+            $controller_name = "$routes[1]";
         }
 
 
@@ -26,28 +26,25 @@ class Route
         }
 
 
-        $model_name = 'Model_' . $controller_name;
-        $controller_name = 'Controller_' . $controller_name;
+        $model_name = $controller_name;
+        $controller_name = $controller_name . "Controller";
         $action_name = 'action_' . $action_name;
 
-
-        $model_file = strtolower($model_name) . '.php';
-        $model_path = "application/models/" . $model_file;
+        $model_file = $model_name . '.php';
+        $model_path = "App/Models/" . $model_file;
 
         if (file_exists($model_path)) {
-            include "application/models/" . $model_file;
+            include "App/Models/" . $model_file;
         }
 
-
         $controller_file = $controller_name . '.php';
-        $controller_path = "application/controllers/" . $controller_file;
+        $controller_path = "App/Controllers/" . $controller_file;
 
         if (file_exists($controller_path)) {
-            include "application/controllers/" . $controller_file;
+            include "App/Controllers/" . $controller_file;
         } else {
             route::ErrorPage404();
         }
-
 
         $controller = new $controller_name;
         $action = $action_name;
@@ -57,11 +54,14 @@ class Route
             if (!empty($params)) {
                 $controller->$action($params);
             } else {
-                $controller->$action();
-            }
-        } else {
 
+                $controller->$action();
+
+            }
+
+        } else {
             route::ErrorPage404();
+
         }
 
     }
@@ -71,6 +71,6 @@ class Route
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");
-        header('Location:' . $host . '404');
+        header('Location:' . $host . 'NotFound');
     }
 }

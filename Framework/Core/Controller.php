@@ -1,6 +1,8 @@
 <?php
 
+namespace Framework\Core;
 
+use Framework\Core\View;
 
 class Controller {
 
@@ -12,7 +14,4 @@ class Controller {
         $this->view = new View();
     }
 
-    function action_index()
-    {
-    }
 }

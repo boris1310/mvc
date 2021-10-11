@@ -1,20 +1,27 @@
 {
   "require": {
     "php": ">=8.0.0",
-    "monolog/monolog": "2.3.5",
     "boris1310/my-logger": "dev-dev",
     "ext-pdo": "*"
   },
-
-
   "autoload": {
     "psr-4": {
-      "application\\": "application/",
-      "vendor\\": "vendor/",
-      "application\\controllers\\": "controllers/",
-      "application\\core\\": "core/",
-      "application\\models\\": "models/"
-    }
-  }
+      "App\\": "App/",
+      "App\\Controllers\\": "App/Controllers",
+      "App\\Models\\": "App/Models",
+      "App\\View\\": "App/View",
+      "Framework\\": "Framework/",
+      "Framework\\Core\\": "Framework/Core/",
+      "Framework\\Router\\": "Framework/Router/",
+      "vendor\\": "vendor/"
 
+    },
+    "files": [
+      "Framework/Router/Route.php",
+      "Framework/Core/Controller.php",
+      "Framework/Core/Model.php",
+      "Framework/Core/View.php",
+      "vendor/boris1310/my_logger/Logger.php"
+    ]
+  }
 }

@@ -1,6 +1,8 @@
 <?php
 
-class Model_Catalog extends Model
+use Framework\Core\Model;
+
+class Catalog extends Model
 {
     /**
      * Получение всех товаров из файла;
@@ -10,9 +12,7 @@ class Model_Catalog extends Model
     public function get_data(): mixed
     {
         require_once 'storage/storage.php';
-
         $data = $products;
-
         return $data;
     }
 
@@ -24,9 +24,9 @@ class Model_Catalog extends Model
 
     public function getProduct($params)
     {
-        $products = new Model_Catalog();
+        $products = new Catalog();
         $items = $products->get_data();
-        $data = [];
+
         foreach ($items as $key => $item) {
             if ($item['name'] == "$params") {
                 $data = $items[$key];

@@ -13,11 +13,11 @@
 </head>
 <body>
 
-<?php require_once 'inc/header.php'; ?>
+<?php require_once 'App/View/inc/header.php'; ?>
 
-<?php include 'application/views/' . $content_view; ?>
+<?php include 'App/View/Templates/' . $content_view; ?>
 
-<?php require_once 'inc/footer.php'; ?>
+<?php require_once 'App/View/inc/footer.php'; ?>
 
 </body>
 </html>
