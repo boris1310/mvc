@@ -4,8 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78dbdf48005aff84ab35db67d6243ae5",
+    "content-hash": "83ee6f1633dcbad6a03590aa93d23037",
     "packages": [
+        {
+            "name": "boris1310/my-logger",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boris1310/my_loger.git",
+                "reference": "086211d50377236d0b0bc3956e980a990cb34c39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/boris1310/my_loger/zipball/086211d50377236d0b0bc3956e980a990cb34c39",
+                "reference": "086211d50377236d0b0bc3956e980a990cb34c39",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "This package is my homework",
+            "homepage": "https://github.com/boris1310/my-logger",
+            "support": {
+                "issues": "https://github.com/boris1310/my_loger/issues",
+                "source": "https://github.com/boris1310/my_loger/tree/dev"
+            },
+            "time": "2021-10-09T20:24:57+00:00"
+        },
         {
             "name": "monolog/monolog",
             "version": "2.3.5",
@@ -159,7 +186,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "boris1310/my-logger": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -1,5 +1,7 @@
 <?php
 
+require_once("vendor/autoload.php");
+
 function classAutoload($clasname)
 {
     $filename = 'application/core/' . $clasname . ".php";

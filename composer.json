@@ -2,6 +2,7 @@
   "require": {
     "php": ">=8.0.0",
     "monolog/monolog": "2.3.5",
+    "boris1310/my-logger": "dev-dev",
     "ext-pdo": "*"
   },
 
@@ -10,9 +11,9 @@
     "psr-4": {
       "application\\": "application/",
       "vendor\\": "vendor/",
-      "core\\": "application/core/",
-      "controllers\\": "application/controllers/",
-      "models\\": "application/models/"
+      "application\\controllers\\": "controllers/",
+      "application\\core\\": "core/",
+      "application\\models\\": "models/"
     }
   }
 
