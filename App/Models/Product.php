@@ -1,8 +1,10 @@
 <?php
 
+namespace App\Models;
+
 use Framework\Core\Model;
 
-class Catalog extends Model
+class Product extends Model
 {
     /**
      * Получение всех товаров из файла;
@@ -24,7 +26,7 @@ class Catalog extends Model
 
     public function getProduct($params)
     {
-        $products = new Catalog();
+        $products = new Product();
         $items = $products->get_data();
 
         foreach ($items as $key => $item) {

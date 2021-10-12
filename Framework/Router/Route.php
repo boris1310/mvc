@@ -25,17 +25,11 @@ class Route
             $params = $routes[3];
         }
 
+        //Eсли понадобится передавать несколько параметров - придётся дописывать =(
 
-        $model_name = $controller_name;
         $controller_name = $controller_name . "Controller";
         $action_name = 'action_' . $action_name;
 
-        $model_file = $model_name . '.php';
-        $model_path = "App/Models/" . $model_file;
-
-        if (file_exists($model_path)) {
-            include "App/Models/" . $model_file;
-        }
 
         $controller_file = $controller_name . '.php';
         $controller_path = "App/Controllers/" . $controller_file;
@@ -43,7 +37,7 @@ class Route
         if (file_exists($controller_path)) {
             include "App/Controllers/" . $controller_file;
         } else {
-            route::ErrorPage404();
+            Route::ErrorPage404();
         }
 
         $controller = new $controller_name;
@@ -60,7 +54,7 @@ class Route
             }
 
         } else {
-            route::ErrorPage404();
+            Route::ErrorPage404();
 
         }
 

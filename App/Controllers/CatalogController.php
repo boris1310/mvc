@@ -2,13 +2,15 @@
 
 use Framework\Core\Controller;
 use Framework\Core\View;
+use App\Models\Product;
+
 
 class CatalogController extends Controller
 {
 
     function __construct()
     {
-        $this->model = new Catalog();
+        $this->model = new Product();
         $this->view = new View();
     }
 
