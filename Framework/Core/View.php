@@ -9,9 +9,9 @@ class View
     public function generate($content_view, $template_view, $data = null)
     {
 
-        if (is_array($data)) {
-            extract($data);
-        }
+//        if (is_array($data)) {
+//            extract($data);
+//        }
 
         require_once 'App/View/Layouts/' . $template_view;
     }

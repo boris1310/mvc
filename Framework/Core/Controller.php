@@ -4,7 +4,8 @@ namespace Framework\Core;
 
 use Framework\Core\View;
 
-class Controller {
+class Controller
+{
 
     public $model;
     public $view;
