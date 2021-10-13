@@ -16,7 +16,6 @@ class Route
             $controller_name = "$routes[1]";
         }
 
-
         if (!empty($routes[2])) {
             $action_name = $routes[2];
         }
@@ -25,14 +24,13 @@ class Route
             $params = $routes[3];
         }
 
-
         $controller_name = $controller_name . "Controller";
         $action_name = 'action_' . $action_name;
 
         $controller_file = $controller_name.".php";
         $controller_path = "App/Controllers/" . $controller_file;
 
-        if (!class_exists($controller_name)) {
+        if (file_exists($controller_path)) {
             require_once $controller_path;
         } else {
             ErrorRedirect::ErrorPage404();
@@ -56,6 +54,5 @@ class Route
 
         }
     }
-
 
 }
