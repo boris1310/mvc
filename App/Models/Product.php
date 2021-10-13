@@ -6,6 +6,7 @@ use Framework\Core\Model;
 
 class Product extends Model
 {
+<<<<<<< HEAD
     /**
      * Получение всех товаров из файла;
      * @return mixed
@@ -82,6 +83,8 @@ class Product extends Model
         return $data;
 
     }
+=======
+>>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
 
 }
 

@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "83ee6f1633dcbad6a03590aa93d23037",
+=======
+    "content-hash": "f9644b9012dc1c3a5d4d571b26ce5e65",
+>>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
     "packages": [
         {
             "name": "boris1310/my-logger",
@@ -32,6 +36,7 @@
                 "source": "https://github.com/boris1310/my_loger/tree/dev"
             },
             "time": "2021-10-09T20:24:57+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "monolog/monolog",
@@ -181,6 +186,8 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.0"
             },
             "time": "2021-07-14T16:46:02+00:00"
+=======
+>>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
         }
     ],
     "packages-dev": [],

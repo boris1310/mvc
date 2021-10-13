@@ -11,8 +11,13 @@
         </ul>
 
         <div class="col-md-3 text-end">
+<<<<<<< HEAD
             <button type="button" class="btn btn-outline-primary me-2">Login</button>
             <button type="button" class="btn btn-primary">Sign-up</button>
+=======
+            <button type="button" class="btn btn-primary">Личный кабинет</button>
+
+>>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
         </div>
     </header>
 </div>
