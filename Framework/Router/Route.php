@@ -25,24 +25,11 @@ class Route
             $params = $routes[3];
         }
 
-<<<<<<< HEAD
-        //Eсли понадобится передавать несколько параметров - придётся дописывать =(
-=======
->>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
 
         $controller_name = $controller_name . "Controller";
         $action_name = 'action_' . $action_name;
 
-<<<<<<< HEAD
 
-        $controller_file = $controller_name . '.php';
-        $controller_path = "App/Controllers/" . $controller_file;
-
-        if (file_exists($controller_path)) {
-            include "App/Controllers/" . $controller_file;
-        } else {
-            Route::ErrorPage404();
-=======
         $controller_file = $controller_name.".php";
         $controller_path = "App/Controllers/" . $controller_file;
 
@@ -50,7 +37,6 @@ class Route
             require_once $controller_path;
         } else {
             ErrorRedirect::ErrorPage404();
->>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
         }
 
         $controller = new $controller_name;
@@ -67,26 +53,10 @@ class Route
             }
 
         } else {
-<<<<<<< HEAD
-            Route::ErrorPage404();
 
-        }
-
-    }
-
-    public static function ErrorPage404()
-    {
-        $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-        header('HTTP/1.1 404 Not Found');
-        header("Status: 404 Not Found");
-        header('Location:' . $host . 'NotFound');
-    }
-=======
             ErrorRedirect::ErrorPage404();
 
         }
     }
 
-
->>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
 }

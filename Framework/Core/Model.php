@@ -2,20 +2,15 @@
 
 namespace Framework\Core;
 
-<<<<<<< HEAD
-=======
 use PDO;
 use PDOStatement;
 
->>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
 class Model
 {
     public function __construct()
     {
 
     }
-<<<<<<< HEAD
-=======
 
     public $id;
     public $name;
@@ -107,5 +102,4 @@ class Model
         return $data;
 
     }
->>>>>>> 9f324c3a63a19c8fcd8ea8e79e712b93c27e34bd
 }
