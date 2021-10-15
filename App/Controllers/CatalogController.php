@@ -17,7 +17,7 @@ class CatalogController extends Controller
 
     function action_product($params)
     {
-        $data = $this->model->getOne($params);
+        $data = $this->model->where('id', '=', $params);
         $this->view->generate('product.php', 'layout.php', $data);
     }
 
@@ -26,4 +26,11 @@ class CatalogController extends Controller
         $data = $this->model->getAll();
         $this->view->generate('catalog.php', 'layout.php', $data);
     }
+
+//    function action_set()
+//    {
+//        $data = $this->model->set('test', 'testest', 1230);
+//        $this->view->generate('catalog.php', 'layout.php');
+//    }
+
 }
