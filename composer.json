@@ -1,6 +1,6 @@
 {
   "require": {
-    "php": ">=8.0.0",
+    "php": ">=7.3.0",
     "boris1310/my-logger": "dev-dev",
     "ext-pdo": "*"
   },

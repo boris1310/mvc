@@ -1,7 +1,7 @@
 <?php
 
 namespace Framework\Core;
-
+use Framework\Databases\Db;
 use PDO;
 use PDOStatement;
 
@@ -23,10 +23,15 @@ class Model
      * @return mixed
      */
 
-    public function getAll(): mixed
+    public function getAll()
     {
-        $products = require_once('App/Models/storage/storage.php');
-        $data = json_decode(json_encode($products), FALSE);
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod -> db->query("SELECT * FROM `Items` ");
+        $data = [];
+        foreach ($items as $row){
+            $data[]=$row;
+        }
         return $data;
     }
 
@@ -38,68 +43,9 @@ class Model
 
     public function getOne($params)
     {
-
-        $data = new Model();
-        $items = require_once('App/Models/storage/storage.php');
-        foreach ($items as $key => $item) {
-            if ($item['name'] == "$params") {
-                $data->id = $items[$key]['id'];
-                $data->name = $items[$key]['name'];
-                $data->description = $items[$key]['description'];
-                $data->price = $items[$key]['price'];
-            }
-        }
-
+        $prod = new Db();
+        $prod->connect();
+        $data = $prod->db->query("SELECT * FROM `Items`  WHERE `id`='{$params}'");
         return $data;
-    }
-
-    /**
-     * Получение товаров из БД;
-     * @return false|PDOStatement
-     */
-
-    public function getAll_db()
-    {
-
-        require_once '../../define.php';
-
-        $dbh = new PDO(
-            'mysql:host=localhost; dbname=my_project',
-            DB_USER,
-            DB_PASS
-        );
-
-        $data = $dbh->query("SELECT * FROM `Items`");
-
-        //Закрытие подключения;
-        $dbh = null;
-
-        return $data;
-
-    }
-
-    /**
-     * @param $params
-     * @return false|PDOStatement
-     */
-
-    public function getOne_db($params)
-    {
-
-        require_once '../../define.php';
-
-        $dbh = new PDO(
-            'mysql:host=localhost; dbname=my_project',
-            DB_USER,
-            DB_PASS
-        );
-
-        $data = $dbh->query("SELECT * FROM `Items` WHERE `id`='$params'");
-
-        //Закрытие подключения;
-        $dbh = null;
-
-        return $data;
-
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f9644b9012dc1c3a5d4d571b26ce5e65",
+    "content-hash": "c6d0e0f43703b882d31d265d65148bcb",
     "packages": [
         {
             "name": "boris1310/my-logger",
@@ -43,7 +43,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0.0",
+        "php": ">=7.3.0",
         "ext-pdo": "*"
     },
     "platform-dev": [],
