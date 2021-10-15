@@ -1,7 +1,6 @@
 <?php
 
 namespace Framework\Core;
-
 use Framework\Core\View;
 
 class Controller {

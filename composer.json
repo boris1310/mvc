@@ -17,7 +17,10 @@
       "boris1310\\my_logger\\": "vendor/boris1310/my_logger/"
     },
     "files": [
-      "vendor/boris1310/my_logger/Logger.php"
+      "vendor/boris1310/my_logger/Logger.php",
+      "App/Controllers/MainController.php",
+      "App/Controllers/CatalogController.php",
+      "App/Controllers/NotFoundController.php"
     ]
   }
 }
