@@ -17,12 +17,6 @@ class Model
 
     }
 
-    public $id;
-    public $name;
-    public $description;
-    public $price;
-
-
     /**
      * Получение всех товаров из файла;
      * @return mixed
@@ -90,6 +84,7 @@ class Model
         UPDATE `items` 
         SET " . $string . "
         WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
+
     }
 
     /**

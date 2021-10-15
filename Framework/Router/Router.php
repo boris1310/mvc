@@ -2,7 +2,7 @@
 
 namespace Framework\Router;
 
-class Route
+class Router
 {
     public string $controller;
     public string $action;
@@ -12,7 +12,6 @@ class Route
     {
         $this->controller = 'Main';
         $this->action = 'index';
-
     }
 
     public function start()
