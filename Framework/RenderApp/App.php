@@ -1,11 +1,10 @@
 <?php
 
 use Framework\Router\ErrorRedirect;
-var_dump($router);
 if (class_exists($router->controller)) {
     require_once("App/Controllers/" . $router->controller . ".php");
 } else {
-   // ErrorRedirect::errorPage404();
+    ErrorRedirect::errorPage404();
 }
 
 $controller = new $router->controller;
@@ -20,6 +19,6 @@ if (method_exists($controller, $action)) {
     }
 
 } else {
-   // ErrorRedirect::ErrorPage404();
+    ErrorRedirect::ErrorPage404();
 }
 
