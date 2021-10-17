@@ -39,7 +39,6 @@ class Router
 
         $this->controller = ucfirst($this->controller) . "Controller";
         $this->action = 'action_' . $this->action;
-        var_dump($this->params);
         return $this;
     }
 

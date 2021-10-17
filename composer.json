@@ -21,7 +21,8 @@
       "vendor/boris1310/my_logger/Logger.php",
       "App/Controllers/MainController.php",
       "App/Controllers/CatalogController.php",
-      "App/Controllers/NotFoundController.php"
+      "App/Controllers/NotFoundController.php",
+      "App/Controllers/UserController.php"
     ]
   }
 }

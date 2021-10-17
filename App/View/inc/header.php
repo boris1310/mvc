@@ -11,7 +11,13 @@
         </ul>
 
         <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-primary">Личный кабинет</button>
+            <?php
+            if ($_GET['url']=='User/login'){
+                echo '<a href="http://localhost:8888/User/register"><button type="button"  class="btn btn-primary">Регистрация</button></a>';
+            }else {
+                echo '<a href="http://localhost:8888/User/login"><button type="button"  class="btn btn-primary">Вход</button></a>';
+            }
+            ?>
         </div>
     </header>
 </div>
