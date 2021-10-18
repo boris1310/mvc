@@ -5,16 +5,20 @@ namespace Framework\Core;
 use Framework\Databases\Db;
 use PDO;
 use PDOStatement;
+use ReflectionClass;
 
 class Model
 {
+    public string $modelname;
+
     /**
      * Model constructor.
      */
 
     public function __construct()
     {
-
+        $classname = (new \ReflectionClass($this))->getShortName();
+        $this->modelname=$classname;
     }
 
     /**
@@ -26,7 +30,7 @@ class Model
     {
         $prod = new Db();
         $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `Items` ");
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` ");
         $data = [];
         foreach ($items as $row) {
             $data[] = $row;
@@ -45,7 +49,7 @@ class Model
         $prod = new Db();
         $prod->connect();
         $data = $prod->db->query("
-        SELECT * FROM `Items`  WHERE `{$column}`{$operator}'{$params}'");
+        SELECT * FROM `{$this->modelname}`  WHERE `{$column}`{$operator}'{$params}'");
         return $data;
     }
 
@@ -60,7 +64,7 @@ class Model
         $item = new Db();
         $item->connect();
         $item->db->query("
-        INSERT INTO `items` (`name`,`description`,`price`) 
+        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`) 
         VALUES ('{$name}','{$description}','{$price}')");
     }
 
@@ -81,7 +85,7 @@ class Model
             $string = $string . " `{$columns[$column]}`='{$values[$column]}',";
         }
         $item->db->query("   
-        UPDATE `items` 
+        UPDATE `{$this->modelname}` 
         SET " . $string . "
         WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
 
@@ -97,6 +101,6 @@ class Model
     {
         $item = new Db();
         $item->connect();
-        $item->db->query("DELETE FROM `Items` WHERE `{$column}`{$operator}'{$params}'");
+        $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
     }
 }

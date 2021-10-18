@@ -18,7 +18,7 @@
                 
                 <div class="mt-3">
                   <button type="button" class="btn btn-success">Купить</button>
-                  <a class="btn btn-primary" href="/catalog/product/' . $row["id"]  . '">Подробнее</a>
+                  <a class="btn btn-primary" href="/catalog/product/' . $row["idProduct"]  . '">Подробнее</a>
                 </div>
                 
              

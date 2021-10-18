@@ -17,7 +17,7 @@ class CatalogController extends Controller
 
     function action_product($params)
     {
-        $data = $this->model->where('id', '=', $params['path']);
+        $data = $this->model->where('idProduct', '=', $params['path']);
         $this->view->generate('product.php', 'layout.php', $data);
     }
 

@@ -34,17 +34,22 @@ class UserController extends Controller
     public function action_submitRegister($params)
     {
         RegisterRequest::validate($params);
+
         if (!empty($_SESSION['message'])) {
+
             return header('Location: http://' . $_SERVER["HTTP_HOST"] . '/User/register');
         } else {
+            //ТУТ Я БУДУ ДОБАВЛЯТЬ ПОЛЬЗОВАТЕЛЯ В БД;
             return header('Location:http://localhost:8888/Catalog');
         }
+
     }
 
     public function action_submitLogin($params)
     {
         print_r($params['post']);
-        //return header('Location:http://localhost:8888/Catalog');
+        //ТУТ Я БУДУ ПРОВЕРЯТЬ ПОЛЬЗОВАТЕЛЯ НА СУЩЕСТВОВАНИЕ И СООТВЕТСВТИЕ ПАРОЛЯ;
+        return header('Location:http://localhost:8888/Catalog');
     }
 
 }
