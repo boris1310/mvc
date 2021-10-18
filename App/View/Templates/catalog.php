@@ -24,11 +24,34 @@
              
             </div>
           </div>
+          
         </div>';
 
         }
 
+
+
         ?>
     </div>
+    <?php
+
+    echo "<div class='mx-auto w-50 my-5 text-center'>
+          <div id='paggination' class='row text-center'>";
+    use App\Models\Product;
+    $data= new Product();
+    $data=$data->getAll();
+    $pages=count($data)/6;
+
+    for ( (int) $page=1;$page<=$pages; (int) $page++){
+        echo "<a href='http://localhost:8888/catalog/index/?page=".$page."' class='col-1 col-sm-1 mx-1 alert alert-dark p-1'>".$page."</a>";
+    }
+    if($pages%6!==0){
+        echo "<a href='http://localhost:8888/catalog/index/?page=".$page."' class='col-1 col-sm-1 mx-1  alert alert-dark p-1'>".$page++."</a>";
+    }
+    echo "</div>
+          </div>";
+
+    ?>
+
 
 </div>

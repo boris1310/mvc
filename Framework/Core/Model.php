@@ -28,7 +28,20 @@ class Model
     {
         $prod = new Db();
         $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` ");
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}`");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function getAllWithLimit( $skip=0,$limit=6)
+    {
+        $skip=$skip*$limit;
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE idProduct > '{$skip}' LIMIT $limit");
         $data = [];
         foreach ($items as $row) {
             $data[] = $row;

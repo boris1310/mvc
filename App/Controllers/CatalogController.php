@@ -21,9 +21,9 @@ class CatalogController extends Controller
         $this->view->generate('product.php', 'layout.php', $data);
     }
 
-    function action_index()
+    function action_index($params)
     {
-        $data = $this->model->getAll();
+        $data = $this->model->getAllWithLimit($params['get']['page']-1,6);
         $this->view->generate('catalog.php', 'layout.php', $data);
     }
 

@@ -19,6 +19,6 @@ if (method_exists($controller, $action)) {
     }
 
 } else {
-    ErrorRedirect::ErrorPage404();
+    //ErrorRedirect::ErrorPage404();
 }
 
