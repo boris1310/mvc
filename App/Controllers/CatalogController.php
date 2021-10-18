@@ -17,6 +17,16 @@ class CatalogController extends Controller
         $this->view = new View();
     }
 
+    function action_category($params)
+    {
+        $data = $this->model->where('CategoryId', '=', $params['path']);
+        $this->model= new Categories();
+        $categories=$this->model->getAll();
+        $this->model= new Manufacturer();
+        $manufactures=$this->model->getAll();
+        $this->view->generate('catalog.php', 'layout.php', $data,$categories,$manufactures);
+    }
+
     function action_product($params)
     {
         $data = $this->model->where('idProduct', '=', $params['path']);

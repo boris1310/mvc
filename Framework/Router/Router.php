@@ -12,6 +12,8 @@ class Router
     {
         $this->controller = 'Main';
         $this->action = 'index';
+        $this->params['path']['1']='category';
+        $this->params['path']['2']='*';
 
     }
 

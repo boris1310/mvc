@@ -18,7 +18,7 @@
             <?php
             foreach ($data2 as $category){
                 echo "<div class='col-12 my-1'>";
-                echo "<a href='http://localhost:8888/catalog/index/?category=".$category['idCategory']."'>".$category['cat_name']."</a>";
+                echo "<a href='http://localhost:8888/catalog/category/".$category['idCategory']."/'>".$category['cat_name']."</a>";
                 echo "</div>";
             }
             ?>
@@ -65,11 +65,17 @@
           <div id='paggination' class='row text-center'>";
         use App\Models\Product;
         $data= new Product();
-        $data=$data->getAll();
-        $pages=count($data)/6;
+        $cat=explode('/',trim($_SERVER['REQUEST_URI'],'/'));
 
-        for ( (int) $page=1;$page<=$pages; (int) $page++){
-            echo "<a href='http://localhost:8888/catalog/index/?page=".$page."' class='col-1 col-sm-1 mx-1 btn btn-outline-primary py-3'>".$page."</a>";
+        if(!empty($cat['1'])) {
+            $data = $data->where('CategoryID', '=', $cat['2']);
+        }else{
+            $data=$data->getAll();
+        }
+
+        $pages=count($data)/6;
+        for ( (int) $page=0;$page<$pages; (int) $page++){
+            echo "<a href='http://localhost:8888/catalog/index/?page=".$page++."' class='col-1 col-sm-1 mx-1 btn btn-outline-primary py-3'>".$page."</a>";
         }
         if($pages%6!==0){
             echo "<a href='http://localhost:8888/catalog/index/?page=".$page."' class='col-1 col-sm-1 mx-1  btn btn-outline-primary py-3'>".$page++."</a>";

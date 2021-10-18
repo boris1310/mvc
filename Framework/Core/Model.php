@@ -59,8 +59,12 @@ class Model
     {
         $prod = new Db();
         $prod->connect();
-        $data = $prod->db->query("
+        $items = $prod->db->query("
         SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
         return $data;
     }
 
