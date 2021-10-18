@@ -3,8 +3,6 @@
 namespace Framework\Core;
 
 use Framework\Databases\Db;
-use PDO;
-use PDOStatement;
 use ReflectionClass;
 
 class Model
@@ -18,7 +16,7 @@ class Model
     public function __construct()
     {
         $classname = (new \ReflectionClass($this))->getShortName();
-        $this->modelname=$classname;
+        $this->modelname = $classname;
     }
 
     /**
@@ -49,7 +47,7 @@ class Model
         $prod = new Db();
         $prod->connect();
         $data = $prod->db->query("
-        SELECT * FROM `{$this->modelname}`  WHERE `{$column}`{$operator}'{$params}'");
+        SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
         return $data;
     }
 
