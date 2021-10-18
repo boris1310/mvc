@@ -64,13 +64,24 @@ class Model
         return $data;
     }
 
+
+
+    public function setUser(string $name, string $email, string $password,string $role='user')
+    {
+        $item = new Db();
+        $item->connect();
+        $item->db->query("
+        INSERT INTO `{$this->modelname}` (`name`,`email`,`password`,`role`) 
+        VALUES ('{$name}','{$email}','{$password}','{$role}')");
+    }
+
     /**
      * @param string $name
      * @param string $description
      * @param int $price
      */
 
-    public function set(string $name, string $description, int $price)
+    public function setProduct(string $name, string $description, int $price)
     {
         $item = new Db();
         $item->connect();
