@@ -1,7 +1,6 @@
 <?php
 
 namespace Framework\Core;
-
 use Framework\Core\View;
 
 class Controller
@@ -12,6 +11,7 @@ class Controller
 
     function __construct()
     {
+        $this->model=new Model();
         $this->view = new View();
     }
 

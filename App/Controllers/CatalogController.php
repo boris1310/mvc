@@ -5,6 +5,8 @@
 use Framework\Core\Controller;
 use Framework\Core\View;
 use App\Models\Product;
+use App\Models\Categories;
+use App\Models\Manufacturer;
 
 
 class CatalogController extends Controller
@@ -16,16 +18,55 @@ class CatalogController extends Controller
         $this->view = new View();
     }
 
+    function action_category($params)
+    {
+        if (!isset($params['get']['page'])) {
+            $params['get']['page'] = 1;
+        }
+
+        $data = $this->model->getAllWithLimitCategory($params['get']['page'] - 1, 8,$params['path']);
+        $this->model = new Categories();
+        $categories = $this->model->getAll();
+        $this->model = new Manufacturer();
+        $manufactures = $this->model->getAll();
+        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+    }
+
     function action_product($params)
     {
-        $data = $this->model->getOne($params);
+        $data = $this->model->where('idProduct', '=', $params['path']);
         $this->view->generate('product.php', 'layout.php', $data);
     }
 
-    function action_index()
+    function action_index($params)
+    {
+        if (!isset($params['get']['page'])) {
+            $params['get']['page'] = 1;
+        }
+
+        $data = $this->model->getAllWithLimit($params['get']['page']-1, 8);
+        $this->model = new Categories();
+        $categories = $this->model->getAll();
+        $this->model = new Manufacturer();
+        $manufactures = $this->model->getAll();
+        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+    }
+
+
+    function action_setProduct($params)
     {
 
-        $data = $this->model->getAll();
-        $this->view->generate('catalog.php', 'layout.php', $data);
+        $data = $this->model->setProduct(
+            $params['post']['name'],
+            $params['post']['description'],
+            $params['post']['price'],
+            $params['post']['manufacturer'],
+            $params['post']['category']
+
+        );
+        $_SESSION['success'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
+        return header('Location:http://localhost:8888/admin/product');
+
     }
+
 }

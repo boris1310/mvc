@@ -1,8 +1,9 @@
 {
   "require": {
-    "php": ">=8.0.0",
+    "php": ">=7.4.0",
     "boris1310/my-logger": "dev-dev",
     "ext-pdo": "*"
+
   },
   "autoload": {
     "psr-4": {
@@ -17,7 +18,12 @@
       "boris1310\\my_logger\\": "vendor/boris1310/my_logger/"
     },
     "files": [
-      "vendor/boris1310/my_logger/Logger.php"
+      "vendor/boris1310/my_logger/Logger.php",
+      "App/Controllers/MainController.php",
+      "App/Controllers/CatalogController.php",
+      "App/Controllers/NotFoundController.php",
+      "App/Controllers/UserController.php",
+      "App/Controllers/AdminController.php"
     ]
   }
 }

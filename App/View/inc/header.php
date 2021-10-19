@@ -6,14 +6,47 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="/" class="nav-link px-2 link-dark">Главная</a></li>
-            <li><a href="/catalog" class="nav-link px-2 link-dark">Каталог</a></li>
+            <li><a href="../../../catalog" class="nav-link px-2 link-dark">Каталог</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">О Нас</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
 
-            <button type="button" class="btn btn-primary">Личный кабинет</button>
+            <?php
+            if (!empty($_SESSION['name'])) {
+                echo '<div class="d-flex align-items-center">
+        <form class="w-100 me-3">
+          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
 
+
+        <div class="flex-shrink-0 dropdown">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
+            <li><a class="dropdown-item" href="#">' . $_SESSION['name'] . '</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Заказы</a></li>
+            <li><a class="dropdown-item" href="#">Корзина</a></li>';
+
+                if(!empty($_SESSION['role'] AND $_SESSION['role']==='admin')){
+                    echo '<li><a class="dropdown-item" href="http://localhost:8888/admin">Админка</a></li>';
+                }
+
+                echo '<li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="http://localhost:8888/user/logout">Выйти</a></li>
+          </ul>
+        </div>
+      </div>';
+            } else {
+                if ($_GET['url'] == 'User/login') {
+                    echo '<a href="http://localhost:8888/User/register"><button type="button"  class="btn btn-primary">Регистрация</button></a>';
+                } else {
+                    echo '<a href="http://localhost:8888/User/login"><button type="button"  class="btn btn-primary">Вход</button></a>';
+                }
+            }
+            ?>
         </div>
     </header>
 </div>

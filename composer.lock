@@ -1,51 +1,52 @@
 {
-  "_readme": [
-    "This file locks the dependencies of your project to a known state",
-    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-    "This file is @generated automatically"
-  ],
-  "content-hash": "f9644b9012dc1c3a5d4d571b26ce5e65",
-  "packages": [
-    {
-      "name": "boris1310/my-logger",
-      "version": "dev-dev",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/boris1310/my_loger.git",
-        "reference": "086211d50377236d0b0bc3956e980a990cb34c39"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/boris1310/my_loger/zipball/086211d50377236d0b0bc3956e980a990cb34c39",
-        "reference": "086211d50377236d0b0bc3956e980a990cb34c39",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=7.4"
-      },
-      "type": "library",
-      "notification-url": "https://packagist.org/downloads/",
-      "description": "This package is my homework",
-      "homepage": "https://github.com/boris1310/my-logger",
-      "support": {
-        "issues": "https://github.com/boris1310/my_loger/issues",
-        "source": "https://github.com/boris1310/my_loger/tree/dev"
-      },
-      "time": "2021-10-09T20:24:57+00:00"
-    }
-  ],
-  "packages-dev": [],
-  "aliases": [],
-  "minimum-stability": "stable",
-  "stability-flags": {
-    "boris1310/my-logger": 20
-  },
-  "prefer-stable": false,
-  "prefer-lowest": false,
-  "platform": {
-    "php": ">=8.0.0",
-    "ext-pdo": "*"
-  },
-  "platform-dev": [],
-  "plugin-api-version": "2.1.0"
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "472a936f8b48bc45709c55ae12b93741",
+    "packages": [
+        {
+            "name": "boris1310/my-logger",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boris1310/my_loger.git",
+                "reference": "086211d50377236d0b0bc3956e980a990cb34c39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/boris1310/my_loger/zipball/086211d50377236d0b0bc3956e980a990cb34c39",
+                "reference": "086211d50377236d0b0bc3956e980a990cb34c39",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "This package is my homework",
+            "homepage": "https://github.com/boris1310/my-logger",
+            "support": {
+                "issues": "https://github.com/boris1310/my_loger/issues",
+                "source": "https://github.com/boris1310/my_loger/tree/dev"
+            },
+            "time": "2021-10-09T20:24:57+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "boris1310/my-logger": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4.0",
+        "ext-pdo": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+
 }

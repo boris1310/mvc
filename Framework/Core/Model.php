@@ -2,31 +2,63 @@
 
 namespace Framework\Core;
 
-use PDO;
-use PDOStatement;
+use Framework\Databases\Db;
+use ReflectionClass;
 
 class Model
 {
+    public string $modelname;
+
+    /**
+     * Model constructor.
+     */
+
     public function __construct()
     {
-
+        $classname = (new \ReflectionClass($this))->getShortName();
+        $this->modelname = $classname;
     }
-
-    public $id;
-    public $name;
-    public $description;
-    public $price;
-
 
     /**
      * Получение всех товаров из файла;
      * @return mixed
      */
 
-    public function getAll(): mixed
+    public function getAll()
     {
-        $products = require_once('App/Models/storage/storage.php');
-        $data = json_decode(json_encode($products), FALSE);
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}`");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function getAllWithLimit( $skip=0,$limit=8)
+    {
+        $skip=$skip*$limit;
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` LIMIT $limit OFFSET $skip");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    public function getAllWithLimitCategory($skip=0,$limit=8,$category)
+    {
+        $skip=$skip*$limit;
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' LIMIT $limit OFFSET $skip");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
         return $data;
     }
 
@@ -36,70 +68,86 @@ class Model
      * @return array|mixed
      */
 
-    public function getOne($params)
+    public function where($column, $operator, $params)
     {
-
-        $data = new Model();
-        $items = require_once('App/Models/storage/storage.php');
-        foreach ($items as $key => $item) {
-            if ($item['name'] == "$params") {
-                $data->id = $items[$key]['id'];
-                $data->name = $items[$key]['name'];
-                $data->description = $items[$key]['description'];
-                $data->price = $items[$key]['price'];
-            }
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("
+        SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
         }
-
         return $data;
     }
 
+
+
     /**
-     * Получение товаров из БД;
-     * @return false|PDOStatement
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param string $role
      */
 
-    public function getAll_db()
+
+    public function setUser(string $name, string $email, string $password,string $role='user')
     {
+        $item = new Db();
+        $item->connect();
+        $item->db->query("
+        INSERT INTO `{$this->modelname}` (`name`,`email`,`password`,`role`) 
+        VALUES ('{$name}','{$email}','{$password}','{$role}')");
+    }
 
-        require_once '../../define.php';
+    /**
+     * @param string $name
+     * @param string $description
+     * @param int $price
+     */
 
-        $dbh = new PDO(
-            'mysql:host=localhost; dbname=my_project',
-            DB_USER,
-            DB_PASS
-        );
+    public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
+    {
+        $item = new Db();
+        $item->connect();
+        $item->db->query("
+        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacrurerId`,`CategoryId`) 
+        VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}')");
+    }
 
-        $data = $dbh->query("SELECT * FROM `Items`");
+    /**
+     * @param array $columns
+     * @param array $values
+     * @param string $whereColumn
+     * @param string $operator
+     * @param string $whereParams
+     */
 
-        //Закрытие подключения;
-        $dbh = null;
-
-        return $data;
+    public function update(array $columns, array $values, string $whereColumn, string $operator, string $whereParams)
+    {
+        $item = new Db();
+        $item->connect();
+        $string = '';
+        for ($column = 0; $column < count($columns); $column++) {
+            $string = $string . " `{$columns[$column]}`='{$values[$column]}',";
+        }
+        $item->db->query("   
+        UPDATE `{$this->modelname}` 
+        SET " . $string . "
+        WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
 
     }
 
     /**
+     * @param string $column
+     * @param string $operator
      * @param $params
-     * @return false|PDOStatement
      */
 
-    public function getOne_db($params)
+    public function delete(string $column, string $operator, $params)
     {
-
-        require_once '../../define.php';
-
-        $dbh = new PDO(
-            'mysql:host=localhost; dbname=my_project',
-            DB_USER,
-            DB_PASS
-        );
-
-        $data = $dbh->query("SELECT * FROM `Items` WHERE `id`='$params'");
-
-        //Закрытие подключения;
-        $dbh = null;
-
-        return $data;
-
+        $item = new Db();
+        $item->connect();
+        $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
     }
 }

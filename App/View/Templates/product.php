@@ -6,16 +6,20 @@
                  alt="product">
         </div>
 
-        <div class="col">
+        <?php
+        foreach ($data as $row){
+           echo '<div class="col">
             <h3>Название:</h3>
-            <p><?= $data->name ?></p>
-            <h3>Описание:</h3>
-            <p><?= $data->description ?></p>
-            <h3>Цена:</h3>
-            <p><?= $data->price ?></p>
-            <br>
-            <a href="#" class="btn btn-success p-1 w-50">Купить</a>
-        </div>
+            <p>'.$row['name'] .'</p>
+        <h3>Описание:</h3>
+        <p>'.$row['description'].'</p>
+        <h3>Цена:</h3>
+        <p>'.$row['price'].'</p>
+        <br>
+        <a href="#" class="btn btn-success p-1 w-50">Купить</a>
+    </div>';
+        }
+        ?>
 
     </div>
 </div>
