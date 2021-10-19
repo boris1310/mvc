@@ -19,7 +19,11 @@ class CatalogController extends Controller
 
     function action_category($params)
     {
-        $data = $this->model->where('CategoryId', '=', $params['path']);
+        if (!isset($params['get']['page'])) {
+            $params['get']['page'] = 0;
+        }
+
+        $data = $this->model->getAllWithLimitCategory($params['get']['page'] - 1, 8,$params['path']);
         $this->model = new Categories();
         $categories = $this->model->getAll();
         $this->model = new Manufacturer();

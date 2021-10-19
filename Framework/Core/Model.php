@@ -49,6 +49,19 @@ class Model
         return $data;
     }
 
+    public function getAllWithLimitCategory($skip=0,$limit=8,$category)
+    {
+        $skip=$skip*$limit;
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' AND  `idProduct` > '{$skip}' LIMIT $limit");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
     /**
      * Получение товара из файла по параметру (наименованию);
      * @param $params
@@ -59,11 +72,23 @@ class Model
     {
         $prod = new Db();
         $prod->connect();
-        $data = $prod->db->query("
+        $items = $prod->db->query("
         SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
         return $data;
     }
 
+
+
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param string $role
+     */
 
 
     public function setUser(string $name, string $email, string $password,string $role='user')

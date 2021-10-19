@@ -56,57 +56,11 @@ if (!empty($_SESSION['success'])) {
             ?>
         </div>
 
+        <div class="mx-auto text-center">
         <?php
-
-        $cat = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-
-        if (!isset($cat['1'])) {
-
-            $cat['1'] = 'index';
-        }
-
-        use App\Models\Product;
-
-        if ($cat['1'] !== 'category') {
-            $pagination = new Product;
-            $items = $pagination->getAll();
-            $quantity_items = count($items);
-
-            if ($quantity_items % 8 !== 0) {
-                $quantity_pages = ($quantity_items - $quantity_items % 8) / 8;
-
-                for ($pages = 1; $pages < $quantity_pages + 1; $pages++) {
-                    echo "<a 
-                            class='btn btn-outline-primary mx-1'
-                            href='http://localhost:8888/catalog/index/?page=" . $pages . "'>" . $pages . "
-                            </a>";
-                }
-                echo "<a 
-                            class='btn btn-outline-primary mx-1'
-                            href='http://localhost:8888/catalog/index/?page=" . $pages . "'>" . $pages . "
-                            </a>";
-
-            } else {
-                $quantity_pages = $quantity_items / 8;
-                for ($pages = 1; $pages < $quantity_pages + 1; $pages++) {
-                    echo $pages;
-                }
-            }
-
-        } elseif ($cat['1'] == 'category') {
-
-            echo "Категории";
-            $pagination=new Product();
-
-            $items=$pagination->where('CategotyId','=',(int) $cat['2']);
-
-
-
-        } else {
-
-        }
-
+        require_once 'App/View/inc/pagination.php';
         ?>
+        </div>
 
     </div>
 
