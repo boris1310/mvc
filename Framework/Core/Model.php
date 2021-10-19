@@ -36,7 +36,7 @@ class Model
         return $data;
     }
 
-    public function getAllWithLimit( $skip=0,$limit=6)
+    public function getAllWithLimit( $skip=0,$limit=8)
     {
         $skip=$skip*$limit;
         $prod = new Db();
@@ -59,12 +59,8 @@ class Model
     {
         $prod = new Db();
         $prod->connect();
-        $items = $prod->db->query("
+        $data = $prod->db->query("
         SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
         return $data;
     }
 
@@ -85,13 +81,13 @@ class Model
      * @param int $price
      */
 
-    public function setProduct(string $name, string $description, int $price)
+    public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
     {
         $item = new Db();
         $item->connect();
         $item->db->query("
-        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`) 
-        VALUES ('{$name}','{$description}','{$price}')");
+        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacrurerId`,`CategoryId`) 
+        VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}')");
     }
 
     /**

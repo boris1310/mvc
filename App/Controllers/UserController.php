@@ -51,9 +51,48 @@ class UserController extends Controller
 
     public function action_submitLogin($params)
     {
-        print_r($params['post']);
-        //ТУТ Я БУДУ ПРОВЕРЯТЬ ПОЛЬЗОВАТЕЛЯ НА СУЩЕСТВОВАНИЕ И СООТВЕТСВТИЕ ПАРОЛЯ;
-        return header('Location:http://localhost:8888/Catalog');
+        if(!empty($params['post'])){
+            if(filter_var($params['post']['email'], FILTER_VALIDATE_EMAIL)){
+
+                $user_mail=new User();
+                $check_mail=$user_mail->where('email','=',$params['post']['email']);
+
+                if(!empty($check_mail)){
+                    print_r($params['post']);
+                    var_dump($check_mail['0']['password']);
+                    var_dump(md5($params['post']['password']));
+
+                    if($check_mail['0']['password']===md5($params['post']['password'])){
+                        $_SESSION['name']=$check_mail['0']['name'];
+                        $_SESSION['role']=$check_mail['0']['role'];
+                        $_SESSION['success']="Добро пожаловать, ".$_SESSION['name']."!<br>Вы успешно вошли.";
+                        return header('Location:http://localhost:8888/Catalog');
+                    }else{
+                        $_SESSION['logmessage']="Неверный пароль!";
+                        return header('Location:http://localhost:8888/User/login');
+                    }
+
+                }else{
+                    $_SESSION['logmessage']="Такого пользователя не существует!";
+                    return header('Location:http://localhost:8888/User/login');
+                }
+
+            }else{
+                $_SESSION['logmessage']="Введите корректный email!";
+                return header('Location:http://localhost:8888/User/login');
+            }
+        }else{
+            $_SESSION['logmessage']="Введите коректные данные!";
+            return header('Location:http://localhost:8888/User/login');
+        }
+
+        //return header('Location:http://localhost:8888/Catalog');
+    }
+
+    public function action_logout($params){
+        $_SESSION=[];
+        setcookie('PHPSESSID','',time()-100);
+        return header('Location: http://localhost:8888/catalog');
     }
 
 }

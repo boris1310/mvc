@@ -14,6 +14,10 @@
             <?php
             if (!empty($_SESSION['name'])){
                 echo "Вы вошли под именем , ".$_SESSION['name'];
+                echo "<br><a href='http://localhost:8888/User/logout'>Выйти</a>";
+                if(!empty($_SESSION['role']) AND $_SESSION['role']==='admin'){
+                    echo "<br><a href='http://localhost:8888/admin'>Администрирование</a>";
+                }
             }else {
                 if ($_GET['url'] == 'User/login') {
                     echo '<a href="http://localhost:8888/User/register"><button type="button"  class="btn btn-primary">Регистрация</button></a>';

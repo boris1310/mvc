@@ -1,6 +1,7 @@
 <?php
 
 use Framework\Router\ErrorRedirect;
+
 if (class_exists($router->controller)) {
     require_once("App/Controllers/" . $router->controller . ".php");
 } else {
