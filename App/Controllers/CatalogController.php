@@ -20,7 +20,7 @@ class CatalogController extends Controller
     function action_category($params)
     {
         if (!isset($params['get']['page'])) {
-            $params['get']['page'] = 0;
+            $params['get']['page'] = 1;
         }
 
         $data = $this->model->getAllWithLimitCategory($params['get']['page'] - 1, 8,$params['path']);
@@ -40,10 +40,10 @@ class CatalogController extends Controller
     function action_index($params)
     {
         if (!isset($params['get']['page'])) {
-            $params['get']['page'] = 0;
+            $params['get']['page'] = 1;
         }
 
-        $data = $this->model->getAllWithLimit($params['get']['page'] - 1, 8);
+        $data = $this->model->getAllWithLimit($params['get']['page']-1, 8);
         $this->model = new Categories();
         $categories = $this->model->getAll();
         $this->model = new Manufacturer();

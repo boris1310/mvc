@@ -12,15 +12,32 @@ if (!empty($_SESSION['success'])) {
         <div class="sidebar">
             <h3 class="text-center">Категории</h3>
 
+
+
             <?php
+use App\Models\Product;
             foreach ($data2 as $category) {
+
+                $quant=new Product;
+                $quant_item=$quant->where('CategoryId','=',$category['idCategory']);
                 echo "<div class='col-12 my-1 text-center'>";
-                echo "<a href='http://localhost:8888/catalog/category/" . $category['idCategory'] . "/'>" . $category['cat_name'] . "</a>";
+                echo "<a href='http://localhost:8888/catalog/category/" . $category['idCategory'] . "/'>" .
+                    $category['cat_name']
+                    . "</a> <span class='alert alert-primary p-0'> ".count($quant_item)." </span>";
                 echo "</div>";
             }
             ?>
 
+            <h3 class="text-center my-3 row">Производители</h3>
+            <?php
+            foreach ($data3 as $manufacturer) {
+                echo "<div class='col-12 my-1 text-center'>";
+                echo "<a href='http://localhost:8888/catalog/manufacturer/" . $manufacturer['idmanufacturer'] . "/'>" . $manufacturer['name'] . "</a>";
+                echo "</div>";
+            }
+            ?>
         </div>
+
     </div>
 
     <div class="col-9 border border-top-0 border-bottom-0 mx-auto">

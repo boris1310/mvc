@@ -41,7 +41,7 @@ class Model
         $skip=$skip*$limit;
         $prod = new Db();
         $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE idProduct > '{$skip}' LIMIT $limit");
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` LIMIT $limit OFFSET $skip");
         $data = [];
         foreach ($items as $row) {
             $data[] = $row;
@@ -54,7 +54,7 @@ class Model
         $skip=$skip*$limit;
         $prod = new Db();
         $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' AND  `idProduct` > '{$skip}' LIMIT $limit");
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' LIMIT $limit OFFSET $skip");
         $data = [];
         foreach ($items as $row) {
             $data[] = $row;
