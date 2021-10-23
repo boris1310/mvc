@@ -62,6 +62,19 @@ class Model
         return $data;
     }
 
+    public function getAllWithLimitManufacturer($skip=0,$limit=8,$manufacturer)
+    {
+        $skip=$skip*$limit;
+        $prod = new Db();
+        $prod->connect();
+        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `ManufacturerId`='{$manufacturer}' LIMIT $limit OFFSET $skip");
+        $data = [];
+        foreach ($items as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
     /**
      * Получение товара из файла по параметру (наименованию);
      * @param $params
@@ -111,8 +124,9 @@ class Model
         $item = new Db();
         $item->connect();
         $item->db->query("
-        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacrurerId`,`CategoryId`) 
+        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacturerId`,`CategoryId`) 
         VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}')");
+
     }
 
     /**

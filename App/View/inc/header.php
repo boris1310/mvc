@@ -9,16 +9,27 @@
             <li><a href="../../../catalog" class="nav-link px-2 link-dark">Каталог</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">О Нас</a></li>
         </ul>
+        <div class="d-flex align-items-center">
+            <form class="w-100 me-3">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+
+
+
+            <button type="button" class="btn btn-primary me-4 position-relative">
+                <img src="http://localhost:8888/public/img/basket-btn.png" alt="basket" />
+                <span id="basket-length" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    0
+                <span class="visually-hidden">unread messages</span>
+                </span>
+            </button>
 
         <div class="col-md-3 text-end">
             <?php
             if (!empty($_SESSION['name'])) {
-                echo '<div class="d-flex align-items-center">
-        <form class="w-100 me-3">
-          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
 
-        <div class="flex-shrink-0 dropdown">
+
+        echo '<div class="flex-shrink-0 dropdown">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
@@ -26,7 +37,15 @@
             <li><a class="dropdown-item" href="#">' . $_SESSION['name'] . '</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Заказы</a></li>
-            <li><a class="dropdown-item" href="#">Корзина</a></li>';
+            <li><hr class="dropdown-divider"></li>
+            <li><a  href="#"  class="dropdown-item position-relative">
+                Корзина
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    99+
+                <span class="visually-hidden">unread messages</span>
+                </span>
+            </a></li>
+            <li><hr class="dropdown-divider"></li>';
 
                 if(!empty($_SESSION['role'] AND $_SESSION['role']==='admin')){
                     echo '<li><a class="dropdown-item" href="http://localhost:8888/admin">Админка</a></li>';
