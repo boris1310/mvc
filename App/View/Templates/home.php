@@ -1,5 +1,5 @@
 
-<div class="">
+<div class="container">
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -67,11 +67,11 @@
                 <div class="mt-3 my-3 text-center">
                     <div class="btn-group" role="group">
                     
-                      <button type="button"  class="btn btn-outline-primary basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
+                      <button type="button"  class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
                       <img src="../../../public/img/basket.png" width="24px"/>
                       </button>
                       
-                      <button type="button"  class="btn btn-outline-primary basket" value='.$row['idProduct'].'>
+                      <button type="button"  class="btn btn-outline-primary" value='.$row['idProduct'].'>
                       <img src="../../../public/img/buynow.png" width="24px"/>
                       </button>
                       

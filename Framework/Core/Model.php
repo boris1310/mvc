@@ -164,4 +164,19 @@ class Model
         $item->connect();
         $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
     }
+
+
+    public function getBasket(){
+        //print_r($_SESSION['basket']);
+        $item = new Db;
+        $item -> connect();
+
+        $in = '';
+
+        $in=implode(',',$_SESSION['basket']);
+
+        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
+
+        return $data;
+    }
 }

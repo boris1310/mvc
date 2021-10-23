@@ -47,4 +47,16 @@ class BasketController extends Controller
         print_r($data);
 
     }
+
+    public function action_getProducts(){
+        $products = new Product;
+        $data = $products->getBasket();
+        $jsonArr=[];
+        foreach ($data as $item){
+            $jsonArr[]=$item;
+        }
+        $jsonStr=json_encode($jsonArr);
+        print_r($jsonStr);
+    }
+
 }

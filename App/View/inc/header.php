@@ -1,7 +1,8 @@
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+
         <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-            <h1>LOGO</h1>
+            <img src="../../../public/img/logo.png" width="100px" height="auto" alt="">
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
@@ -16,9 +17,9 @@
 
 
 
-            <button type="button" class="btn btn-primary me-4 position-relative">
+            <button type="button" class="showBasket btn btn-primary me-4 position-relative">
                 <img src="http://localhost:8888/public/img/basket-btn.png" alt="basket" />
-                <span id="basket-length" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span  class="basket-length position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     0
                 <span class="visually-hidden">unread messages</span>
                 </span>
@@ -38,10 +39,10 @@
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Заказы</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a  href="#"  class="dropdown-item position-relative">
+            <li><a  class="dropdown-item position-relative showBasket">
                 Корзина
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    99+
+                <span class="basket-length position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    0
                 <span class="visually-hidden">unread messages</span>
                 </span>
             </a></li>
@@ -66,4 +67,24 @@
             ?>
         </div>
     </header>
+
+    <div class="modal fade show" style="display: none;" id="basket-modal" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-modal="true" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="exampleModalFullscreenLabel">Ваша корзина</h5>
+                    <button type="button" class="btn-close closeBasket" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary closeBasket" data-bs-dismiss="modal">Скрыть</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
