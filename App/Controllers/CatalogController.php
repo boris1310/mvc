@@ -32,6 +32,20 @@ class CatalogController extends Controller
         $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
     }
 
+    function action_manufacturer($params)
+    {
+        if (!isset($params['get']['page'])) {
+            $params['get']['page'] = 1;
+        }
+
+        $data = $this->model->getAllWithLimitManufacturer($params['get']['page'] - 1, 8,$params['path']);
+        $this->model = new Categories();
+        $categories = $this->model->getAll();
+        $this->model = new Manufacturer();
+        $manufactures = $this->model->getAll();
+        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+    }
+
     function action_product($params)
     {
         $data = $this->model->where('idProduct', '=', $params['path']);
@@ -62,8 +76,8 @@ class CatalogController extends Controller
             $params['post']['price'],
             $params['post']['manufacturer'],
             $params['post']['category']
-
         );
+
         $_SESSION['success'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
         return header('Location:http://localhost:8888/admin/product');
 
