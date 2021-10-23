@@ -53,7 +53,7 @@
             <?php
             if (isset($_SESSION['message']['password2'])){
             echo $_SESSION['message']['password2'];
-             //unset($_SESSION['message']['password2']);
+            unset($_SESSION['message']['password2']);
             }
             ?>
 
