@@ -6,15 +6,29 @@ function getProduct() {
         success: function (data) {
             $(".modal-body").html('');
             for (var i = 0; i < data.length; i++) {
-                $("<div class='text-center alert alert-primary w-75 mx-auto my-3 row'>" +
-                    "<button class='btn-close unset' onclick='unset(" + data[i][0] + ")'></button>" +
-                    "<img src='../../../public/img/sale.png' class='col-lg-3 col-md-4  w-25 col-sm-12 col'" +
+                var src = '';
+                if(data[i][6]==null || data[i][6]==''){
+                    src='../../../public/img/notfound.png';
+                }else{
+                    src='../../../'+data[i][6];
+                }
+                $("<div class='card my-3 mx-auto d-flex justify-content-center flex-row w-75'>" +
+
+                    "<div class='text-end float-end'>"+
+                    "<button class='btn-close unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
+                    "</div>"+
+
+                    "<div  class='p-2'>"+
+                    "<img width='100%' src='"+src+"'" +
                     " alt='item'>" +
-                    "<div class='col-lg-8 col-md-7 col-sm-12'>" +
-                    "<h3>" + data[i][1] + "</h3>" +
+                    "</div>"+
+
+                    "<div class='p-2 my-5 ml-5'>" +
+                    "<h5>" + data[i][1] + "</h5>" +
                     "<p>" + data[i][2] + "</p>" +
-                    "<h4>" + data[i][3] + "</h4>" +
+                    "<h5>" + data[i][3] + "</h5>" +
                     "</div>" +
+
                     "</div>").appendTo(".modal-body");
             }
             $('.basket-length').html(data.length);
@@ -113,16 +127,29 @@ const unset = function (params) {
             $(".modal-body").html('');
 
             for (var i = 0; i < data.length; i++) {
-                $("<div class='text-center alert alert-primary w-75 mx-auto my-3 row'>" +
-                    "<button class='btn-close unset' onclick='unset(" + data[i][0] + ")' value='1'></button>" +
-                    "<img src='../../../public/img/sale.png' " +
-                    "class='col-lg-3 col-md-4  w-25 col-sm-12 col'" +
+                var src = '';
+                if(data[i][6]==null || data[i][6]==''){
+                    src='../../../public/img/notfound.png';
+                }else{
+                    src='../../../'+data[i][6];
+                }
+                $("<div class='card my-3 mx-auto d-flex justify-content-center flex-row w-75'>" +
+
+                    "<div class='text-end float-end'>"+
+                    "<button class='btn-close unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
+                    "</div>"+
+
+                    "<div  class='p-2'>"+
+                    "<img width='100%' src='"+src+"'" +
                     " alt='item'>" +
-                    "<div class='col-lg-8 col-md-7 col-sm-12'>" +
-                    "<h3>" + data[i][1] + "</h3>" +
+                    "</div>"+
+
+                    "<div class='p-2 my-5 ml-5'>" +
+                    "<h5>" + data[i][1] + "</h5>" +
                     "<p>" + data[i][2] + "</p>" +
-                    "<h4>" + data[i][3] + "</h4>" +
+                    "<h5>" + data[i][3] + "</h5>" +
                     "</div>" +
+
                     "</div>").appendTo(".modal-body");
             }
         },

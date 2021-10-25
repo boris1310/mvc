@@ -1,12 +1,13 @@
 <?php
 if(isset($_SESSION['success'])){
     echo '<div class="alert alert-success">'.$_SESSION['success'].'</div>';
+    unset($_SESSION['success']);
 }
 ?>
 
 <h3>Страница добавления товара</h3>
 
-<form action="http://localhost:8888/catalog/setProduct" class="text-center center-block" method="post">
+<form action="http://localhost:8888/catalog/setProduct" enctype="multipart/form-data" class="text-center center-block" method="post">
     <div class="my-3">
         <label for="name" class="form-label">Наименование</label>
         <input type="text" name="name" id="name" placeholder="Наименование" class="form-control w-50 mx-auto" required>
@@ -36,6 +37,9 @@ if(isset($_SESSION['success'])){
             }
             ?>
         </select>
+        <br>
+        <label for="photo">Загрузить изображение</label>
+        <input type="file" id="photo" name="photo" class="form-control w-50 mx-auto">
         <br>
         <input type="submit" class="form-control btn btn-primary w-50 mx-auto" value="Добавить товар">
     </div>

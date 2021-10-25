@@ -29,6 +29,19 @@ class AdminController extends Controller
         $this->view->generate('admin/addproduct.php', 'admin/adminlayout.php',$data,$data2);
     }
 
+    public function action_category(){
+        $data=$this->model=new Categories();
+        $data=$this->model->getAll();
+        $this->view->generate('admin/addcategory.php', 'admin/adminlayout.php',$data);
+    }
+
+    public function action_categorydel($params){
+        $data=$this->model=new Categories();
+        $data=$this->model->categoryDelete($params['path']);
+        $_SESSION['success']['category']='Категория id='.$params['path'].' успешно удалена!';
+
+        return header('Location:http://localhost:8888/admin/category');
+    }
 
 
 }

@@ -121,11 +121,24 @@ class Model
 
     public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
     {
+
+        $uploaddir = 'public/img/products/';
+        $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
+        var_dump($_FILES);
+        if (empty($_FILES['photo']['name'])){
+            $uploadfile=null;
+        }
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
+            echo "Файл корректен и был успешно загружен.\n";
+        } else {
+            echo "Возможная атака с помощью файловой загрузки!\n";
+        }
+
         $item = new Db();
         $item->connect();
         $item->db->query("
-        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacturerId`,`CategoryId`) 
-        VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}')");
+        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacturerId`,`CategoryId`,`photo`)
+        VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}','{$uploadfile}')");
 
     }
 

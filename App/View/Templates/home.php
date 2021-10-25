@@ -55,19 +55,26 @@
     use App\Models\Categories;
     use App\Models\Manufacturer;
     $items = new Product();
-    $data=$items->getAllWithLimit(0, 8);
+    $data=$items->getAllWithLimit(0, 6);
     foreach ($data as $row) {
+
+
+
         echo '<div  class="col-4 my-3 ">
-          <div class="card shadow-sm">
-            <img src="https://images.ua.prom.st/365684822_w340_h255_novyj-tovar.jpg" alt="">
-            <div class="card-body">
+          <div class="card shadow-sm float-center">';
+        if ( strlen($row['photo'])!==0) {
+            echo '<img height="300px" class="float-center mx-auto" width="350px" src="../../../' . $row['photo'] . '" alt="item">';
+        } else {
+            echo '<img height="300px" class="float-center mx-auto" width="350px" src="https://brilliant24.ru/files/cat/template_01.png" alt="item">';
+        }
+            echo '<div class="card-body">
               <h4 class="card-text h-25 fs-5 lh-1">' . $row["name"] . '</h4>
               <p class="description fs-6 overflow-auto lh-3 my-3">' . $row["description"] . '</p>
               <h4>Цена: <span class="text-success">' . $row["price"] . '</span></h4>       
                 <div class="mt-3 my-3 text-center">
                     <div class="btn-group" role="group">
                     
-                      <button type="button"  class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
+                      <button type="button"   class="btn btn-outline-primary basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
                       <img src="../../../public/img/basket.png" width="24px"/>
                       </button>
                       

@@ -83,4 +83,13 @@ class CatalogController extends Controller
 
     }
 
+    function action_setCategory($params){
+        $data = $this->model= new Categories();
+        $data = $this->model->setCategory($params['post']['cat_name']);
+
+        $_SESSION['success']['category'] = "Категория " . $params['post']['cat_name'] . " успешно добавлена в базу";
+
+        return header('Location:http://localhost:8888/admin/category');
+    }
+
 }

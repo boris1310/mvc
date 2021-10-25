@@ -23,24 +23,30 @@ if (!empty($_SESSION['success'])) {
 
             foreach ($data as $row) {
                 echo '<div  class="col">
-          <div class="card shadow-sm">
-            <img src="https://images.ua.prom.st/365684822_w340_h255_novyj-tovar.jpg" alt="">
-            <div class="card-body">
+          <div class="card shadow-sm">';
+
+                if ( strlen($row['photo'])!==0) {
+                    echo '<img height="180px" src="../../../' . $row['photo'] . '" alt="item">';
+                } else {
+                    echo '<img height="180px" src="https://brilliant24.ru/files/cat/template_01.png" alt="item">';
+                }
+
+                echo '<div class="card-body">
               <h5 class="card-text fs-6 lh-1">' . $row["name"] . '</h5>
               
               <h5 class="my-3">Цена: <span class="text-success ">' . $row["price"] . '</span></h5>       
                 <div class="mt-3 my-3 text-center">
                     <div class="btn-group" role="group">
                     
-                      <button type="button"  class="btn btn-outline-primary btn-sm basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
+                      <button type="button"  class="btn btn-outline-primary btn-sm basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value=' . $row['idProduct'] . '>
                       <img src="../../../public/img/basket.png" width="24px"/>
                       </button>
                       
-                      <button type="button"  class="btn btn-outline-primary btn-sm " value='.$row['idProduct'].'>
+                      <button type="button"  class="btn btn-outline-primary btn-sm " value=' . $row['idProduct'] . '>
                       <img src="../../../public/img/buynow.png" width="24px"/>
                       </button>
                       
-                      <a class="btn btn-outline-primary btn-sm" href="http://localhost:8888/catalog/product/'.$row["idProduct"].'">
+                      <a class="btn btn-outline-primary btn-sm" href="http://localhost:8888/catalog/product/' . $row["idProduct"] . '">
                       <img src="https://img.icons8.com/material-outlined/24/000000/more.png" width="24px"/>
                       </a>
                       
