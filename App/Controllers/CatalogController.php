@@ -78,7 +78,7 @@ class CatalogController extends Controller
             $params['post']['category']
         );
 
-        $_SESSION['success'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
+        $_SESSION['success']['addproduct'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
         return header('Location:http://localhost:8888/admin/product');
 
     }

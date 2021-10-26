@@ -23,7 +23,7 @@ if (!empty($_SESSION['success'])) {
 
             foreach ($data as $row) {
                 echo '<div  class="col">
-          <div class="card shadow-sm">';
+          <div class="card shadow-sm hover-card p-1">';
 
                 if ( strlen($row['photo'])!==0) {
                     echo '<img height="180px" src="../../../' . $row['photo'] . '" alt="item">';

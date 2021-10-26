@@ -1,5 +1,5 @@
 <h3>Дествия</h3>
-Добавить администратора
+<a href="http://localhost:8888/admin/employees">Сотрудники</a>
 <br>
 <a href="http://localhost:8888/admin/product">Добавить товар</a>
 <a href="http://localhost:8888/admin/category">Добавить категорию</a>

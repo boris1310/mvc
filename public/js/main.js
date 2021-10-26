@@ -7,28 +7,29 @@ function getProduct() {
             $(".modal-body").html('');
             for (var i = 0; i < data.length; i++) {
                 var src = '';
-                if(data[i][6]==null || data[i][6]==''){
-                    src='../../../public/img/notfound.png';
-                }else{
-                    src='../../../'+data[i][6];
+                if (data[i][6] == null || data[i][6] == '') {
+                    src = '../../../public/img/notfound.png';
+                } else {
+                    src = '../../../' + data[i][6];
                 }
-                $("<div class='card my-3 mx-auto d-flex justify-content-center flex-row w-75'>" +
+                $("<div class='card my-3 w-50 mx-auto hover-card'>" +
 
-                    "<div class='text-end float-end'>"+
-                    "<button class='btn-close unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
-                    "</div>"+
-
-                    "<div  class='p-2'>"+
-                    "<img width='100%' src='"+src+"'" +
+                    "<div class='float-end mx-3'>" +
+                    "<button class='btn-close float-end unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
+                    "</div>" +
+                    "<div class='row mx-auto'>" +
+                    "<div  class='col-5 px-3 mb-5 ml-3'>" +
+                    "<img width='100%' src='" + src + "'" +
                     " alt='item'>" +
-                    "</div>"+
-
-                    "<div class='p-2 my-5 ml-5'>" +
-                    "<h5>" + data[i][1] + "</h5>" +
-                    "<p>" + data[i][2] + "</p>" +
-                    "<h5>" + data[i][3] + "</h5>" +
                     "</div>" +
 
+                    "<div class='col-6 my-3 mx-3'>" +
+                    "<h5><span class='fs-6'>Наименование: </span>" + data[i][1] + "</h5>" +
+                    "<div>Описание:</div>"+
+                    "<div class='overflow-auto h-50'>" + data[i][2] + "</div>" +
+                    "<h5><span class='fs-6'>Цена: </span>" + data[i][3] + "</h5>" +
+                    "</div>" +
+                    "</div>" +
                     "</div>").appendTo(".modal-body");
             }
             $('.basket-length').html(data.length);
@@ -49,19 +50,19 @@ function checkIcon() {
 
         success: function (data) {
 
-                $('.basket').each(function(i) {
-                    for(let i=0;i<data.length;i++){
-                        if(data[i][0] == $(this).val()){
-                            $(this).children('img').prop('src','../../../public/img/success.png');
-                            continue;
-                        }
+            $('.basket').each(function (i) {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i][0] == $(this).val()) {
+                        $(this).children('img').prop('src', '../../../public/img/success.png');
+                        continue;
                     }
-                });
+                }
+            });
 
         },
 
         error: function (data) {
-            $('.basket').children('img').prop('src','../../../public/img/basket.png');
+            $('.basket').children('img').prop('src', '../../../public/img/basket.png');
         }
     });
 }
@@ -70,8 +71,8 @@ checkIcon();
 
 $(".basket").click(function () {
 
-    if($(this).children('img').prop('src')=='http://localhost:8888/public/img/success.png'){
-        $(this).children('img').prop('src','../../../public/img/basket.png');
+    if ($(this).children('img').prop('src') == 'http://localhost:8888/public/img/success.png') {
+        $(this).children('img').prop('src', '../../../public/img/basket.png');
     }
 
     $.ajax({
@@ -128,21 +129,21 @@ const unset = function (params) {
 
             for (var i = 0; i < data.length; i++) {
                 var src = '';
-                if(data[i][6]==null || data[i][6]==''){
-                    src='../../../public/img/notfound.png';
-                }else{
-                    src='../../../'+data[i][6];
+                if (data[i][6] == null || data[i][6] == '') {
+                    src = '../../../public/img/notfound.png';
+                } else {
+                    src = '../../../' + data[i][6];
                 }
                 $("<div class='card my-3 mx-auto d-flex justify-content-center flex-row w-75'>" +
 
-                    "<div class='text-end float-end'>"+
+                    "<div class='text-end float-end'>" +
                     "<button class='btn-close unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
-                    "</div>"+
+                    "</div>" +
 
-                    "<div  class='p-2'>"+
-                    "<img width='100%' src='"+src+"'" +
+                    "<div  class='p-2'>" +
+                    "<img width='100%' src='" + src + "'" +
                     " alt='item'>" +
-                    "</div>"+
+                    "</div>" +
 
                     "<div class='p-2 my-5 ml-5'>" +
                     "<h5>" + data[i][1] + "</h5>" +

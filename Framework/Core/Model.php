@@ -160,9 +160,8 @@ class Model
         }
         $item->db->query("   
         UPDATE `{$this->modelname}` 
-        SET " . $string . "
+        SET " . trim($string,',') . "
         WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
-
     }
 
     /**

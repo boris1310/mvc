@@ -58,9 +58,9 @@ class UserController extends Controller
                 $check_mail=$user_mail->where('email','=',$params['post']['email']);
 
                 if(!empty($check_mail)){
-                    print_r($params['post']);
-                    var_dump($check_mail['0']['password']);
-                    var_dump(md5($params['post']['password']));
+//                    print_r($params['post']);
+//                    var_dump($check_mail['0']['password']);
+//                    var_dump(md5($params['post']['password']));
 
                     if($check_mail['0']['password']===md5($params['post']['password'])){
                         $_SESSION['name']=$check_mail['0']['name'];
@@ -94,5 +94,32 @@ class UserController extends Controller
         setcookie('PHPSESSID','',time()-100);
         return header('Location: http://localhost:8888/catalog');
     }
+
+    public function action_getUserByEmail($params){
+        $user = new User();
+        $data = $user->where('email','=',$params['path']);
+        if(empty($data)){
+                $result='{}';
+        }else {
+            foreach ($data as $item) {
+                $result = json_encode($item);
+            }
+        }
+
+        print_r($result);
+    }
+
+    public function action_addAdminSubmit($params){
+
+        $user = new User();
+        $columns = ['role'];
+        $values = ['admin'];
+        $user->update($columns, $values, 'idUser', '=' , $params['path']);
+
+        $_SESSION['success']['addadmin']='Пользователь № '.$params['path'] .' назначен сотрудником';
+
+        return header('Location: http://localhost:8888/admin/employees');
+    }
+
 
 }
