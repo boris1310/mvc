@@ -6,7 +6,7 @@ if (!empty($_SESSION['success'])) {
 ?>
 
 
-<div class="container mx-auto row">
+<div class=" mx-auto row">
 
     <div class="col-2 p-3 border-right mx-auto">
         <div class="sidebar">
@@ -15,10 +15,10 @@ if (!empty($_SESSION['success'])) {
 
     </div>
 
-    <div class="col-9 border border-top-0 border-bottom-0 mx-auto">
+    <div class="col-9 border-start border-top-0 border-bottom-0 mx-auto">
         <h3 class="text-center">Каталог</h3>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 my-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 my-3">
             <?php
 
             foreach ($data as $row) {

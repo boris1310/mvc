@@ -3,6 +3,7 @@
 <br>
 <a href="http://localhost:8888/admin/product">Добавить товар</a>
 <a href="http://localhost:8888/admin/category">Добавить категорию</a>
+<a href="http://localhost:8888/admin/allProducts">Cписок товаров</a>
 <br>
 Посмотреть заказы
 <br>

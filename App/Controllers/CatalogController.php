@@ -58,7 +58,7 @@ class CatalogController extends Controller
             $params['get']['page'] = 1;
         }
 
-        $data = $this->model->getAllWithLimit($params['get']['page']-1, 8);
+        $data = $this->model->getAllWithLimit($params['get']['page']-1, 10);
         $this->model = new Categories();
         $categories = $this->model->getAll();
         $this->model = new Manufacturer();
@@ -91,5 +91,7 @@ class CatalogController extends Controller
 
         return header('Location:http://localhost:8888/admin/category');
     }
+
+
 
 }

@@ -27,7 +27,7 @@ function getProduct() {
                     "<h5><span class='fs-6'>Наименование: </span>" + data[i][1] + "</h5>" +
                     "<div>Описание:</div>"+
                     "<div class='overflow-auto h-50'>" + data[i][2] + "</div>" +
-                    "<h5><span class='fs-6'>Цена: </span>" + data[i][3] + "</h5>" +
+                    "<h5 class='my-3'><span class='fs-6'>Цена: </span>" + data[i][3] + "</h5>" +
                     "</div>" +
                     "</div>" +
                     "</div>").appendTo(".modal-body");
@@ -94,11 +94,28 @@ $(".basket").click(function () {
 
 });
 
+const fullPrice =async() => {
+    const response = await fetch('http://localhost:8888/Basket/getProducts');
+    const products = await response.json();
+
+    var fullprice=0;
+    for(let i=0;i<products.length;i++){
+        fullprice = fullprice+Number(products[i]['price']);
+    }
+
+    document.getElementById('price').innerHTML=fullprice;
+    //return fullprice;
+}
+
 
 $('.showBasket').click(function () {
     $('#basket-modal').css('display', 'block');
     getProduct();
     checkIcon();
+    fullPrice().catch((e)=>{
+        document.getElementById('price').innerHTML=0;
+    });
+
 });
 
 const unset = function (params) {
@@ -134,23 +151,24 @@ const unset = function (params) {
                 } else {
                     src = '../../../' + data[i][6];
                 }
-                $("<div class='card my-3 mx-auto d-flex justify-content-center flex-row w-75'>" +
+                $("<div class='card my-3 w-50 mx-auto hover-card'>" +
 
-                    "<div class='text-end float-end'>" +
-                    "<button class='btn-close unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
+                    "<div class='float-end mx-3'>" +
+                    "<button class='btn-close float-end unset my-3' onclick='unset(" + data[i][0] + ")'></button>" +
                     "</div>" +
-
-                    "<div  class='p-2'>" +
+                    "<div class='row mx-auto'>" +
+                    "<div  class='col-5 px-3 mb-5 ml-3'>" +
                     "<img width='100%' src='" + src + "'" +
                     " alt='item'>" +
                     "</div>" +
 
-                    "<div class='p-2 my-5 ml-5'>" +
-                    "<h5>" + data[i][1] + "</h5>" +
-                    "<p>" + data[i][2] + "</p>" +
-                    "<h5>" + data[i][3] + "</h5>" +
+                    "<div class='col-6 my-3 mx-3'>" +
+                    "<h5><span class='fs-6'>Наименование: </span>" + data[i][1] + "</h5>" +
+                    "<div>Описание:</div>"+
+                    "<div class='overflow-auto h-50'>" + data[i][2] + "</div>" +
+                    "<h5 class='my-3'><span class='fs-6 price'>Цена: </span>" + data[i][3] + "</h5>" +
                     "</div>" +
-
+                    "</div>" +
                     "</div>").appendTo(".modal-body");
             }
         },
@@ -161,11 +179,19 @@ const unset = function (params) {
     });
 
     checkIcon();
+    fullPrice().catch((e)=>{
+        document.getElementById('price').innerHTML=0;
+    });
 }
 
 $('.closeBasket').click(function () {
     $('.modal-body').html('');
     $('#basket-modal').css('display', 'none');
     checkIcon();
+    fullPrice().catch((e)=>{
+        document.getElementById('price').innerHTML=0;
+    });
 });
+
+
 

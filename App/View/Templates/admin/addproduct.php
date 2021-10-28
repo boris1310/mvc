@@ -1,6 +1,6 @@
 <?php
-if(isset($_SESSION['success'])){
-    echo '<div class="alert alert-success">'.$_SESSION['success'].'</div>';
+if(isset($_SESSION['success']['addproduct'])){
+    echo '<div class="alert alert-success">'.$_SESSION['success']['addproduct'].'</div>';
     unset($_SESSION['success']['addproduct']);
 }
 ?>

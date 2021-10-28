@@ -23,7 +23,8 @@
       "App/Controllers/CatalogController.php",
       "App/Controllers/NotFoundController.php",
       "App/Controllers/UserController.php",
-      "App/Controllers/AdminController.php"
+      "App/Controllers/AdminController.php",
+      "App/Controllers/OrderController.php"
     ]
   }
 }

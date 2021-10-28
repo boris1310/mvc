@@ -52,11 +52,17 @@ class BasketController extends Controller
         $products = new Product;
         $data = $products->getBasket();
         $jsonArr=[];
-        foreach ($data as $item){
-            $jsonArr[]=$item;
+        if($data){
+            foreach ($data as $item){
+                $jsonArr[]=$item;
+            }
         }
-        $jsonStr=json_encode($jsonArr);
-        print_r($jsonStr);
+
+        if(!empty($jsonArr)){
+            $jsonStr=json_encode($jsonArr);
+            print_r($jsonStr);
+        }
+
     }
 
 }
