@@ -58,7 +58,7 @@
     $data=$items->getAllWithLimit(0, 6);
     foreach ($data as $row) {
 
-        echo '<div  class="col-2 my-3 ">
+        echo '<div  class="col-lg-2 col-sm-4 col-md-4 my-3 ">
           <div class="card shadow-sm float-center hover-card">';
         if ( strlen($row['photo'])!==0) {
             echo '<img height="120px" width="150px" class="float-center mx-auto p-1" width="350px" src="../../../' . $row['photo'] . '" alt="item">';
@@ -68,7 +68,7 @@
             echo '<div class="card-body">
               <h4 class="card-text h-25 fs-5 lh-1">' . $row["name"] . '</h4>
               <h4>Цена: <span class="text-success">' . $row["price"] . '</span></h4>       
-                <div class="mt-3 my-3 text-center">
+                <div class="my-3 text-center">
                     <div class="btn-group" role="group">
                     
                       <button type="button"   class="btn btn-outline-primary basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>

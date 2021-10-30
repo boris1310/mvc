@@ -74,7 +74,6 @@ $(".basket").click(function () {
     if ($(this).children('img').prop('src') == 'http://localhost:8888/public/img/success.png') {
         $(this).children('img').prop('src', '../../../public/img/basket.png');
     }
-
     $.ajax({
         url: 'http://localhost:8888/Basket/index/' + $(this).val(),
         dataType: "json",
