@@ -184,13 +184,14 @@ class Model
 
 
     public function getBasket(){
-        //print_r($_SESSION['basket']);
+
         $item = new Db;
         $item -> connect();
 
         $in = '';
 
-        $in=implode(',',$_SESSION['basket']);
+         $in=implode(',',$_SESSION['basket']);
+
 
         $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
 

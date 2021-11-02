@@ -33,6 +33,7 @@ function getProduct() {
                     "</div>").appendTo(".modal-body");
             }
             $('.basket-length').html(data.length);
+
         },
         error: function (data) {
             console.log('error');
