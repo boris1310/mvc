@@ -13,7 +13,7 @@ class Db
         require_once 'define.php';
 
         $this->db = new PDO(
-            'mysql:host=localhost; dbname=mydb',
+            'mysql:host='.DB_HOST.'; dbname=mydb',
             DB_USER,
             DB_PASS
         );

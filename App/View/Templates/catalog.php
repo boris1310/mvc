@@ -1,7 +1,7 @@
 <?php
-if (!empty($_SESSION['success'])) {
-    echo "<div class='container alert alert-success text-center'>" . $_SESSION['success'] . "</div>";
-    unset($_SESSION['success']);
+if (!empty($_SESSION['success']['login'])) {
+    echo "<div class='container alert alert-success text-center'>" . $_SESSION['success']['login'] . "</div>";
+    unset($_SESSION['success']['login']);
 }
 ?>
 
@@ -26,9 +26,10 @@ if (!empty($_SESSION['success'])) {
           <div class="card shadow-sm hover-card p-1">';
 
                 if ( strlen($row['photo'])!==0) {
-                    echo '<img height="180px" src="../../../' . $row['photo'] . '" alt="item">';
+
+                    echo '<img height="120px" width="150px" class="float-center mx-auto p-1"   src="../../../' . $row['photo'] . '" alt="item">';
                 } else {
-                    echo '<img height="180px" src="https://brilliant24.ru/files/cat/template_01.png" alt="item">';
+                    echo '<img height="120px" width="150px" class="float-center mx-auto p-1"   src="https://brilliant24.ru/files/cat/template_01.png" alt="item">';
                 }
 
                 echo '<div class="card-body">

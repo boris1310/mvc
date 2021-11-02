@@ -2,6 +2,8 @@
 
 use Framework\Core\Controller;
 use App\Models\Product;
+use App\Models\User;
+use App\Models\Adres;
 
 class OrderController extends Controller
 {
@@ -14,14 +16,32 @@ class OrderController extends Controller
 
         $item = new Product();
         $data = $item->getBasket();
+//        var_dump($data);
 
-        $it = [];
-
+        $u = new User();
+        $data2 = $u->where('idUser','=',$_SESSION['id']);
         foreach ($data as $row){
-            $it[] = $row;
+            $data2[] = $row;
         }
 
-        $this->view->generate('buynow.php', 'layout.php', $it);
+
+        $a = new Adres();
+        $data3 = $a->where('userId','=',$_SESSION['id']);
+
+
+        $this->view->generate('buynow.php', 'layout.php', $data,$data2,$data3);
+    }
+
+    public function action_pay(){
+
+        $item = new Product();
+        $dat = $item->getBasket();
+        $data = [];
+        foreach ($dat as $row){
+            $data[] = $row;
+        }
+
+        $this->view->generate('pay.php', 'layout.php', $data);
     }
 
 }

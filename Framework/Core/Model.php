@@ -122,12 +122,15 @@ class Model
     public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
     {
 
-        $uploaddir = 'public/img/products/';
-        $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
-        var_dump($_FILES);
+
+
         if (empty($_FILES['photo']['name'])){
             $uploadfile=null;
+            $_FILES['photo']['name']=null;
+            $_FILES['photo']['tmp_name']=null;
         }
+          $uploaddir = 'public/img/products/';
+          $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
         if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
             echo "Файл корректен и был успешно загружен.\n";
         } else {
@@ -155,10 +158,12 @@ class Model
         $item = new Db();
         $item->connect();
         $string = '';
+
         for ($column = 0; $column < count($columns); $column++) {
             $string = $string . " `{$columns[$column]}`='{$values[$column]}',";
         }
-        $item->db->query("   
+
+        $item->db->query("
         UPDATE `{$this->modelname}` 
         SET " . trim($string,',') . "
         WHERE `{$whereColumn}`{$operator}'{$whereParams}'");

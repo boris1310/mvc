@@ -10,7 +10,7 @@
             </div>
             <div class="modal-footer">
                 <div class="text-end fs-5">К оплате <span class="text-success" id="price"></span> грн &nbsp;</div>
-                <a href="http://localhost:8888/Order/buynow"><button type="button" class="btn btn-success">Оформить заказ</button></a>
+                <a id="btn-buy" href="http://localhost:8888/Order/buynow"><button type="button" class="btn btn-success">Оформить заказ</button></a>
                 <button type="button" class="btn btn-primary closeBasket" data-bs-dismiss="modal">Скрыть</button>
             </div>
         </div>
