@@ -18,32 +18,42 @@ class CatalogController extends Controller
         $this->view = new View();
     }
 
-    function action_category($params)
-    {
-        if (!isset($params['get']['page'])) {
-            $params['get']['page'] = 1;
-        }
-
-        $data = $this->model->getAllWithLimitCategory($params['get']['page'] - 1, 8,$params['path']);
-        $this->model = new Categories();
-        $categories = $this->model->getAll();
-        $this->model = new Manufacturer();
-        $manufactures = $this->model->getAll();
-        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+    function action_getCategories(){
+        $cat = new Categories();
+        $data=$cat->getAll();
+        $data = json_encode($data);
+        print_r($data);
     }
 
-    function action_manufacturer($params)
-    {
-        if (!isset($params['get']['page'])) {
-            $params['get']['page'] = 1;
+    function action_getManufacturers(){
+        $man = new Manufacturer();
+        $data=$man->getAll();
+        $data = json_encode($data);
+        print_r($data);
+    }
+
+    function action_getAll($params){
+
+        if(!empty($params['get']['page'])){
+            $page=$params['get']['page']-1;
+        }else{
+            $page=0;
         }
 
-        $data = $this->model->getAllWithLimitManufacturer($params['get']['page'] - 1, 8,$params['path']);
-        $this->model = new Categories();
-        $categories = $this->model->getAll();
-        $this->model = new Manufacturer();
-        $manufactures = $this->model->getAll();
-        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+        $url = $params['path'];
+        $url = explode('_',$url);
+
+        if($url[0]=="all"){
+           $data = $this->model->getAllWithLimit($page, 8);
+        }elseif($url[0]=="cat"){
+           $data = $this->model->getAllWithLimitCategory($page, 8,$url[1]);
+        }elseif ($url[0]=="man"){
+           $data = $this->model->getAllWithLimitManufacturer($page, 8,$url[1]);
+        }
+
+        $data=json_encode($data);
+        print_r($data);
+
     }
 
     function action_product($params)
@@ -52,18 +62,16 @@ class CatalogController extends Controller
         $this->view->generate('product.php', 'layout.php', $data);
     }
 
-    function action_index($params)
-    {
-        if (!isset($params['get']['page'])) {
-            $params['get']['page'] = 1;
-        }
 
-        $data = $this->model->getAllWithLimit($params['get']['page']-1, 10);
-        $this->model = new Categories();
-        $categories = $this->model->getAll();
-        $this->model = new Manufacturer();
-        $manufactures = $this->model->getAll();
-        $this->view->generate('catalog.php', 'layout.php', $data, $categories, $manufactures);
+    function action_getPagination(){
+        $data=$this->model->getAll();
+        $data=count($data);
+        $data=json_encode($data);
+        print_r($data);
+    }
+
+    function action_index(){
+        $this->view->generate('vue-catalog.php','vue-layout.php');
     }
 
 
@@ -90,6 +98,51 @@ class CatalogController extends Controller
         $_SESSION['success']['category'] = "Категория " . $params['post']['cat_name'] . " успешно добавлена в базу";
 
         return header('Location:http://localhost:8888/admin/category');
+    }
+
+    function action_countItemInCategory(){
+         $this->model= new Categories();
+        $data = $this->model->getAll();
+        $idxs = [];
+        foreach ($data as $catId){
+            $idxs[] = $catId['idCategory'];
+        }
+        $countItems = [];
+
+        foreach ($idxs as $a){
+            $count = $this->model=new Product();
+            $productInThisCategory = $count->where('CategoryId','=',$a);
+            $countItems[$a]=count($productInThisCategory);
+        }
+
+        $result = json_encode($countItems);
+
+        print_r($result);
+
+    }
+
+    function action_countItemInManufacturer(){
+
+        $this->model= new Manufacturer();
+        $data = $this->model->getAll();
+        $idxs = [];
+
+        foreach ($data as $manId){
+            $idxs[] = $manId['idmanufacturer'];
+        }
+
+        $countItems = [];
+
+        foreach ($idxs as $a){
+            $count = $this->model=new Product();
+            $productInThisManufacturer = $count->where('ManufacturerId','=',$a);
+            $countItems[$a]=count($productInThisManufacturer);
+        }
+
+        $result = json_encode($countItems);
+
+        print_r($result);
+
     }
 
 

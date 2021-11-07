@@ -5,8 +5,7 @@ if (!empty($_SESSION['success']['login'])) {
 }
 ?>
 
-
-<div class=" mx-auto row">
+<div class="mx-auto row">
 
     <div class="col-2 p-3 border-right mx-auto">
         <div class="sidebar">

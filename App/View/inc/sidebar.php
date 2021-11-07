@@ -16,7 +16,7 @@ foreach ($data2 as $category) {
 }
 
 
-   echo '<h3 class="text-center my-3 row">Производители</h3>';
+echo '<h3 class="text-center my-3 row">Производители</h3>';
 
 
 foreach ($data3 as $manufacturer) {
