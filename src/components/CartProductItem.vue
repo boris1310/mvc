@@ -3,11 +3,11 @@
         <!-- cartProduct -->
         <ProductItem
             v-for="product in $root.cartProduct"
-            :key="product.product"
-            :count="product.count"
-            :price="product.price"
             :title="product.title"
+            :key="product.product"
+            :price="product.price"
             :image="product.image"
+            :count="product.count"
         />
     </tbody>
     <tfoot>

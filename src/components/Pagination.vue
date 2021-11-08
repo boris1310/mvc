@@ -10,31 +10,24 @@
 <script>
 export default {
   name:'Pagination',
+
   data:()=>({
-    count:0,
     flag:1,
   }),
 
+  props:{
+   count:Number,
+  },
+
   methods:{
-    async fetchPagination(){
-      const response = await fetch('http://localhost:8888/Catalog/getPagination/');
-      this.count = await response.json();
-      if(this.count%8==0){
-        this.count = this.count/8;
-      }else{
-        this.count = this.count%8;
-      }
-    },
+
     changeSource(value){
+
         this.$root.currentPage = value;
         this.flag = this.$root.currentPage;
         this.$root.fetchProducts(this.$root.source);
     }
   },
-
-  mounted() {
-    this.fetchPagination()
-  }
 }
 </script>
 

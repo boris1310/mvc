@@ -9,6 +9,7 @@ import Pagination from './components/Pagination'
 
 const app = createApp({
     data: () => ({
+    	countPages: 0,
         count: 0,
         price: 0,
         source: 'http://localhost:8888/Catalog/getAll/all/?page=',
@@ -22,7 +23,25 @@ const app = createApp({
         countItemsMan:[],
     }),
     methods: {
+		async fetchPagination(){
 
+			  const url = this.source;
+
+
+			  const reg = /getAll/gi;
+			  const regUrl = url.replace(reg,'pagination');
+
+			  const response = await fetch(regUrl);
+			  this.countPages = await response.json();
+
+			  if(!this.countPages%8){
+				this.countPages = this.countPages/8;
+			  }else{
+				this.countPages = Math.ceil(this.countPages/8);
+			  }
+
+
+			},
         async fetchProducts() {
 
             const response = await fetch(this.source+this.currentPage);
@@ -54,7 +73,9 @@ const app = createApp({
 
         },
 
+
         addCart(id, title, image, price) {
+
             if(this.cartProduct.length > 0) {
                 this.flag = false
 
@@ -79,20 +100,19 @@ const app = createApp({
             this.cartProduct.map(product => {
                 this.count += product.count
                 this.price += parseInt(product.price) * product.count
-                console.log(this.price)
             });
         },
 
-        increment() {
-            this.count++
-        	},
-
-        decrement() {
-            if(this.count > 0) {
-                this.count--
-            }
-
-        },
+//         increment() {
+//             	this.count++
+//         	},
+//
+//         decrement() {
+//             if(this.count > 0) {
+//                 this.count--
+//             }
+//
+//         },
         deleteItem(){
             this.cartProduct.splice(this.id,1);
         }
@@ -103,6 +123,7 @@ const app = createApp({
         this.fetchManufacturers();
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
+    	this.fetchPagination();
     }
 });
 

@@ -63,7 +63,7 @@ class CatalogController extends Controller
     }
 
 
-    function action_getPagination(){
+    function action_getPagination($params){
         $data=$this->model->getAll();
         $data=count($data);
         $data=json_encode($data);
@@ -101,7 +101,7 @@ class CatalogController extends Controller
     }
 
     function action_countItemInCategory(){
-         $this->model= new Categories();
+        $this->model= new Categories();
         $data = $this->model->getAll();
         $idxs = [];
         foreach ($data as $catId){
@@ -119,6 +119,26 @@ class CatalogController extends Controller
 
         print_r($result);
 
+    }
+
+    function action_pagination($params){
+
+        $url = $params['path'];
+        $url = explode('_',$url);
+
+        if($url[0]=="all"){
+            $data = $this->model->getAll();
+            $count = count($data);
+        }elseif($url[0]=="cat"){
+            $data = $this->model->where( 'CategoryId','=',$url[1]);
+            $count = count($data);
+        }elseif ($url[0]=="man"){
+            $data = $this->model->where( 'ManufacturerId','=',$url[1]);
+            $count = count($data);
+        }
+
+        $data=json_encode($count);
+        print_r($data);
     }
 
     function action_countItemInManufacturer(){

@@ -10,9 +10,9 @@
         </td>
         <td class="text-center">
         <div class="btn-group d-flex align-items-center" role="group">
-            <button type="button" v-on:click="$root.decrement" class="btn shadow-none">-</button>
+            <button type="button" v-on:click="decrement" class="btn shadow-none">-</button>
             <span class="mx-2">{{count}}</span>
-            <button type="button" v-on:click="$root.increment" class="btn shadow-none">+</button>
+            <button type="button" v-on:click="increment" class="btn shadow-none">+</button>
         </div>
         </td>
         <td class="text-center py-3">{{price}}</td>
@@ -40,11 +40,11 @@ export default ({
         count: Number,
     },
   methods:{
-    increment(){
+    incrementCount(){
       this.count++
     },
-    decrement(){
-      this.count++
+    decrementCount(){
+      this.count--
     }
   }
 })

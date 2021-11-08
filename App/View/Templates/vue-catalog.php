@@ -39,7 +39,6 @@
     <main>
 
         <!-- ProductsList component -->
-        <!-- <img class="card-img-top" src="/public/img/macbook-pro.jpeg" alt="macbook-pro"> -->
         <div class="row mx-auto">
             <div class="col-2">
 
@@ -58,9 +57,8 @@
     </main>
     <div class="mx-auto mt-0 mb-3">
         <pagination-block
-                :currentSource="source"
-                :currentPage="currentPage"
-        ></pagination-block>
+                :count = "countPages"
+        />
     </div>
     <!-- CartModal component -->
     <cart-modal>
