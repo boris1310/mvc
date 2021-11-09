@@ -26,6 +26,7 @@ export default {
         this.$root.currentPage = value;
         this.flag = this.$root.currentPage;
         this.$root.fetchProducts(this.$root.source);
+
     }
   },
 }

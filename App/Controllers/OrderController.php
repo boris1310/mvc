@@ -8,40 +8,44 @@ use App\Models\Adres;
 class OrderController extends Controller
 {
 
-    public function action_index(){
-
+    public function action_index()
+    {
+        var_dump($_SESSION);
     }
 
-    public function action_buynow(){
-
-        $item = new Product();
-        $data = $item->getBasket();
-//        var_dump($data);
-
-        $u = new User();
-        $data2 = $u->where('idUser','=',$_SESSION['id']);
-        foreach ($data as $row){
-            $data2[] = $row;
+    public function action_setItemToCart($params)
+    {
+        $flag = 0;
+        foreach ($_SESSION['basket'] as $item) {
+            if ($item['idProduct'] == $params['get']['idProduct']) {
+                $flag = 1;
+            }
         }
-
-
-        $a = new Adres();
-        $data3 = $a->where('userId','=',$_SESSION['id']);
-
-
-        $this->view->generate('buynow.php', 'layout.php', $data,$data2,$data3);
+        if ($flag == 0) {
+            $_SESSION['basket'][] = [
+                "idProduct" => $params['get']['idProduct'],
+                "name" => $params['get']['name'],
+                "image" => $params['get']['image'],
+                "price" => (int)$params['get']['price'],
+                "count" => (int)$params['get']['count'],
+            ];
+        }
     }
 
-    public function action_pay(){
-
-        $item = new Product();
-        $dat = $item->getBasket();
-        $data = [];
-        foreach ($dat as $row){
-            $data[] = $row;
+    public function action_unsetItemToCart($params){
+        var_dump($_SESSION['basket']);
+        foreach ($_SESSION['basket'] as $key=>$item){
+            if($item['idProduct']==$params['get']['idProduct']){
+                unset($_SESSION['basket'][$key]);
+            }
         }
+    }
 
-        $this->view->generate('pay.php', 'layout.php', $data);
+
+    public function action_getCartProducts()
+    {
+        $data = json_encode($_SESSION['basket']);
+        print_r($data);
     }
 
 }

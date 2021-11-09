@@ -8,18 +8,19 @@
             <h6 class="card-title">
                 {{ name }}
             </h6>
-            <p class="card-subtitle mt-2 mb-3">
-            Computer & Accessories
-            </p>
+            <div class="my-3" v-for="category in $root.categories">
+              <div v-if="category.idCategory==CategoryId">Категория: {{ category.cat_name }}</div>
+            </div>
+            <div class="my-3" v-for="manufacturer in $root.manufacturers">
+              <div v-if="manufacturer.idmanufacturer==ManufacturerId">Производитель: {{ manufacturer.name }}</div>
+            </div>
             <h5 class="fs-5 text-success">
             {{price}} грн
             </h5>
-            <p class="mt-3">
-            Stock:
-            <strong class="text-success">Available</strong>
-            </p>
-            <button @click="$root.addCart(id, name, photo, price)" class="btn btn-success w-100 shadow-none">
-            Add to cart
+
+
+            <button @click="$root.addCart( idProduct, name, photo, price)" class="btn btn-success w-100 shadow-none">
+            В корзину
             </button>
         </div>
         </div>
@@ -31,9 +32,11 @@
 export default {
     name: 'Product',
     props: {
-        id: String,
+        idProduct: String,
         name: String,
         photo: String,
+        CategoryId:String,
+        ManufacturerId:String,
         price: String,
     }
 }

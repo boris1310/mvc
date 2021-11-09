@@ -3,14 +3,19 @@
       <div class="card my-5 shadow">
         <div class="card-body">
           <div class="row">
+
             <product
+
                 v-for="product in products"
                 :key="product"
-                :id="product.idProduct"
+                :idProduct="product.idProduct"
+                :CategoryId="product.CategoryId"
+                :ManufacturerId="product.ManufacturerId"
                 :name="product.name"
                 :price="product.price"
                 :photo="product.photo"
             />
+
           </div>
         </div>
       </div>

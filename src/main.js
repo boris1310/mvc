@@ -26,11 +26,8 @@ const app = createApp({
 		async fetchPagination(){
 
 			  const url = this.source;
-
-
 			  const reg = /getAll/gi;
 			  const regUrl = url.replace(reg,'pagination');
-
 			  const response = await fetch(regUrl);
 			  this.countPages = await response.json();
 
@@ -56,14 +53,14 @@ const app = createApp({
         },
         async fetchManufacturers(){
 
-                	const response = await fetch('http://localhost:8888/Catalog/getManufacturers');
-                	this.manufacturers = await response.json();
+			const response = await fetch('http://localhost:8888/Catalog/getManufacturers');
+			this.manufacturers = await response.json();
 
         },
         async fetchCountItemsInCats(){
 
-              const response = await fetch('http://localhost:8888/Catalog/countItemInCategory');
-              this.countItemsCat = await response.json();
+			const response = await fetch('http://localhost:8888/Catalog/countItemInCategory');
+			this.countItemsCat = await response.json();
 
         },
         async fetchCountItemsInMans(){
@@ -73,49 +70,100 @@ const app = createApp({
 
         },
 
+        async fetchToCart(idProduct, name, image, price){
+        	  const response = await fetch('http://localhost:8888/Order/setItemToCart/add/'+
+        	  '?idProduct='+idProduct+
+        	  '&name='+name+
+        	  '&image='+image+
+        	  '&price='+price+
+        	  '&count='+1
+        	  );
+              const result = await response.json();
 
-        addCart(id, title, image, price) {
+        },
+
+        async fetchUnsetItem(idProduct){
+			 const response = await fetch('http://localhost:8888/Order/unsetItemToCart/delete/?idProduct='+idProduct);
+        },
+
+ 		totalPrice(){
+			this.count = 0;
+			this.price = 0;
+
+			this.cartProduct.map(product => {
+				this.count += product.count;
+				this.price += parseInt(product.price) * product.count;
+			});
+        },
+
+
+
+       	addCart(idProduct, name, image, price) {
 
             if(this.cartProduct.length > 0) {
                 this.flag = false
 
                 this.cartProduct.map(product => {
-                    if(product.id == id) {
+                    if(product.idProduct == idProduct) {
                         product.count += 1
                         this.flag = true
                     }
-
                 });
 
                 if(this.flag == false) {
-                    this.cartProduct.push({id, title, image, price, count: 1})
+                    this.cartProduct.push({idProduct,  name, image, price, count: 1})
                 }
             } else {
-                this.cartProduct.push({id, title, image, price, count: 1})
+                this.cartProduct.push({idProduct, name, image, price, count: 1})
             }
-
-            this.count = 0
-            this.price = 0
-
-            this.cartProduct.map(product => {
-                this.count += product.count
-                this.price += parseInt(product.price) * product.count
-            });
+            this.count++;
+            this.totalPrice;
+            this.fetchToCart(idProduct, name, image, price);
         },
 
-//         increment() {
-//             	this.count++
-//         	},
-//
-//         decrement() {
-//             if(this.count > 0) {
-//                 this.count--
-//             }
-//
-//         },
-        deleteItem(){
-            this.cartProduct.splice(this.id,1);
-        }
+
+
+        increment(idProduct) {
+			this.cartProduct.map(product => {
+				if(product.idProduct == idProduct) {
+					product.count += 1
+					this.count++
+					this.totalPrice();
+				}
+			});
+
+		},
+
+        decrement(idProduct) {
+			this.cartProduct.map(product => {
+				if(product.idProduct == idProduct) {
+					if(product.count > 0) {
+						product.count -= 1
+                        this.count--
+                        this.totalPrice();
+					}
+				}
+			});
+        },
+
+		deleteItem(idProduct){
+		  	this.cartProduct.map(product => {
+				if(product.idProduct == idProduct) {
+					this.cartProduct.splice(product,1);
+					this.fetchUnsetItem(idProduct);
+				}
+            });
+			this.totalPrice();
+
+		},
+
+
+		async fetchCartProduct(){
+			const response = await fetch('http://localhost:8888/Order/getCartProducts');
+			this.cartProduct = await response.json();
+			this.count = this.cartProduct.length;
+		}
+
     },
     mounted() {
         this.fetchProducts(this.source);
@@ -124,6 +172,7 @@ const app = createApp({
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
+    	this.fetchCartProduct();
     }
 });
 

@@ -2,22 +2,22 @@
     <tr>
     <td>
         <div class="d-flex">
-            <img class="img-fluid rounded-1" v-bind:src="image" width="70" alt="">
+            <img class="img-fluid rounded-1" :src="image" width="70" :alt="name">
             <p class="mx-2 mb-0">
-                {{title}}
+                {{ name }}
             </p>
         </div>
         </td>
         <td class="text-center">
         <div class="btn-group d-flex align-items-center" role="group">
-            <button type="button" v-on:click="decrement" class="btn shadow-none">-</button>
+            <button type="button" @click="$root.decrement(idProduct)" class="btn shadow-none">-</button>
             <span class="mx-2">{{count}}</span>
-            <button type="button" v-on:click="increment" class="btn shadow-none">+</button>
+            <button type="button" @click="$root.increment(idProduct)" class="btn shadow-none">+</button>
         </div>
         </td>
         <td class="text-center py-3">{{price}}</td>
         <td>
-        <button class="btn shadow-none" v-on:click="$root.deleteItem">
+        <button class="btn shadow-none" @click="$root.deleteItem(idProduct)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg"
                 viewBox="0 0 16 16">
             <path
@@ -33,19 +33,14 @@
 export default ({
     name: 'ProductItem',
     props: {
-        id:Number,
-        title: String,
-        price: String,
+        idProduct:String,
+        name: String,
+        price: Number,
         image: String,
         count: Number,
     },
   methods:{
-    incrementCount(){
-      this.count++
-    },
-    decrementCount(){
-      this.count--
-    }
+
   }
 })
 </script>
