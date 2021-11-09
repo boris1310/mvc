@@ -6,9 +6,14 @@ import CartModal from './components/CartModal'
 import CartButton from './components/CartButton'
 import Sidebar from	'./components/Sidebar'
 import Pagination from './components/Pagination'
+import signUp from './components/signUp'
 
 const app = createApp({
     data: () => ({
+    	UserId:null,
+    	UserRole:'user',
+    	UserName:'',
+    	UserMail:'',
     	countPages: 0,
         count: 0,
         price: 0,
@@ -168,6 +173,23 @@ const app = createApp({
 			this.count = this.cartProduct.length;
 			this.totalPrice();
 		},
+		async checkSession(){
+			const response = await fetch('http://localhost:8888/User/checkSession');
+			const check = await response.json();
+			this.UserId=check.id;
+			this.UserRole=check.role;
+			this.UserName=check.name;
+			this.UserMail=check.email;
+		},
+		async logout(){
+			this.UserId=null;
+			this.UserRole='user';
+			this.UserName='';
+			this.UserMail='';
+			const response = await fetch('http://localhost:8888/User/logout');
+			const check = await response.json();
+
+		}
 
     },
     mounted() {
@@ -178,10 +200,11 @@ const app = createApp({
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
-
+		this.checkSession();
     }
 });
 
+app.component("sign-up",signUp);
 app.component("catalog-sidebar",Sidebar);
 app.component("product-list", ProductList);
 app.component("cart-button", CartButton);

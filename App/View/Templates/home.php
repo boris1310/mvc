@@ -1,7 +1,7 @@
 
 <div class="container">
 
-    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="myCarousel" class="carousel slide my-3" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
@@ -46,61 +46,53 @@
         </button>
     </div>
 
-</div>
-
-<div class="my-5 container mx-auto row">
-    <h1 class="text-center my-3">Популярное</h1>
-    <?php
-    use App\Models\Product;
-    use App\Models\Categories;
-    use App\Models\Manufacturer;
-    $items = new Product();
-    $data=$items->getAllWithLimit(0, 6);
-    foreach ($data as $row) {
-
-        echo '<div  class="col-lg-2 col-sm-4 col-md-4 my-3 ">
-          <div class="card shadow-sm float-center hover-card">';
-        if ( strlen($row['photo'])!==0) {
-            echo '<img height="120px" width="150px" class="float-center mx-auto p-1" width="350px" src="../../../' . $row['photo'] . '" alt="item">';
-        } else {
-            echo '<img height="100%" class="float-center mx-auto p-1" width="350px" src="https://brilliant24.ru/files/cat/template_01.png" alt="item">';
-        }
-            echo '<div class="card-body">
-              <h4 class="card-text h-25 fs-5 lh-1">' . $row["name"] . '</h4>
-              <h4>Цена: <span class="text-success">' . $row["price"] . '</span></h4>       
-                <div class="my-3 text-center">
-                    <div class="btn-group" role="group">
-                    
-                      <button type="button"   class="btn btn-outline-primary basket" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" value='.$row['idProduct'].'>
-                      <img src="../../../public/img/basket.png" width="24px"/>
-                      </button>
-                      
-                      <button type="button"  class="btn btn-outline-primary" value='.$row['idProduct'].'>
-                      <img src="../../../public/img/buynow.png" width="24px"/>
-                      </button>
-                      
-                      <a class="btn btn-outline-primary" href="http://localhost:8888/catalog/product/'.$row["idProduct"].'">
-                      <img src="https://img.icons8.com/material-outlined/24/000000/more.png" width="24px"/>
-                      </a>
-                      
-                    </div>
-                </div>       
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+        <div class="mx-auto text-center">
+        <div class="col-md-5 p-lg-5 mx-auto my-5">
+            <h1 class="display-4 font-weight-normal">Каталог</h1>
+            <p class=" font-weight-normal">В нашем магазине вы найдете отличную электронную технику по доступным ценам!</p>
+            <a class="btn btn-outline-success" href="http://localhost:8888/Catalog">Перейти в каталог</a>
+        </div>
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div class="my-3 p-3">
+                    <h2 class="display-5">Ноутбуки</h2>
+                    <p class="lead">Отличные ноутбуки.</p>
+                </div>
+                <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                    <img src="public/img/products/macbook-pro.jpeg" width="100%"  alt="notebooks">
+                </div>
             </div>
-          </div>   
-        </div>';
-    }
-    ?>
-
+            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div class="my-3 py-3">
+                    <h2 class="display-5">Планшеты</h2>
+                    <p class="lead">Отличные планшеты.</p>
+                </div>
+                <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                    <img src="public/img/products/imac.jpeg" width="100%"  alt="tablets">
+                </div>
+            </div>
+        </div>
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div class="my-3 p-3">
+                    <h2 class="display-5">Телефоны</h2>
+                    <p class="lead">Отличные телефоны.</p>
+                </div>
+                <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                    <img src="public/img/products/1.jpeg" width="100%"  alt="notebooks">
+                </div>
+            </div>
+            <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+                <div class="my-3 py-3">
+                    <h2 class="display-5">Многое другое</h2>
+                    <p class="lead">Отличная электроника.</p>
+                </div>
+                <div class="bg-white shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
+                    <img src="public/img/products/2.jpeg" width="100%" alt="notebooks">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="my-5">
-
-    <?php
-
-    if(empty($_SESSION['name'])){
-        echo '<hr>';
-        require_once 'App/View/Templates/register.php';
-    }
-    ?>
-
 </div>

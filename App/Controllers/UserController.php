@@ -28,67 +28,38 @@ class UserController extends Controller
     }
 
 
-    public function action_register()
+    public function action_register($params)
     {
-        $this->view->generate('register.php', 'layout.php');
+        $data=json_decode(file_get_contents('php://input'), true);
+        $user = new User();
+        $user->setUser($data['name'],$data['email'],md5($data['password']),$data['phone'],'user');
+
+        $data=$user->where('email','=',$data['email']);
+
+        $_SESSION['user']['id']=$data[0]['idUser'];
+        $_SESSION['user']['name']=$data[0]['name'];
+        $_SESSION['user']['email']=$data[0]['email'];
+        $_SESSION['user']['phone']=$data[0]['phone'];
+        $_SESSION['user']['role']=$data[0]['role'];
+
+        $data=json_encode($_SESSION['user']);
+        echo $data;
     }
 
-    public function action_submitRegister($params)
-    {
-        RegisterRequest::validate($params);
-
-        if (!empty($_SESSION['message'])) {
-            return header('Location: http://' . $_SERVER["HTTP_HOST"] . '/User/register');
-        } else {
-            $register=new User();
-            $register->setUser($params['post']['name'],$params['post']['email'],md5($params['post']['password1']),$role='user');
-            return header('Location:http://localhost:8888/user/login');
-        }
-
-    }
-
-    public function action_submitLogin($params)
-    {
-        if(!empty($params['post'])){
-            if(filter_var($params['post']['email'], FILTER_VALIDATE_EMAIL)){
-
-                $user_mail=new User();
-                $check_mail=$user_mail->where('email','=',$params['post']['email']);
-                var_dump($check_mail);
-
-                if(!empty($check_mail)){
-                    if($check_mail['0']['password']===md5($params['post']['password'])){
-                        $_SESSION['name']=$check_mail['0']['name'];
-                        $_SESSION['role']=$check_mail['0']['role'];
-                        $_SESSION['id']=$check_mail['0']['idUser'];
-                        $_SESSION['success']['login']="Добро пожаловать, ".$_SESSION['name']."!<br>Вы успешно вошли.";
-                        return header('Location:http://localhost:8888/Catalog');
-                    }else{
-                        $_SESSION['logmessage']="Неверный пароль!";
-                        return header('Location:http://localhost:8888/User/login');
-                    }
-
-                }else{
-                    $_SESSION['logmessage']="Такого пользователя не существует!";
-                    return header('Location:http://localhost:8888/User/login');
-                }
-
-            }else{
-                $_SESSION['logmessage']="Введите корректный email!";
-                return header('Location:http://localhost:8888/User/login');
-            }
+   public function action_checkSession(){
+        if(!empty($_SESSION['user'])){
+            echo json_encode($_SESSION['user']);
         }else{
-            $_SESSION['logmessage']="Введите коректные данные!";
-            return header('Location:http://localhost:8888/User/login');
+            echo '{"message":"error"}';
         }
+   }
 
-        return header('Location:http://localhost:8888/Catalog');
-    }
 
-    public function action_logout($params){
+
+    public function action_logout(){
         $_SESSION=[];
         setcookie('PHPSESSID','',time()-100);
-        return header('Location: http://localhost:8888/catalog');
+        echo '{"logout":"success"}';
     }
 
     public function action_getUserByEmail($params){

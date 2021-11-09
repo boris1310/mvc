@@ -104,13 +104,13 @@ class Model
      */
 
 
-    public function setUser(string $name, string $email, string $password,string $role='user')
+    public function setUser(string $name, string $email, string $password,$phone= null,string $role='user')
     {
         $item = new Db();
         $item->connect();
         $item->db->query("
-        INSERT INTO `{$this->modelname}` (`name`,`email`,`password`,`role`) 
-        VALUES ('{$name}','{$email}','{$password}','{$role}')");
+        INSERT INTO `User` (`name`,`email`,`password`,`role`,`phone`) 
+        VALUES ('{$name}','{$email}','{$password}','{$role}','{$phone}')");
     }
 
     /**

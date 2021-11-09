@@ -16,18 +16,22 @@
 
                     <!-- CartButton component -->
                     <cart-button :count="count"></cart-button>
+                    <div v-if="UserId==null" class="mx-1">
 
-                    <div  class="dropdown text-end">
+                        <button type="button" class="btn btn-outline-success mr-3"  data-bs-toggle="modal" data-bs-target="#exampleModal">Вход | Регистрация</button>
+
+                    </div>
+                    <div v-else class="dropdown text-end">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
                             <li><a class="dropdown-item" href="#">Главная</a></li>
                             <li><a class="dropdown-item" href="#">Каталог</a></li>
-                            <li><a class="dropdown-item" href="http://localhost:8888/Admin">Админка</a></li>
+                            <li><a class="dropdown-item" v-if="UserRole=='admin'" href="http://localhost:8888/Admin">Админка</a></li>
                             <li><a class="dropdown-item" href="#">Ваши заказы</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Выход</a></li>
+                            <li><a class="dropdown-item" @click="logout" href="#">Выход</a></li>
                         </ul>
                     </div>
                 </div>
@@ -57,11 +61,17 @@
         </div>
     </main>
     <div class="mx-auto mt-0 mb-3">
+
         <pagination-block
                 :count = "countPages"
         />
+
     </div>
     <!-- CartModal component -->
     <cart-modal>
     </cart-modal>
+
+    <sign-up>
+    </sign-up>
+
 </div>
