@@ -39,8 +39,5 @@ export default ({
         image: String,
         count: Number,
     },
-  methods:{
-
-  }
 })
 </script>

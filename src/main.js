@@ -23,6 +23,7 @@ const app = createApp({
         countItemsMan:[],
     }),
     methods: {
+
 		async fetchPagination(){
 
 			  const url = this.source;
@@ -135,6 +136,8 @@ const app = createApp({
 
 		},
 
+
+
         decrement(idProduct) {
 			this.cartProduct.map(product => {
 				if(product.idProduct == idProduct) {
@@ -154,6 +157,7 @@ const app = createApp({
 					this.fetchUnsetItem(idProduct);
 				}
             });
+            this.fetchProducts();
 			this.totalPrice();
 		},
 
@@ -163,17 +167,18 @@ const app = createApp({
 			this.cartProduct = await response.json();
 			this.count = this.cartProduct.length;
 			this.totalPrice();
-		}
+		},
 
     },
     mounted() {
-        this.fetchProducts(this.source);
+    	this.fetchCartProduct();
+    	this.fetchProducts(this.source);
         this.fetchCategories();
         this.fetchManufacturers();
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
-    	this.fetchCartProduct();
+
     }
 });
 

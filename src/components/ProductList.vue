@@ -14,6 +14,7 @@
                 :name="product.name"
                 :price="product.price"
                 :photo="product.photo"
+
             />
 
           </div>
