@@ -33,14 +33,11 @@
 export default ({
     name: 'ProductItem',
     props: {
-        idProduct:String,
+        idProduct:Number,
         name: String,
         price: Number,
         image: String,
         count: Number,
     },
-  methods:{
-
-  }
 })
 </script>

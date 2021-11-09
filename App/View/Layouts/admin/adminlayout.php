@@ -20,12 +20,12 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-2 text-center mx-auto">
+        <div class="col-2 mx-auto">
             <?php require_once 'App/View/Templates/admin/inc/adminmenu.php'; ?>
         </div>
 
-        <div class="col-9 text-center mx-auto border border-left-0 border-top-0 border-bottom-0">
-            <?php require_once 'App/View/Templates/' . $content_view; ?>
+        <div class="col-10 text-center mx-auto border border-left-0 border-top-0 border-bottom-0">
+            <?php require_once 'App/View/Templates/'.$content_view; ?>
         </div>
 
     </div>

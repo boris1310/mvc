@@ -1,11 +1,11 @@
-<div class="w-50 mx-auto">
+<div class="w-50 my-3 mx-auto">
     <?php
     if(isset($_SESSION['success']['category'])){
         echo "<div class='alert alert-success'>".$_SESSION['success']['category']."</div>";
         unset($_SESSION['success']['category']);
     }
     ?>
-    <h4 class="my-3">Администрирование категорий</h4>
+    <h4 class="my-5">Администрирование категорий</h4>
 
     <table class="table table-sm table-bordered table-hover table-striped">
         <tr>

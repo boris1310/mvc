@@ -5,7 +5,7 @@ if(isset($_SESSION['success']['addproduct'])){
 }
 ?>
 
-<h3>Страница добавления товара</h3>
+<h5 class="my-5">Страница добавления товара</h5>
 
 <form action="http://localhost:8888/catalog/setProduct" enctype="multipart/form-data" class="text-center center-block" method="post">
     <div class="my-3">

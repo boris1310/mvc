@@ -12,7 +12,7 @@
 
 ?>
 
-<h5>Список товаров</h5>
+<h5 class="my-5">Список товаров</h5>
 
 <table class="table table-bordered table-striped table-hover table-sm">
 

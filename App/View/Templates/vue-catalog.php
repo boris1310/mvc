@@ -24,6 +24,7 @@
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
                             <li><a class="dropdown-item" href="#">Главная</a></li>
                             <li><a class="dropdown-item" href="#">Каталог</a></li>
+                            <li><a class="dropdown-item" href="http://localhost:8888/Admin">Админка</a></li>
                             <li><a class="dropdown-item" href="#">Ваши заказы</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Выход</a></li>

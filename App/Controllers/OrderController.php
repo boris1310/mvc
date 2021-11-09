@@ -23,17 +23,20 @@ class OrderController extends Controller
         }
         if ($flag == 0) {
             $_SESSION['basket'][] = [
-                "idProduct" => $params['get']['idProduct'],
+                "idProduct" => (int)$params['get']['idProduct'],
                 "name" => $params['get']['name'],
                 "image" => $params['get']['image'],
                 "price" => (int)$params['get']['price'],
                 "count" => (int)$params['get']['count'],
             ];
+            echo '{"status":"success"}';
+        }else{
+            echo '{"status":"error"}';
         }
     }
 
     public function action_unsetItemToCart($params){
-        var_dump($_SESSION['basket']);
+
         foreach ($_SESSION['basket'] as $key=>$item){
             if($item['idProduct']==$params['get']['idProduct']){
                 unset($_SESSION['basket'][$key]);

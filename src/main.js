@@ -23,6 +23,7 @@ const app = createApp({
         countItemsMan:[],
     }),
     methods: {
+
 		async fetchPagination(){
 
 			  const url = this.source;
@@ -119,6 +120,7 @@ const app = createApp({
             this.count++;
             this.totalPrice;
             this.fetchToCart(idProduct, name, image, price);
+
         },
 
 
@@ -133,6 +135,8 @@ const app = createApp({
 			});
 
 		},
+
+
 
         decrement(idProduct) {
 			this.cartProduct.map(product => {
@@ -153,8 +157,8 @@ const app = createApp({
 					this.fetchUnsetItem(idProduct);
 				}
             });
+            this.fetchProducts();
 			this.totalPrice();
-
 		},
 
 
@@ -162,17 +166,19 @@ const app = createApp({
 			const response = await fetch('http://localhost:8888/Order/getCartProducts');
 			this.cartProduct = await response.json();
 			this.count = this.cartProduct.length;
-		}
+			this.totalPrice();
+		},
 
     },
     mounted() {
-        this.fetchProducts(this.source);
+    	this.fetchCartProduct();
+    	this.fetchProducts(this.source);
         this.fetchCategories();
         this.fetchManufacturers();
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
-    	this.fetchCartProduct();
+
     }
 });
 

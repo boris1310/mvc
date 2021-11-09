@@ -10,7 +10,7 @@ class BasketController extends Controller
 
     function __construct()
     {
-        //$this->model = new Product();
+
         $this->view = new View();
     }
 

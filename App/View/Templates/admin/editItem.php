@@ -1,4 +1,4 @@
-<h5>Редактирование товара</h5>
+<h5 class="my-5">Редактирование товара</h5>
 
 <?php
 if(isset($_SESSION['success']['addproduct'])){

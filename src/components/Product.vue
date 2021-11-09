@@ -14,13 +14,15 @@
             <div class="my-3" v-for="manufacturer in $root.manufacturers">
               <div v-if="manufacturer.idmanufacturer==ManufacturerId">Производитель: {{ manufacturer.name }}</div>
             </div>
+
             <h5 class="fs-5 text-success">
             {{price}} грн
             </h5>
 
 
-            <button @click="$root.addCart( idProduct, name, photo, price)" class="btn btn-success w-100 shadow-none">
-            В корзину
+            <button @click="addCart(idProduct,name,photo,price)" :disabled="flag" class="btn btn-success w-100 shadow-none">
+              <span v-if="flag">Уже в корзине</span>
+              <span v-else>В корзину</span>
             </button>
         </div>
         </div>
@@ -31,6 +33,9 @@
 
 export default {
     name: 'Product',
+    data:()=>({
+      flag:false
+    }),
     props: {
         idProduct: String,
         name: String,
@@ -38,7 +43,25 @@ export default {
         CategoryId:String,
         ManufacturerId:String,
         price: String,
-    }
+    },
+    methods:{
+      checkInCart(){
+        this.$root.cartProduct.map(i=> {
+            if(this.idProduct==i.idProduct){
+              this.flag = true;
+            }
+        });
+      },
+      addCart(idProduct,name,photo,price){
+        this.$root.addCart( idProduct, name, photo, price);
+        this.flag = true;
+      }
+    },
+  mounted(){
+    this.checkInCart();
+  }
+
 }
+
 
 </script>
