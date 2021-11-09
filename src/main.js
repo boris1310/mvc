@@ -119,6 +119,7 @@ const app = createApp({
             this.count++;
             this.totalPrice;
             this.fetchToCart(idProduct, name, image, price);
+
         },
 
 
@@ -154,7 +155,6 @@ const app = createApp({
 				}
             });
 			this.totalPrice();
-
 		},
 
 
@@ -162,6 +162,7 @@ const app = createApp({
 			const response = await fetch('http://localhost:8888/Order/getCartProducts');
 			this.cartProduct = await response.json();
 			this.count = this.cartProduct.length;
+			this.totalPrice();
 		}
 
     },
