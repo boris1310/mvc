@@ -58,11 +58,7 @@ abstract class Module
 
     protected $backupConfig = [];
 
-    protected $requiredFields = [
-        'dsn'=>'mysql:host=localhost;dbname=testdb',
-        'user'=>'root',
-        'password'=>'root'
-    ];
+    protected $requiredFields = [];
 
     /**
      * Module constructor.

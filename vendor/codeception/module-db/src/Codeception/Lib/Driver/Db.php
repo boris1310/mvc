@@ -14,9 +14,10 @@ class Db
     /**
      * @var string
      */
-    protected $dsn='mysql:host=localhost;dbname=testdb';
-    protected $user='root';
-    protected $password='root';
+    protected $dsn;
+
+    protected $user;
+    protected $password;
 
     /**
      * @var array
@@ -345,7 +346,7 @@ class Db
 
         $where = $this->generateWhereClause($criteria);
 
-        return sprintf('UPDATE %s SET %s=%s', $this->getQuotedName($table), implode(', ', $set), $where);
+        return sprintf('UPDATE %s SET %s %s', $this->getQuotedName($table), implode(', ', $set), $where);
     }
 
     public function getOptions()

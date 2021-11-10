@@ -1,5 +1,6 @@
 <template>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -7,7 +8,10 @@
           <h5 v-else class="modal-title" id="exampleModalLabel1">Регистрация</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div v-if="successAuth" class="modal-body">
+          <div class="alert alert-success">Вы успешно вошли</div>
+        </div>
+        <div v-else class="modal-body">
 
           <div class="btn-group my-3 w-100" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" @click="entry" name="btnradio" id="btnradio1" autocomplete="off" checked>
@@ -18,6 +22,7 @@
           </div>
 
           <form v-if="action=='Entry'">
+            <div v-if="loginError" class="alert alert-danger w-100 mx-auto text-center">{{ loginError }}</div>
             <div class="mb-3">
               <label for="email1" class="col-form-label">Введите еmail</label>
               <input type="email" id="email1" class="form-control" v-model="email" placeholder="example@example.com" required>
@@ -29,6 +34,7 @@
           </form>
 
           <form v-else>
+            <div v-if="registerError" class="alert alert-danger w-100 mx-auto text-center">Произошла ошибка</div>
             <div class="mb-3">
               <label for="name" class="col-form-label">Введите имя</label>
               <input type="text" id="name" class="form-control" v-model="name" placeholder="Имя" required>
@@ -58,7 +64,10 @@
 
         </div>
         <div class="modal-footer">
-          <button v-if="action=='Entry'" type="button" class="btn btn-success" @click="signUp" data-bs-dismiss="modal">Войти</button>
+          <button v-if="action=='Entry'" type="button" class="btn btn-success hide-btn" @click="signUp">
+            <span v-if="successAuth">Закрыть</span>
+            <span v-else>Войти</span>
+          </button>
           <button v-else type="button" :disabled="!buttonSubmit" class="btn btn-success" @click="registerNewUser" data-bs-dismiss="modal">Зарегистрироваться</button>
         </div>
       </div>
@@ -81,6 +90,9 @@ export default {
     validPhone:true,
     validPassword:true,
     validPassword2:true,
+    registerError:false,
+    loginError:null,
+    successAuth:false,
     buttonSubmit: false,
   }),
   methods:{
@@ -90,13 +102,30 @@ export default {
     register(){
       this.action='Register';
     },
-    // async signUp(){
-    //
-    //   const response = await fetch('http://localhost:8888/User/signUp',{
-    //     method: 'POST'
-    //   });
-    //
-    // },
+    async signUp(){
+      const response = await fetch('http://localhost:8888/User/signUp',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email:this.email,
+          password:this.password,
+        }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        this.loginError=data.error;
+      }else{
+        this.loginError=null;
+        this.$root.UserId=data.id;
+        this.$root.UserRole=data.role;
+        this.$root.UserName=data.name;
+        this.$root.UserMail=data.email;
+        this.successAuth=true;
+        $('.hide-btn').attr('data-bs-dismiss', 'modal');
+      }
+    },
     async registerNewUser(){
       const response = await fetch('http://localhost:8888/User/register',{
         method: 'POST',
@@ -114,6 +143,7 @@ export default {
       if (Object.keys(data).length == 0) {
         this.registerError=true;
       }else{
+        this.registerError=false;
         this.$root.UserId=data.id;
         this.$root.UserRole=data.role;
         this.$root.UserName=data.name;
@@ -182,7 +212,8 @@ export default {
         this.buttonSubmit=false;
       }
     }
-  }
+  },
+
 }
 </script>
 

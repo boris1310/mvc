@@ -10,10 +10,10 @@ class Router
 
     public function __construct()
     {
-        $this->controller = 'Main';
+        $this->controller = 'catalog';
         $this->action = 'index';
         $this->params['path']['1']='category';
-        $this->params['path']['2']='*';
+        $this->params['path']['2']='all';
 
     }
 

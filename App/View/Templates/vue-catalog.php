@@ -9,7 +9,7 @@
 
                     <ul class="nav col-12 col-lg-auto mx-5 me-lg-auto mb-2 justify-content-center mb-md-0">
 
-                        <li><a href="/" class="nav-link px-2 link-dark">Главная</a></li>
+
                         <li><a href="/Catalog" class="nav-link px-2 link-dark">Каталог</a></li>
                         <li><a href="/Orders" class="nav-link px-2 link-dark">Ваши заказы</a></li>
                     </ul>
@@ -23,13 +23,14 @@
                     </div>
                     <div v-else class="dropdown text-end">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                            <img src="https://yt3.ggpht.com/ytc/AKedOLT7zW6EwRuZRD5dNs8CJCsxghs2rW8BspuQ0aSn=s900-c-k-c0x00ffffff-no-rj" alt="your avatar" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-                            <li><a class="dropdown-item" href="#">Главная</a></li>
-                            <li><a class="dropdown-item" href="#">Каталог</a></li>
+                            <li><a class="dropdown-item" :disabled="true">{{ UserName }}<br>{{ UserMail }}</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/catalog">Каталог</a></li>
+                            <li><a class="dropdown-item" href="/orders">Ваши заказы</a></li>
                             <li><a class="dropdown-item" v-if="UserRole=='admin'" href="http://localhost:8888/Admin">Админка</a></li>
-                            <li><a class="dropdown-item" href="#">Ваши заказы</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" @click="logout" href="#">Выход</a></li>
                         </ul>

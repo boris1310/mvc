@@ -5,6 +5,14 @@
         "ext-pdo": "*"
     },
     "autoload": {
+        "files": [
+            "vendor/boris1310/my_logger/Logger.php",
+            "App/Controllers/CatalogController.php",
+            "App/Controllers/NotFoundController.php",
+            "App/Controllers/UserController.php",
+            "App/Controllers/AdminController.php",
+            "App/Controllers/OrderController.php"
+        ],
         "psr-4": {
             "App\\": "App/",
             "App\\Controllers\\": "App/Controllers/",
@@ -15,16 +23,7 @@
             "Framework\\Router\\": "Framework/Router/",
             "vendor\\": "vendor/",
             "boris1310\\my_logger\\": "vendor/boris1310/my_logger/"
-        },
-        "files": [
-            "vendor/boris1310/my_logger/Logger.php",
-            "App/Controllers/MainController.php",
-            "App/Controllers/CatalogController.php",
-            "App/Controllers/NotFoundController.php",
-            "App/Controllers/UserController.php",
-            "App/Controllers/AdminController.php",
-            "App/Controllers/OrderController.php"
-        ]
+        }
     },
     "require-dev": {
         "codeception/codeception": "^4.1",

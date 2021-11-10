@@ -22,9 +22,31 @@ class UserController extends Controller
         $this->view->generate('login.php', 'layout.php');
     }
 
-    public function action_login()
+    public function action_signUp()
     {
-        $this->view->generate('login.php', 'layout.php');
+        $data=json_decode(file_get_contents('php://input'), true);
+        $whoami = new User();
+        if(!empty($data)){
+            $user = $whoami->where('email','=',$data['email']);
+            if(empty($user)){
+                echo '{"error":"Пользователя с таким email не существует"}';
+            }else{
+                if(md5($data['password'])==$user[0]['password']){
+
+                    $_SESSION['user']['id']=$user[0]['idUser'];
+                    $_SESSION['user']['name']=$user[0]['name'];
+                    $_SESSION['user']['email']=$user[0]['email'];
+                    $_SESSION['user']['phone']=$user[0]['phone'];
+                    $_SESSION['user']['role']=$user[0]['role'];
+                    $data=json_encode($_SESSION['user']);
+                    echo $data;
+                }else{
+                    echo '{"error":"Неверный пароль"}';
+                }
+            }
+        }else{
+            echo '{"error":"Введите корректные данные"}';
+        }
     }
 
 
@@ -77,47 +99,14 @@ class UserController extends Controller
     }
 
     public function action_addAdminSubmit($params){
-
         $user = new User();
         $columns = ['role'];
         $values = ['admin'];
         $user->update($columns, $values, 'idUser', '=' , $params['path']);
-
         $_SESSION['success']['addadmin']='Пользователь № '.$params['path'] .' назначен сотрудником';
-
         return header('Location: http://localhost:8888/admin/employees');
     }
 
-    public function action_savePhone($params){
-        $user = new User();
-        $columns = [
-            'phone'
-        ];
-        $values = [
-            $params['path']
-        ];
-        $user->update($columns,$values,'idUser','=',$_SESSION['id']);
-        $answer = ['success'];
-        $answer = json_encode($answer);
-        print_r($answer);
-    }
-
-    public function action_saveAdres($params){
-        $adres = new Adres();
-        $adres->setAdres(
-            $_SESSION['id'],
-            $params['get']['country'],
-            $params['get']['city'],
-            $params['get']['street'],
-            $params['get']['home'],
-            $params['get']['flat'],
-            $params['get']['zip']
-        );
-
-        $answer = ['success'];
-        $answer = json_encode($answer);
-        print_r($answer);
-    }
 
 
 }

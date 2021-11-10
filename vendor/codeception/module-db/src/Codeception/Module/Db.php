@@ -258,11 +258,7 @@ class Db extends CodeceptionModule implements DbInterface
     /**
      * @var array
      */
-    protected $requiredFields = [
-        'dsn'=>'mysql:host=localhost;dbname=mydb',
-        'user'=>'root',
-        'password'=>'root'
-          ];
+    protected $requiredFields = ['dsn', 'user', 'password'];
     const DEFAULT_DATABASE = 'default';
 
     /**
