@@ -11,7 +11,7 @@
 
 
                         <li><a href="/Catalog" class="nav-link px-2 link-dark">Каталог</a></li>
-                        <li><a href="/Orders" class="nav-link px-2 link-dark">Ваши заказы</a></li>
+                        <li><a href="/Order" class="nav-link px-2 link-dark">Ваши заказы</a></li>
                     </ul>
 
                     <!-- CartButton component -->
@@ -29,7 +29,7 @@
                             <li><a class="dropdown-item" :disabled="true">{{ UserName }}<br>{{ UserMail }}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/catalog">Каталог</a></li>
-                            <li><a class="dropdown-item" href="/orders">Ваши заказы</a></li>
+                            <li><a class="dropdown-item" href="/order">Ваши заказы</a></li>
                             <li><a class="dropdown-item" v-if="UserRole=='admin'" href="http://localhost:8888/Admin">Админка</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" @click="logout" href="#">Выход</a></li>

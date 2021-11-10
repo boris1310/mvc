@@ -8,19 +8,16 @@ use Framework\Databases\Db;
 
 class Adres extends Model
 {
-    public function setAdres($userId,$country,$city,$street,$home,$flat,$zip){
+    public function setBillingInfo($city,$username,$address,$email,$phone,$userId=null){
 
         $adres = new Db();
         $adres->connect();
-        $adres->db->query(
-            "INSERT INTO `Adres`
-            SET `userId`='{$userId}',
-            `country`='{$country}',
-            `city`='{$city}',
-            `street`='{$street}',
-            `home`='{$home}',
-            `flat`='{$flat}',
-            `zip`='{$zip}'"
-        );
+        $adres->db->query("INSERT INTO `Adres`
+                            SET `userId`='{$userId}',
+                            `city`='{$city}',
+                            `userName`='{$username}',		
+                            `address`='{$address}',	
+                            `email`='{$email}',
+                            `phone`='{$phone}'");
     }
 }

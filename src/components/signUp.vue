@@ -21,7 +21,7 @@
             <label class="btn btn-outline-success" for="btnradio3">Регистрация</label>
           </div>
 
-          <form v-if="action=='Entry'">
+          <form v-show="action=='Entry'">
             <div v-if="loginError" class="alert alert-danger w-100 mx-auto text-center">{{ loginError }}</div>
             <div class="mb-3">
               <label for="email1" class="col-form-label">Введите еmail</label>
@@ -33,7 +33,7 @@
             </div>
           </form>
 
-          <form v-else>
+          <form v-show="action=='Register'">
             <div v-if="registerError" class="alert alert-danger w-100 mx-auto text-center">Произошла ошибка</div>
             <div class="mb-3">
               <label for="name" class="col-form-label">Введите имя</label>
@@ -41,13 +41,13 @@
               <div class="text-danger my-1" v-if="!validName">Имя должно содержать 3-20 символов</div>
             </div>
             <div class="mb-3">
-              <label for="email" class="col-form-label">Введите еmail</label>
-              <input type="email" id="email" class="form-control" v-model="email" placeholder="example@example.com" required>
+              <label for="emailReg" class="col-form-label">Введите еmail</label>
+              <input type="email" id="emailReg" class="form-control" v-model="email" placeholder="example@example.com" required>
               <div class="text-danger my-1" v-if="!validEmail">Введите корректный Email</div>
             </div>
             <div class="mb-3">
-              <label for="phone" class="col-form-label">Введите номер телефона</label>
-              <input type="phone" id="phone" class="form-control" v-model="phone" placeholder="+380(xx)xxx-xx-xx" required>
+              <label for="phone-mask" class="col-form-label">Введите номер телефона</label>
+              <input type="phone" id="phone-mask" class="form-control" v-model="phone" placeholder="+380(xx)xxx-xx-xx" required>
               <div class="text-danger my-1" v-if="!validPhone">Введите корректный телефон</div>
             </div>
             <div class="mb-3">
@@ -150,7 +150,7 @@ export default {
         this.$root.UserMail=data.email;
       }
 
-    }
+    },
   },
   watch:{
     name(newValue){
@@ -213,6 +213,8 @@ export default {
       }
     }
   },
+
+
 
 }
 </script>

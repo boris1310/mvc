@@ -6,9 +6,6 @@ use App\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\Adres;
 
-
-//use App\Models\Product;
-
 class UserController extends Controller
 {
     public function __construct()
@@ -55,15 +52,12 @@ class UserController extends Controller
         $data=json_decode(file_get_contents('php://input'), true);
         $user = new User();
         $user->setUser($data['name'],$data['email'],md5($data['password']),$data['phone'],'user');
-
         $data=$user->where('email','=',$data['email']);
-
         $_SESSION['user']['id']=$data[0]['idUser'];
         $_SESSION['user']['name']=$data[0]['name'];
         $_SESSION['user']['email']=$data[0]['email'];
         $_SESSION['user']['phone']=$data[0]['phone'];
         $_SESSION['user']['role']=$data[0]['role'];
-
         $data=json_encode($_SESSION['user']);
         echo $data;
     }
@@ -75,8 +69,6 @@ class UserController extends Controller
             echo '{"message":"error"}';
         }
    }
-
-
 
     public function action_logout(){
         $_SESSION=[];
@@ -94,8 +86,7 @@ class UserController extends Controller
                 $result = json_encode($item);
             }
         }
-
-        print_r($result);
+        echo $result;
     }
 
     public function action_addAdminSubmit($params){
@@ -107,6 +98,5 @@ class UserController extends Controller
         return header('Location: http://localhost:8888/admin/employees');
     }
 
-
-
 }
+

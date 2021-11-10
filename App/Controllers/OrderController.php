@@ -35,7 +35,8 @@ class OrderController extends Controller
         }
     }
 
-    public function action_unsetItemToCart($params){
+    public function action_unsetItemToCart($params)
+    {
 
         foreach ($_SESSION['basket'] as $key=>$item){
             if($item['idProduct']==$params['get']['idProduct']){
@@ -49,6 +50,25 @@ class OrderController extends Controller
     {
         $data = json_encode($_SESSION['basket']);
         print_r($data);
+    }
+
+    public function action_setBillingInfo()
+    {
+        $data=json_decode(file_get_contents('php://input'), true);
+        if(empty($_SESSION['user'])){
+            $userId=null;
+        }else{
+            $userId=$_SESSION['user']['id'];
+        }
+        $billingInfo = new Adres();
+        $billingInfo->setBillingInfo(
+            $data['city'],
+            $data['name'],
+            $data['address'],
+            $data['email'],
+            $data['phone'],
+            $userId);
+        echo '{"status":"success"}';
     }
 
 }

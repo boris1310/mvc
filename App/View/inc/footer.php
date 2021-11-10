@@ -1,5 +1,5 @@
 <footer class="footer mt-auto py-3">
     <div class="container">
-        <span class="text-muted">My Store.</span>
+        <span class="text-muted">My Store. 2021</span>
     </div>
 </footer>
