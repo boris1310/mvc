@@ -8,6 +8,10 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
+    public function __construct(){
+
+    }
+
     public function action_index()
     {
         var_dump($_SESSION);
@@ -15,7 +19,9 @@ class OrderController extends Controller
 
     public function action_clearCart(){
         unset($_SESSION['basket']);
-        echo '{"status":true}';
+        echo '{
+        "status":true
+        }';
     }
 
     public function action_setItemToCart($params)
@@ -34,9 +40,13 @@ class OrderController extends Controller
                 "price" => (int)$params['get']['price'],
                 "count" => (int)$params['get']['count'],
             ];
-            echo '{"status":"success"}';
+            echo '{
+            "status":"success"
+            }';
         }else{
-            echo '{"status":"error"}';
+            echo '{
+            "status":"error"
+            }';
         }
     }
 
@@ -80,9 +90,15 @@ class OrderController extends Controller
         $order->setOrder($userId, $products, $addressId, $statusOrder, $statusPayment);
 
         if($statusPayment=="Оплачен"){
-            echo '{"status":"success","messagge":true}';
+            echo '{
+            "status":"success",
+            "messagge":true
+            }';
         }else{
-            echo '{"status":"success","messagge":true}';
+            echo '{
+            "status":"success",
+            "messagge":true
+            }';
         }
 
 
@@ -105,9 +121,29 @@ class OrderController extends Controller
             $data['phone'],
             $userId);
 
-        echo '{"status":"success","message":"success"}';
+        echo '{
+        "status":"success",
+        "message":"success"
+        }';
 
     }
+
+    public function action_getOrderForUser($params){
+        $order = new Order();
+        $orders = $order->where('userId','=',$params['path']);
+        $orders = json_encode($orders);
+        echo  $orders;
+    }
+
+    public function action_getProductsById($params){
+
+        $item = new Product();
+        $product = $item->where('idProduct','=',$params['path']);
+        $product = json_encode($product);
+        echo $product;
+    }
+
+
 
 
 

@@ -8,7 +8,7 @@
     <h4 class="my-5">Администрирование категорий</h4>
 
     <table class="table table-sm table-bordered table-hover table-striped">
-        <tr>
+        <tr  class="bg-primary text-light">
             <td>id категории</td>
             <td>Название категории</td>
             <td></td>

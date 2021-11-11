@@ -16,7 +16,7 @@
 
 <table class="table table-bordered table-striped table-hover table-sm">
 
-    <tr>
+    <tr  class="bg-primary text-light">
         <td>№</td>
         <td>Наименование</td>
         <td>Цена</td>

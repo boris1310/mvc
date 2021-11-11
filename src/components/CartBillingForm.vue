@@ -81,7 +81,7 @@
     </div>
     <div class="col-4"></div>
     <div class="col-4 float-end">
-      <label for="cvv" class="form-label">CVV</label>
+      <label for="cvv" class="form-label">Введите CVV</label>
       <input type="text" v-model="cvv"  class="form-control" id="cvv" placeholder="cvv" required>
       <div v-if="validCvv"></div>
       <div class="text-danger my-1" v-else>Введите коректные данные</div>

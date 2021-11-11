@@ -3,7 +3,7 @@
 <?php
 
 echo '<table class="mx-auto table table-sm table-striped table-bordered w-75">
-<tr>
+<tr class="bg-primary text-light">
 <td>№</td>
 <td>Имя</td>
 <td>Email</td>

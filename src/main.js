@@ -27,6 +27,7 @@ const app = createApp({
         manufacturers:[],
         countItemsCat:[],
         countItemsMan:[],
+        history: 0,
     }),
     methods: {
 
@@ -43,35 +44,30 @@ const app = createApp({
 				this.countPages = Math.ceil(this.countPages/8);
 			  }
 			},
-        async fetchProducts() {
 
+        async fetchProducts() {
             const response = await fetch(this.source+this.currentPage);
             this.products = await response.json();
-
         },
-        async fetchCategories(){
 
+        async fetchCategories(){
         	const response = await fetch('/Catalog/getCategories');
         	this.categories = await response.json();
-
         },
-        async fetchManufacturers(){
 
+        async fetchManufacturers(){
 			const response = await fetch('/Catalog/getManufacturers');
 			this.manufacturers = await response.json();
-
         },
-        async fetchCountItemsInCats(){
 
+        async fetchCountItemsInCats(){
 			const response = await fetch('/Catalog/countItemInCategory');
 			this.countItemsCat = await response.json();
-
         },
-        async fetchCountItemsInMans(){
 
+        async fetchCountItemsInMans(){
 			  const response = await fetch('/Catalog/countItemInManufacturer');
 			  this.countItemsMan = await response.json();
-
         },
 
         async fetchToCart(idProduct, name, image, price){
@@ -83,7 +79,6 @@ const app = createApp({
         	  '&count='+1
         	  );
               const result = await response.json();
-
         },
 
         async fetchUnsetItem(idProduct){
@@ -94,37 +89,35 @@ const app = createApp({
  		totalPrice(){
 			this.count = 0;
 			this.price = 0;
-
 			this.cartProduct.map(product => {
 				this.count += product.count;
 				this.price += parseInt(product.price) * product.count;
 			});
         },
 
-
-
        	addCart(idProduct, name, image, price) {
-
             if(this.cartProduct.length > 0) {
                 this.flag = false
-
                 this.cartProduct.map(product => {
+
                     if(product.idProduct == idProduct) {
                         product.count += 1
                         this.flag = true
                     }
+
                 });
 
                 if(this.flag == false) {
                     this.cartProduct.push({idProduct,  name, image, price, count: 1})
                 }
+
             } else {
                 this.cartProduct.push({idProduct, name, image, price, count: 1})
             }
+
             this.count++;
             this.totalPrice;
             this.fetchToCart(idProduct, name, image, price);
-
         },
 
 
@@ -172,14 +165,18 @@ const app = createApp({
 			this.count = this.cartProduct.length;
 			this.totalPrice();
 		},
+
 		async checkSession(){
 			const response = await fetch('/User/checkSession');
 			const check = await response.json();
-			this.UserId=check.id;
-			this.UserRole=check.role;
-			this.UserName=check.name;
-			this.UserMail=check.email;
+			 this.UserId= check.id;
+			 this.UserRole=check.role;
+			 this.UserName=check.name;
+			 this.UserMail=check.email;
+
 		},
+
+
 		async logout(){
 			this.UserId=null;
 			this.UserRole='user';
@@ -191,25 +188,29 @@ const app = createApp({
 		}
 
     },
+
     mounted() {
-    	this.fetchCartProduct();
-    	this.fetchProducts(this.source);
-        this.fetchCategories();
+
+   		this.checkSession();
+   		this.fetchProducts(this.source);
+   		this.fetchCategories();
         this.fetchManufacturers();
+    	this.fetchCartProduct();
 		this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
-		this.checkSession();
+
     }
+
 });
 
-app.component("order-history",OrderHistory);
 app.component("sign-up",signUp);
 app.component("catalog-sidebar",Sidebar);
 app.component("product-list", ProductList);
 app.component("cart-button", CartButton);
 app.component("cart-modal", CartModal);
 app.component("pagination-block",Pagination);
+app.component("order-history",OrderHistory);
 
 app.mount("#app");
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-3 py-3 d-flex">
+    <div class="col-lg-3 col-sm-12 col-md-3 col-sm-6 py-3 d-flex">
         <div class="card py-3">
           <div style="height: 200px;">
         <img class="card-img-top" :src="photo" :alt="name">

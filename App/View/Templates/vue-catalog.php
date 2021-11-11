@@ -1,7 +1,7 @@
 <div id="app">
 
         <header class="p-3 mb-3 border-bottom bg-white  border-bottom sticky-top">
-            <div class="container">
+            <div class="container container-sm container-md">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                         <h3>My Store</h3>
@@ -11,11 +11,12 @@
 
 
                         <li><a href="/Catalog" class="nav-link px-2 link-dark">Каталог</a></li>
-                        <li><a data-bs-toggle="modal" data-bs-target="#orders"  class="nav-link px-2 link-dark">Ваши заказы</a></li>
+                        <li><a data-bs-toggle="modal" data-bs-target="#orders"  class="nav-link px-2 link-dark">Ваши заказы <span class="badge bg-danger">{{history}}</span></a></li>
                     </ul>
 
                     <!-- CartButton component -->
                     <cart-button :count="count"></cart-button>
+
                     <div v-if="UserId==null" class="mx-1">
 
                         <button type="button" class="btn btn-outline-success mr-3"  data-bs-toggle="modal" data-bs-target="#exampleModal">Вход | Регистрация</button>
@@ -29,7 +30,7 @@
                             <li><a class="dropdown-item" :disabled="true">{{ UserName }}<br>{{ UserMail }}</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/catalog">Каталог</a></li>
-                            <li><a class="dropdown-item" href="/order">Ваши заказы</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orders">Ваши заказы</a></li>
                             <li><a class="dropdown-item" v-if="UserRole=='admin'" href="http://localhost:8888/Admin">Админка</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" @click="logout" href="#">Выход</a></li>
@@ -46,7 +47,7 @@
 
         <!-- ProductsList component -->
         <div class="row mx-auto">
-            <div class="col-2">
+            <div class="col-lg-2 col-md-3 col-sm-12">
 
                 <catalog-sidebar
                     :categories="categories"
@@ -54,7 +55,7 @@
                 />
 
             </div>
-            <div class="col-10">
+            <div class="col-lg-10 col-md-9 col-sm-12">
 
                 <product-list :products="products" />
 
@@ -63,9 +64,7 @@
     </main>
     <div class="mx-auto mt-0 mb-3">
 
-        <pagination-block
-                :count = "countPages"
-        />
+        <pagination-block :count = "countPages" />
 
     </div>
     <!-- CartModal component -->
@@ -75,10 +74,7 @@
     <sign-up>
     </sign-up>
 
-
     <!-- Orders -->
-    <order-history>
-
-    </order-history>
+    <order-history />
 
 </div>

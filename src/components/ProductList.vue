@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-sm">
       <div class="card my-5 shadow">
         <div class="card-body">
           <div class="row">
@@ -17,6 +17,9 @@
 
             />
 
+            <div v-if="!products.length">
+              <div class="p-3 mx-auto alert alert-primary text-center">В этой категории пока нет товаров</div>
+            </div>
           </div>
         </div>
       </div>
