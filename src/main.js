@@ -7,6 +7,7 @@ import CartButton from './components/CartButton'
 import Sidebar from	'./components/Sidebar'
 import Pagination from './components/Pagination'
 import signUp from './components/signUp'
+import OrderHistory from './components/OrderHistory'
 
 const app = createApp({
     data: () => ({
@@ -202,6 +203,7 @@ const app = createApp({
     }
 });
 
+app.component("order-history",OrderHistory);
 app.component("sign-up",signUp);
 app.component("catalog-sidebar",Sidebar);
 app.component("product-list", ProductList);
