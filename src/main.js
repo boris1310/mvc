@@ -17,7 +17,7 @@ const app = createApp({
     	countPages: 0,
         count: 0,
         price: 0,
-        source: 'http://localhost:8888/Catalog/getAll/all/?page=',
+        source: '/Catalog/getAll/all/?page=',
         currentPage:'1',
         flag: false,
         products: [],
@@ -30,7 +30,6 @@ const app = createApp({
     methods: {
 
 		async fetchPagination(){
-
 			  const url = this.source;
 			  const reg = /getAll/gi;
 			  const regUrl = url.replace(reg,'pagination');
@@ -42,8 +41,6 @@ const app = createApp({
 			  }else{
 				this.countPages = Math.ceil(this.countPages/8);
 			  }
-
-
 			},
         async fetchProducts() {
 
@@ -53,31 +50,31 @@ const app = createApp({
         },
         async fetchCategories(){
 
-        	const response = await fetch('http://localhost:8888/Catalog/getCategories');
+        	const response = await fetch('/Catalog/getCategories');
         	this.categories = await response.json();
 
         },
         async fetchManufacturers(){
 
-			const response = await fetch('http://localhost:8888/Catalog/getManufacturers');
+			const response = await fetch('/Catalog/getManufacturers');
 			this.manufacturers = await response.json();
 
         },
         async fetchCountItemsInCats(){
 
-			const response = await fetch('http://localhost:8888/Catalog/countItemInCategory');
+			const response = await fetch('/Catalog/countItemInCategory');
 			this.countItemsCat = await response.json();
 
         },
         async fetchCountItemsInMans(){
 
-			  const response = await fetch('http://localhost:8888/Catalog/countItemInManufacturer');
+			  const response = await fetch('/Catalog/countItemInManufacturer');
 			  this.countItemsMan = await response.json();
 
         },
 
         async fetchToCart(idProduct, name, image, price){
-        	  const response = await fetch('http://localhost:8888/Order/setItemToCart/add/'+
+        	  const response = await fetch('/Order/setItemToCart/add/'+
         	  '?idProduct='+idProduct+
         	  '&name='+name+
         	  '&image='+image+
@@ -89,7 +86,8 @@ const app = createApp({
         },
 
         async fetchUnsetItem(idProduct){
-			 const response = await fetch('http://localhost:8888/Order/unsetItemToCart/delete/?idProduct='+idProduct);
+			 const response = await fetch('/Order/unsetItemToCart/delete/?idProduct='+idProduct);
+			 const data = await response.json();
         },
 
  		totalPrice(){
@@ -168,13 +166,13 @@ const app = createApp({
 
 
 		async fetchCartProduct(){
-			const response = await fetch('http://localhost:8888/Order/getCartProducts');
+			const response = await fetch('/Order/getCartProducts');
 			this.cartProduct = await response.json();
 			this.count = this.cartProduct.length;
 			this.totalPrice();
 		},
 		async checkSession(){
-			const response = await fetch('http://localhost:8888/User/checkSession');
+			const response = await fetch('/User/checkSession');
 			const check = await response.json();
 			this.UserId=check.id;
 			this.UserRole=check.role;
@@ -186,9 +184,9 @@ const app = createApp({
 			this.UserRole='user';
 			this.UserName='';
 			this.UserMail='';
-			const response = await fetch('http://localhost:8888/User/logout');
+			const response = await fetch('/User/logout');
 			const check = await response.json();
-
+			document.location.reload();
 		}
 
     },

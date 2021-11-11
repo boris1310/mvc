@@ -122,8 +122,6 @@ class Model
     public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
     {
 
-
-
         if (empty($_FILES['photo']['name'])){
             $uploadfile=null;
             $_FILES['photo']['name']=null;
@@ -190,11 +188,39 @@ class Model
 
         $in = '';
 
-         $in=implode(',',$_SESSION['basket']);
+        $in=implode(',',$_SESSION['basket']);
 
 
         $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
 
         return $data;
+    }
+
+    public function whereIn(string $column,array $array){
+        $item = new Db;
+        $item -> connect();
+        $in = '';
+        foreach ($array as $id){
+            $in = $in.",".$id;
+        }
+        $in = trim($in,',');
+        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE $column IN ($in)");
+        $products = [];
+        foreach ($data as $el){
+            $products[]=$el;
+        }
+        return $products;
+    }
+
+    public function getPaginationOrder(){
+        $item = new Db();
+        $item->connect();
+        $data = $item->db->query("SELECT count(*) FROM `Order`");
+        $count = [];
+        foreach ($data as $el){
+            $count[]=$el;
+        }
+
+        return $count[0][0];
     }
 }

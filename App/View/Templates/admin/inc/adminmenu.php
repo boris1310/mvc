@@ -1,11 +1,11 @@
 <h5 class="mt-5 mb-3">Дествия</h5>
-<a href="http://localhost:8888/admin/employees">Сотрудники</a>
+<a href="/admin/employees">Сотрудники</a>
 <br>
-<a href="http://localhost:8888/admin/product">Добавить товар</a>
-<a href="http://localhost:8888/admin/category">Добавить категорию</a>
-<a href="http://localhost:8888/admin/allProducts">Cписок товаров</a>
+<a href="/admin/product">Добавить товар</a>
+<a href="/admin/category">Добавить категорию</a>
+<a href="/admin/allProducts">Cписок товаров</a>
 <br>
-Посмотреть заказы
+<a href="/admin/orders/1">Посмотреть заказы</a>
 <br>
 Обратные звонки
 <br>

@@ -11,7 +11,7 @@
 
 
                         <li><a href="/Catalog" class="nav-link px-2 link-dark">Каталог</a></li>
-                        <li><a href="/Order" class="nav-link px-2 link-dark">Ваши заказы</a></li>
+                        <li><a data-bs-toggle="modal" data-bs-target="#orders"  class="nav-link px-2 link-dark">Ваши заказы</a></li>
                     </ul>
 
                     <!-- CartButton component -->
@@ -74,5 +74,11 @@
 
     <sign-up>
     </sign-up>
+
+
+    <!-- Orders -->
+    <order-history>
+
+    </order-history>
 
 </div>

@@ -27,22 +27,7 @@
 import ProductItem from './ProductItem'
 
 export default ({
-    
-
     name: 'CartProductItem',
-    // data: () => ({
-    //     // total: 0,
-    // }),
     components: { ProductItem },
-    methods: {
-        // increment() {
-        //     this.count++
-        // },
-        // decrement() {
-        //     if(this.count > 0) {
-        //         this.count--
-        //     }
-        // }
-    },
 })
 </script>

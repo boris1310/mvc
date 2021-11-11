@@ -25,14 +25,14 @@ export default ({
     changeSourceByCategory(idCategory){
 
           this.$root.currentPage = '1';
-          this.$root.source='http://localhost:8888/Catalog/getAll/cat_'+idCategory+'/?page=';
+          this.$root.source='/Catalog/getAll/cat_'+idCategory+'/?page=';
           this.$root.fetchProducts();
           this.$root.fetchPagination();
       },
     changeSourceByManufacturer(idmanufacturer){
 
           this.$root.currentPage = '1';
-          this.$root.source='http://localhost:8888/Catalog/getAll/man_'+idmanufacturer+'/?page=';
+          this.$root.source='/Catalog/getAll/man_'+idmanufacturer+'/?page=';
           this.$root.fetchProducts();
           this.$root.fetchPagination();
     },

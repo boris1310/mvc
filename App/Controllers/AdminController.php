@@ -8,10 +8,11 @@ use Framework\Core\View;
 use App\Models\User;
 use Framework\Router\ErrorRedirect;
 use Framework\Databases\Db;
+use App\Models\Order;
+use App\Models\Adres;
 
 class AdminController extends Controller
 {
-
     function __construct()
     {
         $this->model = new Product();
@@ -45,7 +46,7 @@ class AdminController extends Controller
         $data = $this->model->categoryDelete($params['path']);
         $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
 
-        return header('Location:http://localhost:8888/admin/category');
+        return header('Location:/admin/category');
     }
 
     public function action_employees()
@@ -65,7 +66,7 @@ class AdminController extends Controller
 
         $_SESSION['success']['addadmin'] = 'Пользователь № ' . $params['path'] . ' больше не сотрудник';
 
-        return header('Location: http://localhost:8888/admin/employees');
+        return header('Location: /admin/employees');
 
     }
 
@@ -78,11 +79,12 @@ class AdminController extends Controller
     public function action_showinfo($params){
         $data = $this->model = new Product();
         $data = $this->model->where('idProduct', '=', $params['path']);
-        $product = '{}';
+        $product = [];
         foreach ($data as $products){
-            $product =json_encode($products);
+            $product =$products;
         }
-        print_r($product);
+        $product = json_encode($product);
+        echo $product;
     }
 
     public function action_showCatAndMan($params){
@@ -95,7 +97,7 @@ class AdminController extends Controller
             $man[0]['name'],
         ];
         $data=json_encode($data);
-        print_r($data);
+        echo $data;
     }
 
     function action_deleteItem($params){
@@ -109,44 +111,78 @@ class AdminController extends Controller
 
         $_SESSION['success']['delete']='Товар &laquo;'.$itemName.'&raquo; успешно удалён';
 
-        return header('Location:http://localhost:8888/admin/allProducts');
+        return header('Location:/admin/allProducts');
     }
 
     function action_editItem($params){
-
         if(!isset($params['path'])){
             ErrorRedirect::ErrorPage404();
         }
         $item= $this->model=new Product();
         $data=$item->where('idProduct','=',$params['path']);
-
         $cat = $this->model=new Categories();
         $data2=$cat->getAll();
-
         $man = $this->model=new Manufacturer();
         $data3=$man->getAll();
-
         $this->view->generate('admin/editItem.php', 'admin/adminlayout.php', $data, $data2, $data3);
     }
 
     public function action_editSubmit($params){
-//        var_dump($params['post']);
-//        var_dump($_FILES);
         $item= $this->model=new Product();
-
         $item->updateProduct(
-
             $params['post']['name'],
             $params['post']['description'],
             $params['post']['price'],
             $params['post']['manufacturer'],
             $params['post']['category'],
             $params['post']['idProduct']
-
         );
-
         $_SESSION['success']['edit']='Товар '.$params['post']['name'].' успешно изменён!';
-        return header('Location:http://localhost:8888/admin/allProducts');
+        return header('Location:/admin/allProducts');
     }
+
+    public function action_orders($params){
+        $order = new Order();
+        $data = $order->getOrderForAdmin($params['path']);
+        $this->view->generate('admin/orders.php', 'admin/adminlayout.php', $data);
+    }
+
+    public function action_getOrderById($params){
+        $order = new Order();
+        $data = $order->where('idOrder','=',$params['path']);
+        $data = json_encode($data);
+        echo $data;
+    }
+
+    public function action_getUserByUserId($params){
+        $user = new User();
+        $data = $user->where('idUser','=',$params['path']);
+        $data = json_encode($data);
+        echo $data;
+    }
+
+    public function action_getProductsByOrderId($params){
+        $order = new Order();
+        $data = $order -> where('idOrder','=',$params['path']);
+        $data= json_decode($data[0]['Products']);
+        $product = new Product();
+        $products = $product->whereIn('idProduct',$data);
+        $products = json_encode($products);
+        echo $products;
+    }
+
+    public function action_getAddressById($params){
+        $address = new Adres();
+        $data = $address->where('id','=',$params['path']);
+        $data = json_encode($data[0]);
+        echo $data;
+    }
+
+    public function action_getOrderPagination($params){
+        $order = new Order();
+        $orders = $order->getPaginationOrder();
+        echo (int) $orders;
+    }
+
 }
 

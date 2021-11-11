@@ -19,7 +19,6 @@
             {{price}} грн
             </h5>
 
-
             <button @click="addCart(idProduct,name,photo,price)" :disabled="flag" class="btn btn-success w-100 shadow-none">
               <span v-if="flag">Уже в корзине</span>
               <span v-else>В корзину</span>

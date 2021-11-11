@@ -1,5 +1,5 @@
 <template>
-
+<div v-show="!orderFinish">
   <div class="btn-group my-3 w-100" role="group" aria-label="Basic radio toggle button group">
     <input :disabled="submitSuccess" type="radio" class="btn-check" @click="billingForm" name="btnradio" id="btnradio11" autocomplete="off" checked>
     <label class="btn btn-outline-success" for="btnradio11">Оформление заказа</label>
@@ -7,7 +7,7 @@
     <label class="btn btn-outline-success" for="btnradio33">Оплата</label>
   </div>
 
-    <form @submit="onSubmit" v-show="action=='billingForm'" class="row g-3 mb-3" id="form">
+    <form @submit="onSubmit"  v-show="action=='billingForm'" class="row g-3 mb-3" id="form">
         <h5>Оформление заказа</h5>
         <div class="col-md-6">
             <label for="firstName" class="form-label">Имя</label>
@@ -89,7 +89,7 @@
 
     <div class="col-12 d-flex justify-content-end">
 
-      <button v-if="buttonSubmit" type="submit" class="btn btn-success">
+      <button v-if="buttonSubmitPay" type="submit"  class="btn btn-success">
         Оплатить
       </button>
 
@@ -98,7 +98,14 @@
       </button>
     </div>
   </form>
-
+</div>
+  <div v-show="orderFinish">
+    <div v-if="message" class="alert alert-success">Заказ успешно оплачен! :)</div>
+    <div v-else class="alert alert-danger">Оплата не прошла, попробуйте снова! :(</div>
+    <div class="col-12 d-flex justify-content-end">
+      <button type="button" @click="clearAll" class="btn btn-danger shadow-none" data-bs-dismiss="modal" aria-label="Close">Закрыть</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -130,15 +137,59 @@ export default ({
         submitError:false,
         submitSuccess:false,
         buttonSubmit: false,
+        buttonSubmitPay:false,
+        orderFinish:false,
+        message:null,
     }),
+
     methods: {
+        async clearCart(){
+          const response = await fetch('/Order/clearCart');
+          const data = await  response.json();
+          this.$root.cartProduct = [];
+          this.$root.totalPrice();
+          console.log(data);
+        },
+        clearAll(){
+          document.location.reload();
+        },
+       async onSubmitPay(e){
+          e.preventDefault();
+          var cartProd = [];
+         if( this.phone && this.firstName && this.lastName && this.email && this.address && this.city){
+           this.$root.cartProduct.map(i=>{
+             cartProd.push(i.idProduct);
+           });
+           console.log(cartProd);
+           const response = await fetch('/Order/setCartProduct',{
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+                products:cartProd,
+               //Симуляция оплаты;
+                status:Math.floor(Math.random() * 2)
+             }),
+           });
+           const data = await response.json();
+               if(data.status == "success"){
+                 this.orderFinish = true;
+                 this.message = data.messagge;
+                  this.clearCart();
+               }
+           }
+        },
+
+
+
        async onSubmit(e) {
-         e.preventDefault()
+         e.preventDefault();
           this.submitError = false;
           this.submitSuccess = false;
             if( this.phone && this.firstName && this.lastName && this.email && this.address && this.city){
 
-              const response = await fetch('http://localhost:8888/Order/setBillingInfo',{
+              const response = await fetch('/Order/setBillingInfo',{
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -158,8 +209,6 @@ export default ({
                 this.submitSuccess = true;
                 this.action="pay"
               }
-
-              console.log(data);
             }else{
               this.submitError = true;
               this.submitSuccess = false;
@@ -174,35 +223,48 @@ export default ({
     },
   watch:{
       cart(newValue){
+        this.buttonSubmitPay = false;
         this.validCart = true;
+
         if(newValue.length<19){
           this.validCart = false;
+          this.buttonSubmitPay=true;
         }else{
           this.validCart = true;
+          this.buttonSubmitPay = false;
         }
       },
       owner(newValue){
         this.validFIO = true;
+        this.buttonSubmitPay = false;
         if(newValue.length<5 ){
           this.validFIO = false;
+          this.buttonSubmitPay = true;
         }else{
           this.validFIO = true;
+          this.buttonSubmitPay = false;
         }
       },
       period(newValue){
         this.validPeriod = true;
+        this.buttonSubmitPay = false;
         if(newValue.length<4){
           this.validPeriod = false;
+          this.buttonSubmitPay = true;
         }else{
           this.validPeriod = true;
+          this.buttonSubmitPay = false;
         }
       },
       cvv(newValue){
         this.validCvv = true;
+        this.buttonSubmitPay = false;
         if(newValue.length<2){
           this.validCvv = false;
+          this.buttonSubmitPay = false;
         }else{
           this.validCvv = true;
+          this.buttonSubmitPay = true;
         }
       },
     firstName(newValue){

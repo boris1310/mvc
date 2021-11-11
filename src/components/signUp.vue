@@ -103,7 +103,7 @@ export default {
       this.action='Register';
     },
     async signUp(){
-      const response = await fetch('http://localhost:8888/User/signUp',{
+      const response = await fetch('/User/signUp',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ export default {
       }
     },
     async registerNewUser(){
-      const response = await fetch('http://localhost:8888/User/register',{
+      const response = await fetch('/User/register',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

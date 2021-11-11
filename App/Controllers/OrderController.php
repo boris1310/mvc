@@ -4,13 +4,18 @@ use Framework\Core\Controller;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Adres;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
-
     public function action_index()
     {
         var_dump($_SESSION);
+    }
+
+    public function action_clearCart(){
+        unset($_SESSION['basket']);
+        echo '{"status":true}';
     }
 
     public function action_setItemToCart($params)
@@ -37,7 +42,6 @@ class OrderController extends Controller
 
     public function action_unsetItemToCart($params)
     {
-
         foreach ($_SESSION['basket'] as $key=>$item){
             if($item['idProduct']==$params['get']['idProduct']){
                 unset($_SESSION['basket'][$key]);
@@ -50,6 +54,38 @@ class OrderController extends Controller
     {
         $data = json_encode($_SESSION['basket']);
         print_r($data);
+    }
+
+    public function action_setCartProduct(){
+        $data=json_decode(file_get_contents('php://input'), true);
+
+        $products = json_encode($data['products']);
+        if($data['status']){
+            $statusPayment = 'Оплачен';
+        }else{
+            $statusPayment = 'Ждет оплаты';
+        }
+        if(empty($_SESSION['user']['id'])){
+            $userId = null;
+        }else{
+            $userId = $_SESSION['user']['id'];
+        }
+        $address = new Adres();
+        $user_address = $address->where('userId','=',$_SESSION['user']['id']);
+        $addressId = $user_address[0]['id'];
+        $order = new Order();
+        $statusOrder = 'Добавлен';
+
+
+        $order->setOrder($userId, $products, $addressId, $statusOrder, $statusPayment);
+
+        if($statusPayment=="Оплачен"){
+            echo '{"status":"success","messagge":true}';
+        }else{
+            echo '{"status":"success","messagge":true}';
+        }
+
+
     }
 
     public function action_setBillingInfo()
@@ -68,7 +104,11 @@ class OrderController extends Controller
             $data['email'],
             $data['phone'],
             $userId);
-        echo '{"status":"success"}';
+
+        echo '{"status":"success","message":"success"}';
+
     }
+
+
 
 }
