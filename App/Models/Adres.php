@@ -8,6 +8,16 @@ use Framework\Databases\Db;
 
 class Adres extends Model
 {
+    /**
+     * Добавление информации о доставке
+     * @param $city
+     * @param $username
+     * @param $address
+     * @param $email
+     * @param $phone
+     * @param null $userId
+     */
+
     public function setBillingInfo($city,$username,$address,$email,$phone,$userId=null){
 
         $adres = new Db();

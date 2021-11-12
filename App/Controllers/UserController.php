@@ -10,14 +10,22 @@ class UserController extends Controller
 {
     public function __construct()
     {
-//        $this->model = new User();
+        $this->model = new User();
         $this->view = new View();
     }
 
+    /**
+     *
+     */
+
     public function action_index()
     {
-        $this->view->generate('login.php', 'layout.php');
+       // $this->view->generate('login.php', 'layout.php');
     }
+
+    /**
+     * Вход
+     */
 
     public function action_signUp()
     {
@@ -46,6 +54,10 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Регистрация
+     * @param $params
+     */
 
     public function action_register($params)
     {
@@ -62,6 +74,10 @@ class UserController extends Controller
         echo $data;
     }
 
+    /**
+     * Проверка вошёл ли пользователь
+     */
+
    public function action_checkSession(){
         if(!empty($_SESSION['user'])){
             echo json_encode($_SESSION['user']);
@@ -70,11 +86,20 @@ class UserController extends Controller
         }
    }
 
+    /**
+     * Выход
+     */
+
     public function action_logout(){
         $_SESSION=[];
         setcookie('PHPSESSID','',time()-100);
         echo '{"logout":"success"}';
     }
+
+    /**
+     * Получение пользователя по email
+     * @param $params
+     */
 
     public function action_getUserByEmail($params){
         $user = new User();
@@ -89,7 +114,17 @@ class UserController extends Controller
         echo $result;
     }
 
+    /**
+     * Добавление сотрудника
+     * @param $params
+     */
+
     public function action_addAdminSubmit($params){
+
+        if(empty($_SESSION['user']['role']) || empty($_SESSION['user']['role'])){
+            exit('Отказано в доступе!');
+        }
+
         $user = new User();
         $columns = ['role'];
         $values = ['admin'];

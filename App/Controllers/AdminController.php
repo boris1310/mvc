@@ -15,6 +15,11 @@ class AdminController extends Controller
 {
     function __construct()
     {
+
+        if(empty($_SESSION['user']['role']) || empty($_SESSION['user']['role'])){
+            exit('Отказано в доступе!');
+        }
+
         $this->model = new Product();
         $this->view = new View();
     }
@@ -40,14 +45,22 @@ class AdminController extends Controller
         $this->view->generate('admin/addcategory.php', 'admin/adminlayout.php', $data);
     }
 
+    /**
+     * Удаление категории
+     * @param $params
+     */
+
     public function action_categorydel($params)
     {
-        $data = $this->model = new Categories();
-        $data = $this->model->categoryDelete($params['path']);
-        $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
-
-        return header('Location:/admin/category');
+         $this->model = new Categories();
+         $this->model->categoryDelete($params['path']);
+         $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
+         return header('Location:/admin/category');
     }
+
+    /**
+     * Генерация страницы сотрудников
+     */
 
     public function action_employees()
     {
@@ -56,25 +69,35 @@ class AdminController extends Controller
         $this->view->generate('admin/addadmin.php', 'admin/adminlayout.php', $data);
     }
 
+    /**
+     * Удаление сотрудника
+     * @param $params
+     */
+
     public function action_deleteEmployee($params)
     {
-
         $user = new User();
         $columns = ['role'];
         $values = ['user'];
         $user->update($columns, $values, 'idUser', '=', $params['path']);
-
         $_SESSION['success']['addadmin'] = 'Пользователь № ' . $params['path'] . ' больше не сотрудник';
-
         return header('Location: /admin/employees');
-
     }
+
+    /**
+     * Получение всех товаров
+     */
 
     public function action_allProducts(){
         $products = new Product();
         $data = $products->getAll();
         $this->view->generate('admin/productlist.php', 'admin/adminlayout.php', $data);
     }
+
+    /**
+     * Получение подробной информации о товаре;
+     * @param $params
+     */
 
     public function action_showinfo($params){
         $data = $this->model = new Product();
@@ -86,6 +109,11 @@ class AdminController extends Controller
         $product = json_encode($product);
         echo $product;
     }
+
+    /**
+     * Получение категории и производителя по индексам
+     * @param $params
+     */
 
     public function action_showCatAndMan($params){
         $cat = $this->model = new Categories();
@@ -99,6 +127,11 @@ class AdminController extends Controller
         $data=json_encode($data);
         echo $data;
     }
+
+    /**
+     * Удаление товара
+     * @param $params
+     */
 
     function action_deleteItem($params){
         $data = $this->model= new Product();
@@ -114,6 +147,11 @@ class AdminController extends Controller
         return header('Location:/admin/allProducts');
     }
 
+    /**
+     * Генерация страницы изменения товара
+     * @param $params
+     */
+
     function action_editItem($params){
         if(!isset($params['path'])){
             ErrorRedirect::ErrorPage404();
@@ -126,6 +164,11 @@ class AdminController extends Controller
         $data3=$man->getAll();
         $this->view->generate('admin/editItem.php', 'admin/adminlayout.php', $data, $data2, $data3);
     }
+
+    /**
+     * Изменение товара
+     * @param $params
+     */
 
     public function action_editSubmit($params){
         $item= $this->model=new Product();
@@ -141,11 +184,21 @@ class AdminController extends Controller
         return header('Location:/admin/allProducts');
     }
 
+    /**
+     * Генерация страницы заказов
+     * @param $params
+     */
+
     public function action_orders($params){
         $order = new Order();
         $data = $order->getOrderForAdmin($params['path']);
         $this->view->generate('admin/orders.php', 'admin/adminlayout.php', $data);
     }
+
+    /**
+     * Получение заказа по id
+     * @param $params
+     */
 
     public function action_getOrderById($params){
         $order = new Order();
@@ -154,12 +207,23 @@ class AdminController extends Controller
         echo $data;
     }
 
+    /**
+     * Получение пользователя по id
+     * @param $params
+     */
+
     public function action_getUserByUserId($params){
         $user = new User();
         $data = $user->where('idUser','=',$params['path']);
         $data = json_encode($data);
         echo $data;
     }
+
+    /**
+     * Получение товара по id
+     *
+     * @param $params
+     */
 
     public function action_getProductsByOrderId($params){
         $order = new Order();
@@ -171,6 +235,11 @@ class AdminController extends Controller
         echo $products;
     }
 
+    /**
+     * Получение информации о доставке
+     * @param $params
+     */
+
     public function action_getAddressById($params){
         $address = new Adres();
         $data = $address->where('id','=',$params['path']);
@@ -178,10 +247,27 @@ class AdminController extends Controller
         echo $data;
     }
 
+    /**
+     * Получение пагинации заказов в админке
+     * @param $params
+     */
+
     public function action_getOrderPagination($params){
         $order = new Order();
         $orders = $order->getPaginationOrder();
         echo (int) $orders;
+    }
+
+    /**
+     *
+     * Выход
+     *
+     */
+
+    public function action_logout(){
+        $_SESSION=[];
+        setcookie('PHPSESSID','',time()-100);
+        return header('Location:/');
     }
 
 }

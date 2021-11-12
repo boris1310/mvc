@@ -12,25 +12,27 @@
                 <li><a href="/Order" class="nav-link px-2 link-dark">Ваши заказы</a></li>
             </ul>
 
-
-            <div class="dropdown text-end">
+            <?php
+            if (isset($_SESSION['user'])) {
+                echo '<div class="dropdown text-end">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://yt3.ggpht.com/ytc/AKedOLT7zW6EwRuZRD5dNs8CJCsxghs2rW8BspuQ0aSn=s900-c-k-c0x00ffffff-no-rj" alt="your avatar" width="32" height="32" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-                    <li><a class="dropdown-item"><?= $_SESSION['user']['name'] ?><br><?= $_SESSION['user']['email'] ?></a></li>
+                    <li><a class="dropdown-item">' . $_SESSION['user']['name'] . '<br>' . $_SESSION['user']['email'] . '</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/catalog">Каталог</a></li>
-                    <li><a class="dropdown-item" href="/order">Ваши заказы</a></li>
+                    <li><a class="dropdown-item" href="/">Каталог</a></li>
+                    <li><a class="dropdown-item" href="/">Ваши заказы</a></li>';
+                if ($_SESSION['user']['role'] == 'admin') {
+                    echo '<li><a class="dropdown-item" href="/Admin">Админка</a></li>';
+                }
+                echo '</ul>
+                      </div>';
+            } else {
+                echo '<a class="btn btn-outline-success" href="/">Войдите</a>';
+            }
+            ?>
 
-                    <?php
-                    if($_SESSION['user']['role']=='admin'){
-                        echo '<li><a class="dropdown-item" href="http://localhost:8888/Admin">Админка</a></li>';
-                    }
-                    ?>
-
-                </ul>
-            </div>
         </div>
     </div>
 </header>

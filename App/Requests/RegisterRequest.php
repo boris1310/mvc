@@ -4,10 +4,18 @@ namespace App\Requests;
 
 class RegisterRequest
 {
+    /**
+     * RegisterRequest constructor.
+     */
     public function __construct()
     {
 
     }
+
+    /**
+     * Валидатор регистрации
+     * @param $params
+     */
 
     public static function validate($params)
     {
@@ -36,8 +44,6 @@ class RegisterRequest
         if ($params['post']['password1'] !== $params['post']['password2']) {
             $_SESSION['message']['password2'] = "Пароли не совпадают";
         }
-
-
 
     }
 }

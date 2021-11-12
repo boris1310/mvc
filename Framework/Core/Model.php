@@ -20,7 +20,7 @@ class Model
     }
 
     /**
-     * Получение всех товаров из файла;
+     * Получение всех товаров из бд;
      * @return mixed
      */
 
@@ -36,9 +36,15 @@ class Model
         return $data;
     }
 
-    public function getAllWithLimit( $skip=0,$limit=8)
+    /**
+     * @param int $skip
+     * @param int $limit
+     * @return array
+     */
+
+    public function getAllWithLimit($skip = 0, $limit = 8)
     {
-        $skip=$skip*$limit;
+        $skip = $skip * $limit;
         $prod = new Db();
         $prod->connect();
         $items = $prod->db->query("SELECT * FROM `{$this->modelname}` LIMIT $limit OFFSET $skip");
@@ -49,34 +55,9 @@ class Model
         return $data;
     }
 
-    public function getAllWithLimitCategory($skip=0,$limit=8,$category)
-    {
-        $skip=$skip*$limit;
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' LIMIT $limit OFFSET $skip");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-    public function getAllWithLimitManufacturer($skip=0,$limit=8,$manufacturer)
-    {
-        $skip=$skip*$limit;
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `ManufacturerId`='{$manufacturer}' LIMIT $limit OFFSET $skip");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
 
     /**
-     * Получение товара из файла по параметру (наименованию);
+     * Получение товара из файла по параметру;
      * @param $params
      * @return array|mixed
      */
@@ -96,52 +77,6 @@ class Model
 
 
 
-    /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @param string $role
-     */
-
-
-    public function setUser(string $name, string $email, string $password,$phone= null,string $role='user')
-    {
-        $item = new Db();
-        $item->connect();
-        $item->db->query("
-        INSERT INTO `User` (`name`,`email`,`password`,`role`,`phone`) 
-        VALUES ('{$name}','{$email}','{$password}','{$role}','{$phone}')");
-    }
-
-    /**
-     * @param string $name
-     * @param string $description
-     * @param int $price
-     */
-
-    public function setProduct(string $name, string $description, int $price,int $manufacturer,int $category)
-    {
-
-        if (empty($_FILES['photo']['name'])){
-            $uploadfile=null;
-            $_FILES['photo']['name']=null;
-            $_FILES['photo']['tmp_name']=null;
-        }
-          $uploaddir = 'public/img/products/';
-          $uploadfile = $uploaddir . basename($_FILES['photo']['name']);
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
-            echo "Файл корректен и был успешно загружен.\n";
-        } else {
-            echo "Возможная атака с помощью файловой загрузки!\n";
-        }
-
-        $item = new Db();
-        $item->connect();
-        $item->db->query("
-        INSERT INTO `{$this->modelname}` (`name`,`description`,`price`,`ManufacturerId`,`CategoryId`,`photo`)
-        VALUES ('{$name}','{$description}','{$price}','{$manufacturer}','{$category}','{$uploadfile}')");
-
-    }
 
     /**
      * @param array $columns
@@ -163,7 +98,7 @@ class Model
 
         $item->db->query("
         UPDATE `{$this->modelname}` 
-        SET " . trim($string,',') . "
+        SET " . trim($string, ',') . "
         WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
     }
 
@@ -180,47 +115,42 @@ class Model
         $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
     }
 
+//    /**
+//     * Получение товаров в корзине;
+//     * @return mixed
+//     */
+//    public function getBasket()
+//    {
+//        $item = new Db;
+//        $item->connect();
+//        $in = '';
+//        $in = implode(',', $_SESSION['basket']);
+//        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
+//        return $data;
+//    }
 
-    public function getBasket(){
+    /**
+     * @param string $column
+     * @param array $array
+     * @return array
+     */
 
+    public function whereIn(string $column, array $array)
+    {
         $item = new Db;
-        $item -> connect();
-
+        $item->connect();
         $in = '';
-
-        $in=implode(',',$_SESSION['basket']);
-
-
-        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
-
-        return $data;
-    }
-
-    public function whereIn(string $column,array $array){
-        $item = new Db;
-        $item -> connect();
-        $in = '';
-        foreach ($array as $id){
-            $in = $in.",".$id;
+        foreach ($array as $id) {
+            $in = $in . "," . $id;
         }
-        $in = trim($in,',');
+        $in = trim($in, ',');
         $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE $column IN ($in)");
         $products = [];
-        foreach ($data as $el){
-            $products[]=$el;
+        foreach ($data as $el) {
+            $products[] = $el;
         }
         return $products;
     }
 
-    public function getPaginationOrder(){
-        $item = new Db();
-        $item->connect();
-        $data = $item->db->query("SELECT count(*) FROM `Order`");
-        $count = [];
-        foreach ($data as $el){
-            $count[]=$el;
-        }
 
-        return $count[0][0];
-    }
 }

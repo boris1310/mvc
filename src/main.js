@@ -190,13 +190,12 @@ const app = createApp({
     },
 
     mounted() {
-
+		this.fetchCartProduct();
    		this.checkSession();
    		this.fetchProducts(this.source);
    		this.fetchCategories();
         this.fetchManufacturers();
-    	this.fetchCartProduct();
-		this.fetchCountItemsInCats();
+    	this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
 
@@ -206,8 +205,8 @@ const app = createApp({
 
 app.component("sign-up",signUp);
 app.component("catalog-sidebar",Sidebar);
-app.component("product-list", ProductList);
 app.component("cart-button", CartButton);
+app.component("product-list", ProductList);
 app.component("cart-modal", CartModal);
 app.component("pagination-block",Pagination);
 app.component("order-history",OrderHistory);

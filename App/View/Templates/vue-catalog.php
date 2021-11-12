@@ -4,7 +4,7 @@
             <div class="container container-sm container-md">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                     <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                        <h3>My Store</h3>
+                        <h3>ElectroStore</h3>
                     </a>
 
                     <ul class="nav col-12 col-lg-auto mx-5 me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -18,10 +18,9 @@
                     <cart-button :count="count"></cart-button>
 
                     <div v-if="UserId==null" class="mx-1">
-
                         <button type="button" class="btn btn-outline-success mr-3"  data-bs-toggle="modal" data-bs-target="#exampleModal">Вход | Регистрация</button>
-
                     </div>
+
                     <div v-else class="dropdown text-end">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://yt3.ggpht.com/ytc/AKedOLT7zW6EwRuZRD5dNs8CJCsxghs2rW8BspuQ0aSn=s900-c-k-c0x00ffffff-no-rj" alt="your avatar" width="32" height="32" class="rounded-circle">
@@ -47,7 +46,7 @@
 
         <!-- ProductsList component -->
         <div class="row mx-auto">
-            <div class="col-lg-2 col-md-3 col-sm-12">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-2">
 
                 <catalog-sidebar
                     :categories="categories"
@@ -55,7 +54,7 @@
                 />
 
             </div>
-            <div class="col-lg-10 col-md-9 col-sm-12">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10">
 
                 <product-list :products="products" />
 

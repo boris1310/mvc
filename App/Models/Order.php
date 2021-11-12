@@ -30,4 +30,16 @@ class Order extends Model
         $orders = $order->db->query("SELECT * FROM `Order` ORDER BY `created_at` DESC LIMIT $skip, 20" );
         return $orders;
     }
+
+    public function getPaginationOrder(){
+        $item = new Db();
+        $item->connect();
+        $data = $item->db->query("SELECT count(*) FROM `Order`");
+        $count = [];
+        foreach ($data as $el){
+            $count[]=$el;
+        }
+
+        return $count[0][0];
+    }
 }

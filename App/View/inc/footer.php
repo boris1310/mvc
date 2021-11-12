@@ -1,5 +1,5 @@
-<footer class="footer mt-auto py-3">
+<footer class="footer mt-auto py-3 bg-light">
     <div class="container">
-        <span class="text-muted">My Store. 2021</span>
+        <span class="text-muted">ElectroStrore.</span>
     </div>
 </footer>

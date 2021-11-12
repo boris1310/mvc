@@ -8,21 +8,38 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function __construct(){
+    /**
+     * OrderController constructor.
+     */
+
+    public function __construct()
+    {
 
     }
 
+    /**
+     *
+     */
     public function action_index()
     {
-        var_dump($_SESSION);
+
     }
 
-    public function action_clearCart(){
+    /**
+     * Очистка корзины
+     */
+    public function action_clearCart()
+    {
         unset($_SESSION['basket']);
         echo '{
         "status":true
         }';
     }
+
+    /**
+     * Добавление товара в корзину
+     * @param $params
+     */
 
     public function action_setItemToCart($params)
     {
@@ -43,74 +60,91 @@ class OrderController extends Controller
             echo '{
             "status":"success"
             }';
-        }else{
+        } else {
             echo '{
             "status":"error"
             }';
         }
     }
 
+    /**
+     * Удаление тавара из корзины
+     * @param $params
+     */
+
     public function action_unsetItemToCart($params)
     {
-        foreach ($_SESSION['basket'] as $key=>$item){
-            if($item['idProduct']==$params['get']['idProduct']){
+        foreach ($_SESSION['basket'] as $key => $item) {
+            if ($item['idProduct'] == $params['get']['idProduct']) {
                 unset($_SESSION['basket'][$key]);
+                echo '{
+                    "status":"success",
+                    "message":"success"
+                    }';
             }
         }
     }
 
+    /**
+     * Получение товаров в корзине
+     */
 
     public function action_getCartProducts()
     {
         $data = json_encode($_SESSION['basket']);
-        print_r($data);
+        echo $data;
+
     }
 
-    public function action_setCartProduct(){
-        $data=json_decode(file_get_contents('php://input'), true);
+    /**
+     * Установка товаров в корзину
+     */
+
+    public function action_setCartProduct()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
 
         $products = json_encode($data['products']);
-        if($data['status']){
+        if ($data['status']) {
             $statusPayment = 'Оплачен';
-        }else{
+        } else {
             $statusPayment = 'Ждет оплаты';
         }
-        if(empty($_SESSION['user']['id'])){
+        if (empty($_SESSION['user']['id'])) {
             $userId = null;
-        }else{
+        } else {
             $userId = $_SESSION['user']['id'];
         }
         $address = new Adres();
-        $user_address = $address->where('userId','=',$_SESSION['user']['id']);
+        $user_address = $address->where('userId', '=', $_SESSION['user']['id']);
         $addressId = $user_address[0]['id'];
         $order = new Order();
         $statusOrder = 'Добавлен';
-
-
         $order->setOrder($userId, $products, $addressId, $statusOrder, $statusPayment);
-
-        if($statusPayment=="Оплачен"){
+        if ($statusPayment == "Оплачен") {
             echo '{
             "status":"success",
             "messagge":true
             }';
-        }else{
+        } else {
             echo '{
             "status":"success",
             "messagge":true
             }';
         }
-
-
     }
+
+    /**
+     * Установка информации о доставке
+     */
 
     public function action_setBillingInfo()
     {
-        $data=json_decode(file_get_contents('php://input'), true);
-        if(empty($_SESSION['user'])){
-            $userId=null;
-        }else{
-            $userId=$_SESSION['user']['id'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (empty($_SESSION['user'])) {
+            $userId = null;
+        } else {
+            $userId = $_SESSION['user']['id'];
         }
         $billingInfo = new Adres();
         $billingInfo->setBillingInfo(
@@ -128,23 +162,32 @@ class OrderController extends Controller
 
     }
 
-    public function action_getOrderForUser($params){
+    /**
+     * Получение истории заказов
+     * @param $params
+     */
+
+    public function action_getOrderForUser($params)
+    {
         $order = new Order();
-        $orders = $order->where('userId','=',$params['path']);
+        $orders = $order->where('userId', '=', $params['path']);
         $orders = json_encode($orders);
-        echo  $orders;
+        echo $orders;
     }
 
-    public function action_getProductsById($params){
+    /**
+     * Получение продукта
+     * @param $params
+     */
+
+    public function action_getProductsById($params)
+    {
 
         $item = new Product();
-        $product = $item->where('idProduct','=',$params['path']);
+        $product = $item->where('idProduct', '=', $params['path']);
         $product = json_encode($product);
         echo $product;
     }
 
-
-
-
-
 }
+

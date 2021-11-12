@@ -8,14 +8,23 @@ class Router
     public string $action;
     public array $params;
 
+    /**
+     * Router constructor.
+     */
+
     public function __construct()
     {
         $this->controller = 'catalog';
         $this->action = 'index';
-        $this->params['path']['1']='category';
-        $this->params['path']['2']='all';
+        $this->params['path']['1'] = 'category';
+        $this->params['path']['2'] = 'all';
 
     }
+
+    /**
+     * Получение нужного контроллера и его метода, получение параметров;
+     * @return $this
+     */
 
     public function start()
     {

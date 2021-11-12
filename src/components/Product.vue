@@ -1,7 +1,7 @@
 <template>
-    <div class="col-lg-3 col-sm-12 col-md-3 col-sm-6 py-3 d-flex">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 py-3 d-flex">
         <div class="card py-3">
-          <div style="height: 200px;">
+          <div  class="h-50 p-1">
         <img class="card-img-top" :src="photo" :alt="name">
           </div>
         <div class="card-body">
@@ -19,10 +19,11 @@
             {{price}} грн
             </h5>
 
-            <button @click="addCart(idProduct,name,photo,price)" :disabled="flag" class="btn btn-success w-100 shadow-none">
+            <button @click="addCart(idProduct,name,photo,price)" :disabled="flag" class="btn btn-success buy w-100 shadow-none">
               <span v-if="flag">Уже в корзине</span>
               <span v-else>В корзину</span>
             </button>
+
         </div>
         </div>
     </div>
@@ -57,10 +58,23 @@ export default {
       }
     },
   mounted(){
-    this.checkInCart();
+     this.checkInCart();
   }
 
 }
 
 
 </script>
+
+<style scoped>
+.card{
+  padding: 8px;
+}
+.card:hover{
+    padding: 6px;
+    background: #f1f1f1;
+}
+
+
+
+</style>

@@ -1,12 +1,12 @@
 <template>
-  <div class="my-5 shadow bg-light py-3 row mx-0">
-    <div class="col-lg-12 col-md-12 col-6 mx-0">
+  <div class="mt-5 shadow bg-light py-3 row mx-0">
+    <div class="col-lg-12 col-md-6 col-6 mx-0">
       <h5 class="text-center">Категории:</h5>
       <ul>
         <li class="list" v-for="category in categories"><a @click="changeSourceByCategory(category.idCategory)">{{category.cat_name}} <span class="badge bg-danger text-end float-end">{{ $root.countItemsCat[category.idCategory] }}</span></a></li>
       </ul>
     </div>
-    <div class="col-lg-12 col-md-12 col-6 mx-0">
+    <div class="col-lg-12 col-md-6 col-6 mx-0">
       <h5 class="text-center">Производители:</h5>
       <ul>
         <li class="list" v-for="manufacturer in manufacturers"><a @click="changeSourceByManufacturer(manufacturer.idmanufacturer)">{{manufacturer.name}} <span class="badge bg-danger text-end float-end">{{ $root.countItemsMan[manufacturer.idmanufacturer] }}</span></a></li>
@@ -50,4 +50,11 @@ export default ({
 .list{
   list-style: none;
 }
+
+.list:hover{
+  color:forestgreen;
+  padding: 1px;
+}
+
+
 </style>

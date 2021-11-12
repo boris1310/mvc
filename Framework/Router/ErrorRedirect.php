@@ -4,6 +4,9 @@ namespace Framework\Router;
 
 class ErrorRedirect
 {
+    /**
+     * Редирект на 404
+     */
     public static function ErrorPage404()
     {
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';

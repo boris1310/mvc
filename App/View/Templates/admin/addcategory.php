@@ -5,7 +5,7 @@
         unset($_SESSION['success']['category']);
     }
     ?>
-    <h4 class="my-5">Администрирование категорий</h4>
+    <h5 class="my-5">Администрирование категорий</h5>
 
     <table class="table table-sm table-bordered table-hover table-striped">
         <tr  class="bg-primary text-light">
