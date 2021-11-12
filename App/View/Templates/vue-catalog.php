@@ -14,7 +14,7 @@
                         <li><a data-bs-toggle="modal" data-bs-target="#orders"  class="nav-link px-2 link-dark">Ваши заказы <span class="badge bg-danger">{{history}}</span></a></li>
                     </ul>
 
-                    <ul class="translate">
+                    <ul class="translate mx-3">
 
                         <li class="mt-3 list">
                             <a onclick="doGTranslate('ru|en');">
