@@ -14,6 +14,26 @@
                         <li><a data-bs-toggle="modal" data-bs-target="#orders"  class="nav-link px-2 link-dark">Ваши заказы <span class="badge bg-danger">{{history}}</span></a></li>
                     </ul>
 
+                    <ul class="translate">
+
+                        <li class="mt-3 list">
+                            <a onclick="doGTranslate('ru|en');">
+                                <img    class="flag"
+                                        src="https://www.megaflag.ru/sites/default/files/styles/h_100/public/images/shop/products/flag_velikobritanija_new.jpg?itok=WpoIClkv"
+                                        alt="russian"
+                                />
+                            </a>
+                            |
+                            <a  onclick="doGTranslate('en|ru');">
+                                <img    class="flag"
+                                        src="https://www.megaflag.ru/sites/default/files/styles/h_100/public/images/shop/products/flag_rf_enl.jpg?itok=ULSeepRk"
+                                        alt="russian"
+                                />
+                            </a>
+                        </li>
+
+                    </ul>
+
                     <!-- CartButton component -->
                     <cart-button :count="count"></cart-button>
 

@@ -124,6 +124,7 @@ const app = createApp({
             this.fetchToCart(idProduct, name, image, price);
             this.fetchCartProduct();
             this.fetchProducts();
+
         },
 
 
