@@ -1,10 +1,11 @@
 <template>
     <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 py-3 d-flex">
         <div class="card py-3">
-          <div  class="h-50 p-1">
+          <div  class="h-50 p-1" data-bs-toggle="modal" :data-bs-target="'#selector'+idProduct">
         <img class="card-img-top" :src="photo" :alt="name">
           </div>
         <div class="card-body">
+          <div  data-bs-toggle="modal" :data-bs-target="'#selector'+idProduct">
             <h6 class="card-title">
                 {{ name }}
             </h6>
@@ -18,7 +19,7 @@
             <h5 class="fs-5 text-success">
             {{price}} грн
             </h5>
-
+            </div>
             <button @click="addCart(idProduct,name,photo,price)" :disabled="flag" class="btn btn-success buy w-100 shadow-none">
               <span v-if="flag">Уже в корзине</span>
               <span v-else>В корзину</span>
@@ -27,15 +28,22 @@
         </div>
         </div>
     </div>
+
+  <single-product
+      :id="idProduct"
+      :isCartProduct="flag"
+  />
+
 </template>
 
 <script>
-
+import SingleProduct from './SingleProduct';
 export default {
     name: 'Product',
     data:()=>({
       flag:false
     }),
+    components:{ SingleProduct },
     props: {
         idProduct: String,
         name: String,

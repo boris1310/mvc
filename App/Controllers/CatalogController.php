@@ -158,6 +158,18 @@ class CatalogController extends Controller
     }
 
     /**
+     * Получение товара по id
+     * @param $params
+     */
+
+    public function action_getProductById($params){
+        $product = new Product();
+        $data = $product->where('idProduct','=',$params['path']);
+        $data = json_encode($data[0]);
+        echo $data;
+    }
+
+    /**
      * Подсчет товаров у производителя (Для вывода количества возле ссылки на производителя)
      */
 

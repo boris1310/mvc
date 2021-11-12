@@ -28,6 +28,7 @@ const app = createApp({
         countItemsCat:[],
         countItemsMan:[],
         history: 0,
+        flagClearSingle:0,
     }),
     methods: {
 
@@ -103,21 +104,26 @@ const app = createApp({
                     if(product.idProduct == idProduct) {
                         product.count += 1
                         this.flag = true
+
                     }
 
                 });
 
                 if(this.flag == false) {
                     this.cartProduct.push({idProduct,  name, image, price, count: 1})
+
                 }
 
             } else {
                 this.cartProduct.push({idProduct, name, image, price, count: 1})
+
             }
 
             this.count++;
             this.totalPrice;
             this.fetchToCart(idProduct, name, image, price);
+            this.fetchCartProduct();
+            this.fetchProducts();
         },
 
 
@@ -185,20 +191,19 @@ const app = createApp({
 			const response = await fetch('/User/logout');
 			const check = await response.json();
 			document.location.reload();
-		}
+		},
 
     },
 
     mounted() {
 		this.fetchCartProduct();
    		this.checkSession();
-   		this.fetchProducts(this.source);
    		this.fetchCategories();
-        this.fetchManufacturers();
+   		this.fetchManufacturers();
+   		this.fetchProducts(this.source);
     	this.fetchCountItemsInCats();
 		this.fetchCountItemsInMans();
     	this.fetchPagination();
-
     }
 
 });
