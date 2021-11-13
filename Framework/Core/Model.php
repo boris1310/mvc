@@ -43,10 +43,17 @@ class Model
      * @param string $value
      */
 
-    public function whereTest(string $column, string $operator, string $value)
+    public function whereTest(string $column, string $operator, $value)
     {
-        $this->query = $this->query . " WHERE `$column` $operator '$value'";
+            if($operator == 'IN'){
+                $str = implode(',',$value);
+                $this->query = $this->query . "WHERE `$column` IN ($str)";
+            }else{
+                $this->query = $this->query . " WHERE `$column` $operator '$value'";
+            }
+
     }
+
 
     /**
      * @param string $column
@@ -56,8 +63,7 @@ class Model
 
     public function andWhere(string $column, string $operator, string $value)
     {
-        $this->query = $this->query . " AND  `$column` $operator $value";
-        echo "<br>";
+        $this->query = $this->query . " AND  `$column` $operator '$value'";
     }
 
     /**
@@ -68,8 +74,7 @@ class Model
 
     public function orWhere(string $column, string $operator, string $value)
     {
-        $this->query = $this->query . " OR  `$column` $operator $value";
-        echo "<br>";
+        $this->query = $this->query . " OR  `$column` $operator '$value'";
     }
 
     /**
@@ -80,8 +85,7 @@ class Model
 
     public function notWhere(string $column, string $operator, string $value)
     {
-        $this->query = $this->query . " WHERE NOT `$column` $operator $value";
-        echo "<br>";
+        $this->query = $this->query . " WHERE NOT `$column` $operator '$value'";
     }
 
     /**
@@ -119,63 +123,6 @@ class Model
     }
 
     /**
-     * Получение всех товаров из бд;
-     * @return mixed
-     */
-
-    public function getAll()
-    {
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}`");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-    /**
-     * @param int $skip
-     * @param int $limit
-     * @return array
-     */
-
-    public function getAllWithLimit($skip = 0, $limit = 8)
-    {
-        $skip = $skip * $limit;
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` LIMIT $limit OFFSET $skip");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-
-    /**
-     * Получение товара из файла по параметру;
-     * @param $params
-     * @return array|mixed
-     */
-
-    public function where($column, $operator, $params)
-    {
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("
-        SELECT * FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-
-    /**
      * @param array $columns
      * @param array $values
      * @param string $whereColumn
@@ -183,20 +130,9 @@ class Model
      * @param string $whereParams
      */
 
-    public function update(array $columns, array $values, string $whereColumn, string $operator, string $whereParams)
+    public function update()
     {
-        $item = new Db();
-        $item->connect();
-        $string = '';
-
-        for ($column = 0; $column < count($columns); $column++) {
-            $string = $string . " `{$columns[$column]}`='{$values[$column]}',";
-        }
-
-        $item->db->query("
-        UPDATE `{$this->modelname}` 
-        SET " . trim($string, ',') . "
-        WHERE `{$whereColumn}`{$operator}'{$whereParams}'");
+        $this->query = " UPDATE `$this->modelname` SET  ";
     }
 
     /**
@@ -205,11 +141,9 @@ class Model
      * @param $params
      */
 
-    public function delete(string $column, string $operator, $params)
+    public function delete()
     {
-        $item = new Db();
-        $item->connect();
-        $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
+        $this->query = " DELETE FROM `$this->modelname` ";
     }
 
 
@@ -219,26 +153,22 @@ class Model
      * @return array
      */
 
-    public function whereIn(string $column, array $array)
-    {
-        $item = new Db;
-        $item->connect();
-        $in = '';
-        foreach ($array as $id) {
-            $in = $in . "," . $id;
-        }
-        $in = trim($in, ',');
-        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE $column IN ($in)");
-        $products = [];
-        foreach ($data as $el) {
-            $products[] = $el;
-        }
-        return $products;
+
+
+    public function insert(){
+        $this->query=" INSERT INTO `$this->modelname` SET ";
+    }
+
+    public function set($column,$value){
+        $this->query= $this->query. " `$column` = '$value' ,";
     }
 
     public function save()
     {
-
+        $item = new Db;
+        $item->connect();
+        $item->db->query(trim($this->query,','));
+        return $this->subject;
     }
 
 

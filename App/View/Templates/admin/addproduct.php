@@ -7,7 +7,7 @@ if(isset($_SESSION['success']['addproduct'])){
 
 <h5 class="my-5">Страница добавления товара</h5>
 
-<form action="http://localhost:8888/catalog/setProduct" enctype="multipart/form-data" class="text-center center-block" method="post">
+<form action="http://localhost:8888/admin/setProduct" enctype="multipart/form-data" class="text-center center-block" method="post">
     <div class="my-3">
         <label for="name" class="form-label">Наименование</label>
         <input type="text" name="name" id="name" placeholder="Наименование" class="form-control w-50 mx-auto" required>
@@ -39,7 +39,7 @@ if(isset($_SESSION['success']['addproduct'])){
         </select>
         <br>
         <label for="photo">Загрузить изображение</label>
-        <input type="file" id="photo" name="photo" class="form-control w-50 mx-auto">
+        <input type="file" id="photo" name="photo" class="form-control w-50 mx-auto" required>
         <br>
         <input type="submit" class="form-control btn btn-primary w-50 mx-auto" value="Добавить товар">
     </div>

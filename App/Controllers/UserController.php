@@ -14,9 +14,6 @@ class UserController extends Controller
         $this->view = new View();
     }
 
-    /**
-     *
-     */
 
     public function action_index()
     {
@@ -60,19 +57,28 @@ class UserController extends Controller
      * @param $params
      */
 
-    ///ПЕРЕПИСАТЬЬЬЬЬЬ!!!!!
-
     public function action_register($params)
     {
         $data=json_decode(file_get_contents('php://input'), true);
-        $user = new User();
-        $user->setUser($data['name'],$data['email'],md5($data['password']),$data['phone'],'user');
-        $data=$user->where('email','=',$data['email']);
+
+        $this->model->insert();
+        $this->model->set('name',$data['name']);
+        $this->model->set('email',$data['email']);
+        $this->model->set('password',md5($data['password']));
+        $this->model->set('role','user');
+        $this->model->set('phone',$data['phone']);
+        $this->model->save();
+
+        $this->model->select();
+        $this->model->whereTest('email','=',$data['email']);
+        $data = $this->model->get();
+
         $_SESSION['user']['id']=$data[0]['idUser'];
         $_SESSION['user']['name']=$data[0]['name'];
         $_SESSION['user']['email']=$data[0]['email'];
         $_SESSION['user']['phone']=$data[0]['phone'];
         $_SESSION['user']['role']=$data[0]['role'];
+
         $data=json_encode($_SESSION['user']);
         echo $data;
     }
@@ -119,26 +125,7 @@ class UserController extends Controller
         echo $result;
     }
 
-    /**
-     * Добавление сотрудника
-     * @param $params
-     */
 
-    //ПЕРЕПИСАТЬ
-
-    public function action_addAdminSubmit($params){
-
-        if(empty($_SESSION['user']['role']) || empty($_SESSION['user']['role'])){
-            exit('Отказано в доступе!');
-        }
-
-        $user = new User();
-        $columns = ['role'];
-        $values = ['admin'];
-        $user->update($columns, $values, 'idUser', '=' , $params['path']);
-        $_SESSION['success']['addadmin']='Пользователь № '.$params['path'] .' назначен сотрудником';
-        return header('Location: http://localhost:8888/admin/employees');
-    }
 
 }
 

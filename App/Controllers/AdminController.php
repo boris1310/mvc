@@ -9,6 +9,7 @@ use App\Models\User;
 use Framework\Router\ErrorRedirect;
 use Framework\Databases\Db;
 use App\Models\Order;
+use Framework\Core\FileUploader;
 use App\Models\Adres;
 
 class AdminController extends Controller
@@ -31,6 +32,24 @@ class AdminController extends Controller
     public function action_index()
     {
         $this->view->generate('admin/admin.php', 'admin/adminlayout.php');
+    }
+
+    /**
+     * Добавление сотрудника
+     * @param $params
+     */
+
+    public function action_addAdminSubmit($params){
+
+        $this->model = new User();
+        $this->model->update();
+        $this->model->set('role','admin');
+        $this->model->query = trim($this->model->query ,',');
+        $this->model->whereTest('idUser','=',$params['path']);
+        $this->model->save();
+        $_SESSION['success']['addadmin']='Пользователь № '.$params['path'] .' назначен сотрудником';
+        return header('Location: http://localhost:8888/admin/employees');
+
     }
 
     public function action_product()
@@ -59,12 +78,12 @@ class AdminController extends Controller
      * @param $params
      */
 
-    //Переписать!!!
-
     public function action_categorydel($params)
     {
         $this->model = new Categories();
-        $this->model->categoryDelete($params['path']);
+        $this->model->delete();
+        $this->model->whereTest('idCategory','=',$params['path']);
+        $this->model->save();
         $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
         return header('Location:/admin/category');
     }
@@ -91,10 +110,12 @@ class AdminController extends Controller
 
     public function action_deleteEmployee($params)
     {
-        $user = new User();
-        $columns = ['role'];
-        $values = ['user'];
-        $user->update($columns, $values, 'idUser', '=', $params['path']);
+        $this->model = new User();
+        $this->model->update();
+        $this->model->set('role','user');
+        $this->model->query = trim($this->model->query ,',');
+        $this->model->whereTest('idUser','=',$params['path']);
+        $this->model->save();
         $_SESSION['success']['addadmin'] = 'Пользователь № ' . $params['path'] . ' больше не сотрудник';
         return header('Location: /admin/employees');
     }
@@ -152,20 +173,12 @@ class AdminController extends Controller
      * @param $params
      */
 
-    //переписать
-
     function action_deleteItem($params)
     {
-        $data = $this->model = new Product();
-        $product = $data->where('idProduct', '=', $params['path']);
-        $data->delete('idProduct', '=', $params['path']);
-
-        foreach ($product as $item) {
-            $itemName = $item['name'];
-        }
-
-        $_SESSION['success']['delete'] = 'Товар &laquo;' . $itemName . '&raquo; успешно удалён';
-
+        $this->model->delete();
+        $this->model->whereTest('idProduct','=',$params['path']);
+        $this->model->save();
+        $_SESSION['success']['delete'] = 'Товар успешно удалён';
         return header('Location:/admin/allProducts');
     }
 
@@ -176,11 +189,6 @@ class AdminController extends Controller
 
     function action_editItem($params)
     {
-
-        if (!isset($params['path'])) {
-            ErrorRedirect::ErrorPage404();
-        }
-
         $this->model->select();
         $this->model->whereTest('idProduct', '=', $params['path']);
         $data = $this->model->get();
@@ -188,9 +196,11 @@ class AdminController extends Controller
         $this->model = new Categories();
         $this->model->select();
         $data2 = $this->model->get();
+
         $this->model = new Manufacturer();
         $this->model->select();
         $data3 = $this->model->get();
+
         $this->view->generate('admin/editItem.php', 'admin/adminlayout.php', $data, $data2, $data3);
     }
 
@@ -199,21 +209,71 @@ class AdminController extends Controller
      * @param $params
      */
 
-    //Переписать
 
     public function action_editSubmit($params)
     {
-        $item = $this->model = new Product();
-        $item->updateProduct(
-            $params['post']['name'],
-            $params['post']['description'],
-            $params['post']['price'],
-            $params['post']['manufacturer'],
-            $params['post']['category'],
-            $params['post']['idProduct']
-        );
+        $upload = new FileUploader();
+        $upload->upload();
+
+        $this->model->update();
+        $this->model->set('name',$params['post']['name']);
+        $this->model->set('description',$params['post']['description']);
+        $this->model->set('price',$params['post']['price']);
+        $this->model->set('ManufacturerId',$params['post']['manufacturer']);
+        $this->model->set('CategoryId',$params['post']['category']);
+        if($upload->status){
+          $this->model->set('photo',$upload->file);
+        }
+        $this->model->query = trim($this->model->query,',');
+        $this->model->whereTest('idProduct','=',$params['post']['idProduct']);
+        $this->model->save();
+
         $_SESSION['success']['edit'] = 'Товар ' . $params['post']['name'] . ' успешно изменён!';
         return header('Location:/admin/allProducts');
+    }
+
+    /**
+     * Добавление товара
+     * @param $params
+     */
+
+    public function action_setProduct($params)
+    {
+            $upload = new FileUploader();
+            $upload->upload();
+
+            $this->model->insert();
+            $this->model->set('name',$params['post']['name']);
+            $this->model->set('description',$params['post']['description']);
+            $this->model->set('price',$params['post']['price']);
+            $this->model->set('ManufacturerId', $params['post']['manufacturer']);
+            $this->model->set('CategoryId',$params['post']['category']);
+
+            if($upload->status){
+                $this->model->set('photo',$upload->file);
+            }
+
+            $this->model->save();
+
+        $_SESSION['success']['addproduct'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
+        return header('Location:/admin/product');
+    }
+
+
+
+    /**
+     * Добавление категорий
+     * @param $params
+     */
+
+    public function action_setCategory($params)
+    {
+        $this->model = new Categories();
+        $this->model->insert();
+        $this->model->set('cat_name',$params['post']['cat_name']);
+        $this->model->save();
+        $_SESSION['success']['category'] = "Категория " . $params['post']['cat_name'] . " успешно добавлена в базу";
+        return header('Location:/admin/category');
     }
 
     /**
@@ -221,13 +281,6 @@ class AdminController extends Controller
      * @param $params
      */
 
-//    public function getOrderForAdmin($skip){
-//        $order = new Db();
-//        $order->connect();
-//        $skip=($skip-1)*20;
-//        $orders = $order->db->query("SELECT * FROM `Order` ORDER BY `created_at` DESC LIMIT $skip, 20" );
-//        return $orders;
-//    }
 
     public function action_orders($params)
     {
@@ -283,10 +336,9 @@ class AdminController extends Controller
         $data = $this->model->get();
         $data = json_decode($data[0]['Products']);
         $this->model = new Product();
-        //Переписать тут
-        //$this->model->select();
-        $products = $this->model->whereIn('idProduct', $data);
-        $products = json_encode($products);
+        $this->model->select();
+        $this->model->whereTest('idProduct', 'IN', $data);
+        $products = json_encode($this->model->get());
         echo $products;
     }
 
@@ -320,10 +372,9 @@ class AdminController extends Controller
         echo (int) $data[0][0];
     }
 
+
     /**
-     *
      * Выход
-     *
      */
 
     public function action_logout()

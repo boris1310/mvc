@@ -74,6 +74,9 @@
                     Все товары
                 </a>
             </li>
+
+            <br>
+            <a href="/catalog" class="text-decoration-none text-primary" ><img class="my-3" src="https://img.icons8.com/officel/16/000000/back.png"/> Назад в магазин</a>
         </ul>
     </div>
 </nav>

@@ -27,7 +27,7 @@
 
     <h4 class="my-3">Добавить категорию</h4>
 
-    <form action="http://localhost:8888/catalog/setCategory" method="post">
+    <form action="http://localhost:8888/admin/setCategory" method="post">
         <input type="text" class="form-control" id="cat_name" name="cat_name" placeholder="Название категории" required>
         <br>
         <input type="submit" class="form-control btn btn-primary" value="Добавить">

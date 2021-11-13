@@ -45,6 +45,8 @@
 <footer class="footer mt-auto py-3 bg-light">
     <div class="container">
         <span class="text-muted">Страница администратора</span>
+        <br>
+        <a href="/catalog" class="text-decoration-none text-primary" ><img class="my-3" src="https://img.icons8.com/officel/16/000000/back.png"/> Назад в магазин</a>
     </div>
 </footer>
 

@@ -80,7 +80,7 @@ if(isset($_SESSION['success']['addadmin'])){
             Дата регистрации: ${data.created_at}<br>
             </div>
             <div class="mt-5 float-center">
-            <a href="http://localhost:8888/user/addAdminSubmit/${data.idUser}"><button class="btn btn-success">Назначить сотрудником</button></a>
+            <a href="http://localhost:8888/admin/addAdminSubmit/${data.idUser}"><button class="btn btn-success">Назначить сотрудником</button></a>
             </div>
             </div>`;
 

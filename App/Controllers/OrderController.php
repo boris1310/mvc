@@ -102,7 +102,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Установка товаров в корзину
+     * Покупка
      */
 
     public function action_setCartProduct()
@@ -124,10 +124,16 @@ class OrderController extends Controller
         $this->model->whereTest('userId', '=', $_SESSION['user']['id']);
         $user_address = $this->model->get();
         $addressId = $user_address[0]['id'];
-        $this->model = new Order();
         $statusOrder = 'Добавлен';
-        //Переписать
-        $order->setOrder($userId, $products, $addressId, $statusOrder, $statusPayment);
+        $this->model = new Order();
+        $this->model->insert();
+        $this->model->set('userId',$userId);
+        $this->model->set('Products',$products);
+        $this->model->set('addressId',$addressId);
+        $this->model->set('statusOrder',$statusOrder);
+        $this->model->set('statusPayment',$statusPayment);
+        $this->model->save();
+
         if ($statusPayment == "Оплачен") {
             echo '{
             "status":"success",
@@ -145,23 +151,25 @@ class OrderController extends Controller
      * Установка информации о доставке
      */
 
-    //Переписать
     public function action_setBillingInfo()
     {
         $data = json_decode(file_get_contents('php://input'), true);
+
         if (empty($_SESSION['user'])) {
             $userId = null;
         } else {
             $userId = $_SESSION['user']['id'];
         }
-        $billingInfo = new Adres();
-        $billingInfo->setBillingInfo(
-            $data['city'],
-            $data['name'],
-            $data['address'],
-            $data['email'],
-            $data['phone'],
-            $userId);
+
+        $this->model = new Adres();
+        $this->model->insert();
+        $this->model->set('userId',$userId);
+        $this->model->set('city',$data['city']);
+        $this->model->set('userName',$data['name']);
+        $this->model->set('address', $data['address']);
+        $this->model->set('email',$data['email']);
+        $this->model->set('phone',$data['phone']);
+        $this->model->save();
 
         echo '{
         "status":"success",

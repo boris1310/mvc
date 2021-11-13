@@ -83,21 +83,21 @@ class CatalogController extends Controller
 
             $this->model->select();
             $this->model->limit(8);
-            $this->model->offset($page);
+            $this->model->offset($page*8);
 
         } elseif ($url[0] == "cat") {
 
             $this->model->select();
             $this->model->whereTest('CategoryId', '=', $url[1]);
             $this->model->limit(8);
-            $this->model->offset($page);
+            $this->model->offset($page*8);
 
         } elseif ($url[0] == "man") {
 
             $this->model->select();
             $this->model->whereTest('ManufacturerId', '=', $url[1]);
             $this->model->limit(8);
-            $this->model->offset($page);
+            $this->model->offset($page*8);
 
         }
         $data = json_encode($this->model->get());
@@ -111,41 +111,6 @@ class CatalogController extends Controller
     public function action_index()
     {
         $this->view->generate('vue-catalog.php', 'vue-layout.php');
-    }
-
-    /**
-     * Добавление товара
-     * @param $params
-     */
-
-    //переписать!!!!!
-
-    public function action_setProduct($params)
-    {
-        $data = $this->model->setProduct(
-            $params['post']['name'],
-            $params['post']['description'],
-            $params['post']['price'],
-            $params['post']['manufacturer'],
-            $params['post']['category']
-        );
-        $_SESSION['success']['addproduct'] = "Товар " . $params['post']['name'] . " успешно добавлен в базу";
-        return header('Location:/admin/product');
-    }
-
-    /**
-     * Добавление категорий
-     * @param $params
-     */
-
-    //ПЕРЕПИСАТЬ !!!
-
-    public function action_setCategory($params)
-    {
-        $this->model = new Categories();
-        $this->model->setCategory($params['post']['cat_name']);
-        $_SESSION['success']['category'] = "Категория " . $params['post']['cat_name'] . " успешно добавлена в базу";
-        return header('/admin/category');
     }
 
     /**
