@@ -8,6 +8,10 @@ class Db
 {
    public $db;
 
+   public function __constuct(){
+
+   }
+
     public function connect()
     {
         require_once 'define.php';

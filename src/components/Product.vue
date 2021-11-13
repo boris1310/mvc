@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 py-3 d-flex">
+    <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3 py-3 d-flex">
         <div class="card py-3">
           <div  class="h-50 p-1" data-bs-toggle="modal" :data-bs-target="'#selector'+idProduct">
         <img class="card-img-top" :src="photo" :alt="name">

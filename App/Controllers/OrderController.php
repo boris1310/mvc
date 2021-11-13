@@ -14,7 +14,7 @@ class OrderController extends Controller
 
     public function __construct()
     {
-
+        $this->model = new Order();
     }
 
     /**
@@ -44,11 +44,13 @@ class OrderController extends Controller
     public function action_setItemToCart($params)
     {
         $flag = 0;
+
         foreach ($_SESSION['basket'] as $item) {
             if ($item['idProduct'] == $params['get']['idProduct']) {
                 $flag = 1;
             }
         }
+
         if ($flag == 0) {
             $_SESSION['basket'][] = [
                 "idProduct" => (int)$params['get']['idProduct'],
@@ -57,13 +59,17 @@ class OrderController extends Controller
                 "price" => (int)$params['get']['price'],
                 "count" => (int)$params['get']['count'],
             ];
+
             echo '{
             "status":"success"
             }';
+
         } else {
+
             echo '{
             "status":"error"
             }';
+
         }
     }
 
@@ -93,7 +99,6 @@ class OrderController extends Controller
     {
         $data = json_encode($_SESSION['basket']);
         echo $data;
-
     }
 
     /**
@@ -103,7 +108,6 @@ class OrderController extends Controller
     public function action_setCartProduct()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-
         $products = json_encode($data['products']);
         if ($data['status']) {
             $statusPayment = 'Оплачен';
@@ -115,11 +119,14 @@ class OrderController extends Controller
         } else {
             $userId = $_SESSION['user']['id'];
         }
-        $address = new Adres();
-        $user_address = $address->where('userId', '=', $_SESSION['user']['id']);
+        $this->model = new Adres();
+        $this->model->select();
+        $this->model->whereTest('userId', '=', $_SESSION['user']['id']);
+        $user_address = $this->model->get();
         $addressId = $user_address[0]['id'];
-        $order = new Order();
+        $this->model = new Order();
         $statusOrder = 'Добавлен';
+        //Переписать
         $order->setOrder($userId, $products, $addressId, $statusOrder, $statusPayment);
         if ($statusPayment == "Оплачен") {
             echo '{
@@ -138,6 +145,7 @@ class OrderController extends Controller
      * Установка информации о доставке
      */
 
+    //Переписать
     public function action_setBillingInfo()
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -169,9 +177,10 @@ class OrderController extends Controller
 
     public function action_getOrderForUser($params)
     {
-        $order = new Order();
-        $orders = $order->where('userId', '=', $params['path']);
-        $orders = json_encode($orders);
+        $this->model = new Order();
+        $this->model->select();
+        $this->model->whereTest('userId', '=', $params['path']);
+        $orders = json_encode($this->model->get());
         echo $orders;
     }
 
@@ -182,10 +191,10 @@ class OrderController extends Controller
 
     public function action_getProductsById($params)
     {
-
-        $item = new Product();
-        $product = $item->where('idProduct', '=', $params['path']);
-        $product = json_encode($product);
+        $this->model = new Product();
+        $this->model->select();
+        $this->model->whereTest('idProduct', '=', $params['path']);
+        $product = json_encode($this->model->get());
         echo $product;
     }
 

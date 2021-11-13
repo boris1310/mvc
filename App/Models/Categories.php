@@ -14,6 +14,8 @@ class Categories extends Model
      * @param $cat_name
      */
 
+    //ПЕРЕПИСАТЬ И УБРАТЬ
+
   public function setCategory($cat_name){
       $item = new Db();
       $item->connect();
@@ -26,6 +28,8 @@ class Categories extends Model
      * Удаление категорий
      * @param $id
      */
+
+    //ПЕРЕПИСАТЬ И УБРАТЬ
 
     public function categoryDelete($id){
         $item = new Db();

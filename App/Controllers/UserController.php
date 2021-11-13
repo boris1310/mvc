@@ -30,14 +30,15 @@ class UserController extends Controller
     public function action_signUp()
     {
         $data=json_decode(file_get_contents('php://input'), true);
-        $whoami = new User();
+        $this->model = new User();
         if(!empty($data)){
-            $user = $whoami->where('email','=',$data['email']);
+            $this->model->select();
+            $this->model->whereTest('email','=',$data['email']);
+            $user = $this->model->get();
             if(empty($user)){
                 echo '{"error":"Пользователя с таким email не существует"}';
             }else{
                 if(md5($data['password'])==$user[0]['password']){
-
                     $_SESSION['user']['id']=$user[0]['idUser'];
                     $_SESSION['user']['name']=$user[0]['name'];
                     $_SESSION['user']['email']=$user[0]['email'];
@@ -58,6 +59,8 @@ class UserController extends Controller
      * Регистрация
      * @param $params
      */
+
+    ///ПЕРЕПИСАТЬЬЬЬЬЬ!!!!!
 
     public function action_register($params)
     {
@@ -102,8 +105,10 @@ class UserController extends Controller
      */
 
     public function action_getUserByEmail($params){
-        $user = new User();
-        $data = $user->where('email','=',$params['path']);
+        $this->model = new User();
+        $this->model->select();
+        $this->model->whereTest('email','=',$params['path']);
+        $data = $this->model->get();
         if(empty($data)){
                 $result='{}';
         }else {
@@ -118,6 +123,8 @@ class UserController extends Controller
      * Добавление сотрудника
      * @param $params
      */
+
+    //ПЕРЕПИСАТЬ
 
     public function action_addAdminSubmit($params){
 

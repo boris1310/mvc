@@ -16,6 +16,8 @@ class User extends Model
      * @param string $role
      */
 
+    //ПЕРЕПИСАТЬ И УБРАТЬ
+
 
     public function setUser(string $name, string $email, string $password, $phone = null, string $role = 'user')
     {

@@ -12,6 +12,8 @@ class Order extends Model
 
     }
 
+    //переписать и убрать
+
     public function setOrder(int $userId,string $Products,int $addressId,string $statusOrder,string $statusPayment){
         $order = new Db();
         $order->connect();
@@ -23,23 +25,5 @@ class Order extends Model
                             `statusPayment`='{$statusPayment}'");
     }
 
-    public function getOrderForAdmin($skip){
-        $order = new Db();
-        $order->connect();
-        $skip=($skip-1)*20;
-        $orders = $order->db->query("SELECT * FROM `Order` ORDER BY `created_at` DESC LIMIT $skip, 20" );
-        return $orders;
-    }
 
-    public function getPaginationOrder(){
-        $item = new Db();
-        $item->connect();
-        $data = $item->db->query("SELECT count(*) FROM `Order`");
-        $count = [];
-        foreach ($data as $el){
-            $count[]=$el;
-        }
-
-        return $count[0][0];
-    }
 }

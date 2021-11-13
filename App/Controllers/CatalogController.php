@@ -23,13 +23,28 @@ class CatalogController extends Controller
     }
 
     /**
+     * TEST FUNCTIONS
+     * @param $params
+     */
+
+    public function action_select($params)
+    {
+        $product = new Product();
+        $product->select();
+        $product->whereTest('idProduct', '=', '33');
+        $data = $product->get();
+        var_dump($data);
+    }
+
+    /**
      * Получение категорий
      */
 
     public function action_getCategories()
     {
         $cat = new Categories();
-        $data = $cat->getAll();
+        $data = $cat->select();
+        $data = $cat->get();
         $data = json_encode($data);
         echo $data;
     }
@@ -41,8 +56,9 @@ class CatalogController extends Controller
     public function action_getManufacturers()
     {
         $man = new Manufacturer();
-        $data = $man->getAll();
-        $data = json_encode($data);
+        $man->select();
+        $man->get();
+        $data = json_encode($man->subject);
         echo $data;
     }
 
@@ -62,14 +78,29 @@ class CatalogController extends Controller
         }
         $url = $params['path'];
         $url = explode('_', $url);
+
         if ($url[0] == "all") {
-            $data = $this->model->getAllWithLimit($page, 8);
+
+            $this->model->select();
+            $this->model->limit(8);
+            $this->model->offset($page);
+
         } elseif ($url[0] == "cat") {
-            $data = $this->model->getAllWithLimitCategory($page, 8, $url[1]);
+
+            $this->model->select();
+            $this->model->whereTest('CategoryId', '=', $url[1]);
+            $this->model->limit(8);
+            $this->model->offset($page);
+
         } elseif ($url[0] == "man") {
-            $data = $this->model->getAllWithLimitManufacturer($page, 8, $url[1]);
+
+            $this->model->select();
+            $this->model->whereTest('ManufacturerId', '=', $url[1]);
+            $this->model->limit(8);
+            $this->model->offset($page);
+
         }
-        $data = json_encode($data);
+        $data = json_encode($this->model->get());
         echo $data;
     }
 
@@ -86,6 +117,8 @@ class CatalogController extends Controller
      * Добавление товара
      * @param $params
      */
+
+    //переписать!!!!!
 
     public function action_setProduct($params)
     {
@@ -104,6 +137,9 @@ class CatalogController extends Controller
      * Добавление категорий
      * @param $params
      */
+
+    //ПЕРЕПИСАТЬ !!!
+
     public function action_setCategory($params)
     {
         $this->model = new Categories();
@@ -118,19 +154,22 @@ class CatalogController extends Controller
 
     public function action_countItemInCategory()
     {
+
         $this->model = new Categories();
-        $data = $this->model->getAll();
-        $idxs = [];
-        foreach ($data as $catId) {
-            $idxs[] = $catId['idCategory'];
-        }
+        $this->model->select('idCategory');
+        $data = $this->model->get();
+        $idCategory = [];
         $countItems = [];
-        foreach ($idxs as $a) {
-            $count = $this->model = new Product();
-            $productInThisCategory = $count->where('CategoryId', '=', $a);
-            $countItems[$a] = count($productInThisCategory);
+        foreach ($data as $key => $a) {
+            $this->model = new Product();
+            $idCategory[] = $data[$key]['idCategory'];
+            $this->model->counter('idProduct');
+            $this->model->whereTest('CategoryId', '=', $data[$key]['idCategory']);
+            $item = $this->model->get();
+            $countItems[] = $item[0][0];
         }
-        $result = json_encode($countItems);
+        $result = array_combine($idCategory, $countItems);
+        $result = json_encode($result);
         echo $result;
     }
 
@@ -144,14 +183,19 @@ class CatalogController extends Controller
         $url = $params['path'];
         $url = explode('_', $url);
         if ($url[0] == "all") {
-            $data = $this->model->getAll();
-            $count = count($data);
+            $this->model->counter();
+            $data = $this->model->get();
+            $count = $data[0][0];
         } elseif ($url[0] == "cat") {
-            $data = $this->model->where('CategoryId', '=', $url[1]);
-            $count = count($data);
+            $this->model->counter();
+            $this->model->whereTest('CategoryId', '=', $url[1]);
+            $data = $this->model->get();
+            $count = $data[0][0];
         } elseif ($url[0] == "man") {
-            $data = $this->model->where('ManufacturerId', '=', $url[1]);
-            $count = count($data);
+            $this->model->counter();
+            $this->model->whereTest('ManufacturerId', '=', $url[1]);
+            $data = $this->model->get();
+            $count = $data[0][0];
         }
         $data = json_encode($count);
         echo $data;
@@ -162,12 +206,15 @@ class CatalogController extends Controller
      * @param $params
      */
 
-    public function action_getProductById($params){
-        $product = new Product();
-        $data = $product->where('idProduct','=',$params['path']);
+    public function action_getProductById($params)
+    {
+        $this->model->select();
+        $this->model->whereTest('idProduct', '=', $params['path']);
+        $data = $this->model->get();
         $data = json_encode($data[0]);
         echo $data;
     }
+
 
     /**
      * Подсчет товаров у производителя (Для вывода количества возле ссылки на производителя)
@@ -176,18 +223,20 @@ class CatalogController extends Controller
     public function action_countItemInManufacturer()
     {
         $this->model = new Manufacturer();
-        $data = $this->model->getAll();
-        $idxs = [];
-        foreach ($data as $manId) {
-            $idxs[] = $manId['idmanufacturer'];
-        }
+        $this->model->select('idmanufacturer');
+        $data = $this->model->get();
+        $idmanufacturer = [];
         $countItems = [];
-        foreach ($idxs as $a) {
-            $count = $this->model = new Product();
-            $productInThisManufacturer = $count->where('ManufacturerId', '=', $a);
-            $countItems[$a] = count($productInThisManufacturer);
+        foreach ($data as $key => $a) {
+            $this->model = new Product();
+            $idmanufacturer[] = $data[$key]['idmanufacturer'];
+            $this->model->counter('idProduct');
+            $this->model->whereTest('ManufacturerId', '=', $data[$key]['idmanufacturer']);
+            $item = $this->model->get();
+            $countItems[] = $item[0][0];
         }
-        $result = json_encode($countItems);
+        $result = array_combine($idmanufacturer, $countItems);
+        $result = json_encode($result);
         echo $result;
     }
 

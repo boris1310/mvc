@@ -16,13 +16,17 @@ class AdminController extends Controller
     function __construct()
     {
 
-        if(empty($_SESSION['user']['role']) || empty($_SESSION['user']['role'])){
+        if (empty($_SESSION['user']['role']) || empty($_SESSION['user']['role'])) {
             exit('Отказано в доступе!');
         }
 
         $this->model = new Product();
         $this->view = new View();
     }
+
+    /**
+     * Генерация страницы админки
+     */
 
     public function action_index()
     {
@@ -31,17 +35,22 @@ class AdminController extends Controller
 
     public function action_product()
     {
-        $data = $this->model = new Categories();
-        $data = $this->model->getAll();
-        $data2 = $this->model = new Manufacturer();
-        $data2 = $this->model->getAll();
+        $this->model = new Categories();
+        $this->model->select();
+        $data = $this->model->get();
+
+        $this->model = new Manufacturer();
+        $this->model->select();
+        $data2 = $this->model->get();
+
         $this->view->generate('admin/addproduct.php', 'admin/adminlayout.php', $data, $data2);
     }
 
     public function action_category()
     {
-        $data = $this->model = new Categories();
-        $data = $this->model->getAll();
+        $this->model = new Categories();
+        $this->model->select();
+        $data = $this->model->get();
         $this->view->generate('admin/addcategory.php', 'admin/adminlayout.php', $data);
     }
 
@@ -50,12 +59,14 @@ class AdminController extends Controller
      * @param $params
      */
 
+    //Переписать!!!
+
     public function action_categorydel($params)
     {
-         $this->model = new Categories();
-         $this->model->categoryDelete($params['path']);
-         $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
-         return header('Location:/admin/category');
+        $this->model = new Categories();
+        $this->model->categoryDelete($params['path']);
+        $_SESSION['success']['category'] = 'Категория id=' . $params['path'] . ' успешно удалена!';
+        return header('Location:/admin/category');
     }
 
     /**
@@ -64,8 +75,10 @@ class AdminController extends Controller
 
     public function action_employees()
     {
-        $data = $this->model = new User();
-        $data = $this->model->where('role', '=', 'admin');
+        $this->model = new User();
+        $this->model->select();
+        $this->model->whereTest('role', '=', 'admin');
+        $data = $this->model->get();
         $this->view->generate('admin/addadmin.php', 'admin/adminlayout.php', $data);
     }
 
@@ -73,6 +86,8 @@ class AdminController extends Controller
      * Удаление сотрудника
      * @param $params
      */
+
+    //Переписать
 
     public function action_deleteEmployee($params)
     {
@@ -88,9 +103,10 @@ class AdminController extends Controller
      * Получение всех товаров
      */
 
-    public function action_allProducts(){
-        $products = new Product();
-        $data = $products->getAll();
+    public function action_allProducts()
+    {
+        $this->model->select();
+        $data = $this->model->get();
         $this->view->generate('admin/productlist.php', 'admin/adminlayout.php', $data);
     }
 
@@ -99,14 +115,12 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_showinfo($params){
-        $data = $this->model = new Product();
-        $data = $this->model->where('idProduct', '=', $params['path']);
-        $product = [];
-        foreach ($data as $products){
-            $product =$products;
-        }
-        $product = json_encode($product);
+    public function action_showinfo($params)
+    {
+        $this->model->select();
+        $this->model->whereTest('idProduct', '=', $params['path']);
+        $product =$this->model->get();
+        $product = json_encode($product[0]);
         echo $product;
     }
 
@@ -115,17 +129,22 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_showCatAndMan($params){
-        $cat = $this->model = new Categories();
-        $cat = $this->model->where('idCategory','=',$params['get']['cat']);
-        $man = $this->model = new Manufacturer();
-        $man = $this->model->where('idmanufacturer','=',$params['get']['man']);
-        $data=[
+    public function action_showCatAndMan($params)
+    {
+         $this->model = new Categories();
+         $this->model->select();
+         $this->model->whereTest('idCategory', '=', $params['get']['cat']);
+         $cat = $this->model->get();
+         $this->model = new Manufacturer();
+         $this->model->select();
+         $this->model->whereTest('idmanufacturer', '=', $params['get']['man']);
+         $man = $this->model->get();
+         $data = [
             $cat[0]['cat_name'],
             $man[0]['name'],
-        ];
-        $data=json_encode($data);
-        echo $data;
+         ];
+         $data = json_encode($data);
+         echo $data;
     }
 
     /**
@@ -133,16 +152,19 @@ class AdminController extends Controller
      * @param $params
      */
 
-    function action_deleteItem($params){
-        $data = $this->model= new Product();
-        $product = $data->where('idProduct','=',$params['path']);
-        $data->delete('idProduct','=',$params['path']);
+    //переписать
 
-        foreach ($product as $item){
+    function action_deleteItem($params)
+    {
+        $data = $this->model = new Product();
+        $product = $data->where('idProduct', '=', $params['path']);
+        $data->delete('idProduct', '=', $params['path']);
+
+        foreach ($product as $item) {
             $itemName = $item['name'];
         }
 
-        $_SESSION['success']['delete']='Товар &laquo;'.$itemName.'&raquo; успешно удалён';
+        $_SESSION['success']['delete'] = 'Товар &laquo;' . $itemName . '&raquo; успешно удалён';
 
         return header('Location:/admin/allProducts');
     }
@@ -152,16 +174,23 @@ class AdminController extends Controller
      * @param $params
      */
 
-    function action_editItem($params){
-        if(!isset($params['path'])){
+    function action_editItem($params)
+    {
+
+        if (!isset($params['path'])) {
             ErrorRedirect::ErrorPage404();
         }
-        $item= $this->model=new Product();
-        $data=$item->where('idProduct','=',$params['path']);
-        $cat = $this->model=new Categories();
-        $data2=$cat->getAll();
-        $man = $this->model=new Manufacturer();
-        $data3=$man->getAll();
+
+        $this->model->select();
+        $this->model->whereTest('idProduct', '=', $params['path']);
+        $data = $this->model->get();
+
+        $this->model = new Categories();
+        $this->model->select();
+        $data2 = $this->model->get();
+        $this->model = new Manufacturer();
+        $this->model->select();
+        $data3 = $this->model->get();
         $this->view->generate('admin/editItem.php', 'admin/adminlayout.php', $data, $data2, $data3);
     }
 
@@ -170,8 +199,11 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_editSubmit($params){
-        $item= $this->model=new Product();
+    //Переписать
+
+    public function action_editSubmit($params)
+    {
+        $item = $this->model = new Product();
         $item->updateProduct(
             $params['post']['name'],
             $params['post']['description'],
@@ -180,7 +212,7 @@ class AdminController extends Controller
             $params['post']['category'],
             $params['post']['idProduct']
         );
-        $_SESSION['success']['edit']='Товар '.$params['post']['name'].' успешно изменён!';
+        $_SESSION['success']['edit'] = 'Товар ' . $params['post']['name'] . ' успешно изменён!';
         return header('Location:/admin/allProducts');
     }
 
@@ -189,9 +221,22 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_orders($params){
-        $order = new Order();
-        $data = $order->getOrderForAdmin($params['path']);
+//    public function getOrderForAdmin($skip){
+//        $order = new Db();
+//        $order->connect();
+//        $skip=($skip-1)*20;
+//        $orders = $order->db->query("SELECT * FROM `Order` ORDER BY `created_at` DESC LIMIT $skip, 20" );
+//        return $orders;
+//    }
+
+    public function action_orders($params)
+    {
+        $this->model = new Order();
+        $this->model->select();
+        $this->model->orderBy('created_at');
+        $this->model->limit(20);
+        $this->model->offset(($params['path']-1)*20);
+        $data = $this->model->get();
         $this->view->generate('admin/orders.php', 'admin/adminlayout.php', $data);
     }
 
@@ -200,9 +245,12 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_getOrderById($params){
-        $order = new Order();
-        $data = $order->where('idOrder','=',$params['path']);
+    public function action_getOrderById($params)
+    {
+        $this->model = new Order();
+        $this->model->select();
+        $this->model->whereTest('idOrder', '=', $params['path']);
+        $data = $this->model->get();
         $data = json_encode($data);
         echo $data;
     }
@@ -212,25 +260,32 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_getUserByUserId($params){
-        $user = new User();
-        $data = $user->where('idUser','=',$params['path']);
+    public function action_getUserByUserId($params)
+    {
+        $this->model = new User();
+        $this->model->select();
+        $this->model->whereTest('idUser', '=', $params['path']);
+        $data = $this->model->get();
         $data = json_encode($data);
         echo $data;
     }
 
     /**
      * Получение товара по id
-     *
      * @param $params
      */
 
-    public function action_getProductsByOrderId($params){
-        $order = new Order();
-        $data = $order -> where('idOrder','=',$params['path']);
-        $data= json_decode($data[0]['Products']);
-        $product = new Product();
-        $products = $product->whereIn('idProduct',$data);
+    public function action_getProductsByOrderId($params)
+    {
+        $this->model = new Order();
+        $this->model->select('Products');
+        $this->model->whereTest('idOrder', '=', $params['path']);
+        $data = $this->model->get();
+        $data = json_decode($data[0]['Products']);
+        $this->model = new Product();
+        //Переписать тут
+        //$this->model->select();
+        $products = $this->model->whereIn('idProduct', $data);
         $products = json_encode($products);
         echo $products;
     }
@@ -240,9 +295,12 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_getAddressById($params){
-        $address = new Adres();
-        $data = $address->where('id','=',$params['path']);
+    public function action_getAddressById($params)
+    {
+        $this->model = new Adres();
+        $this->model->select();
+        $this->model->whereTest('id', '=', $params['path']);
+        $data = $this->model->get();
         $data = json_encode($data[0]);
         echo $data;
     }
@@ -252,10 +310,14 @@ class AdminController extends Controller
      * @param $params
      */
 
-    public function action_getOrderPagination($params){
-        $order = new Order();
-        $orders = $order->getPaginationOrder();
-        echo (int) $orders;
+
+
+    public function action_getOrderPagination($params)
+    {
+        $this->model = new Order();
+        $this->model->counter();
+        $data = $this->model->get();
+        echo (int) $data[0][0];
     }
 
     /**
@@ -264,9 +326,10 @@ class AdminController extends Controller
      *
      */
 
-    public function action_logout(){
-        $_SESSION=[];
-        setcookie('PHPSESSID','',time()-100);
+    public function action_logout()
+    {
+        $_SESSION = [];
+        setcookie('PHPSESSID', '', time() - 100);
         return header('Location:/');
     }
 

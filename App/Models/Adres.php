@@ -18,6 +18,8 @@ class Adres extends Model
      * @param null $userId
      */
 
+    ///ПЕРЕПИСАТЬ И УБРАТЬ
+
     public function setBillingInfo($city,$username,$address,$email,$phone,$userId=null){
 
         $adres = new Db();

@@ -3,11 +3,14 @@
 namespace Framework\Core;
 
 use Framework\Databases\Db;
+use phpDocumentor\Reflection\DocBlock\Tags\Method;
 use ReflectionClass;
 
 class Model
 {
+    public $subject;
     public string $modelname;
+    public string $query;
 
     /**
      * Model constructor.
@@ -15,8 +18,104 @@ class Model
 
     public function __construct()
     {
+        $this->subject = [];
+        $this->query = '';
         $classname = (new \ReflectionClass($this))->getShortName();
         $this->modelname = $classname;
+    }
+
+    /**
+     * TEST FUNCTIONS
+     */
+
+    /**
+     * @param string $params
+     */
+
+    public function select($params = "*")
+    {
+        $this->query = "SELECT $params FROM `$this->modelname` ";
+    }
+
+    /**
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     */
+
+    public function whereTest(string $column, string $operator, string $value)
+    {
+        $this->query = $this->query . " WHERE `$column` $operator '$value'";
+    }
+
+    /**
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     */
+
+    public function andWhere(string $column, string $operator, string $value)
+    {
+        $this->query = $this->query . " AND  `$column` $operator $value";
+        echo "<br>";
+    }
+
+    /**
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     */
+
+    public function orWhere(string $column, string $operator, string $value)
+    {
+        $this->query = $this->query . " OR  `$column` $operator $value";
+        echo "<br>";
+    }
+
+    /**
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     */
+
+    public function notWhere(string $column, string $operator, string $value)
+    {
+        $this->query = $this->query . " WHERE NOT `$column` $operator $value";
+        echo "<br>";
+    }
+
+    /**
+     * @param string $column
+     * @param string $descOrAsc
+     */
+
+    public function orderBy(string $column, string $descOrAsc = "DESC")
+    {
+        $this->query = $this->query . " ORDER BY `$column` $descOrAsc";
+    }
+
+    public function limit( $limit = 8 ){
+        $this->query = $this->query . " LIMIT $limit";
+    }
+
+    public function offset( $offset = 0 ){
+        $this->query = $this->query . " OFFSET $offset";
+    }
+
+    public function counter(){
+        $this->query = "SELECT COUNT(*) FROM `$this->modelname`";
+    }
+
+
+    public function get()
+    {
+        $item = new Db;
+        $item->connect();
+        $data = $item->db->query($this->query);
+        foreach ($data as $item) {
+            $this->subject[] = $item;
+        }
+        return $this->subject;
     }
 
     /**
@@ -76,8 +175,6 @@ class Model
     }
 
 
-
-
     /**
      * @param array $columns
      * @param array $values
@@ -115,19 +212,6 @@ class Model
         $item->db->query("DELETE FROM `{$this->modelname}` WHERE `{$column}`{$operator}'{$params}'");
     }
 
-//    /**
-//     * Получение товаров в корзине;
-//     * @return mixed
-//     */
-//    public function getBasket()
-//    {
-//        $item = new Db;
-//        $item->connect();
-//        $in = '';
-//        $in = implode(',', $_SESSION['basket']);
-//        $data = $item->db->query("SELECT * FROM `{$this->modelname}` WHERE `idProduct` IN ($in)");
-//        return $data;
-//    }
 
     /**
      * @param string $column
@@ -150,6 +234,11 @@ class Model
             $products[] = $el;
         }
         return $products;
+    }
+
+    public function save()
+    {
+
     }
 
 

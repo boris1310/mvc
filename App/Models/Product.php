@@ -8,6 +8,8 @@ use Framework\Databases\Db;
 class Product extends Model
 {
 
+    //ПЕРЕПИСАТЬ И УБРАТЬ
+
     public function updateProduct(string $name, string $description, int $price,int $manufacturer,int $category,int $id)
     {
         $uploaddir = 'public/img/products/';
@@ -32,47 +34,7 @@ class Product extends Model
 
     }
 
-    /**
-     * Получение товаров производителей
-     * @param int $skip
-     * @param int $limit
-     * @param $manufacturer
-     * @return array
-     */
 
-    public function getAllWithLimitManufacturer($skip = 0, $limit = 8, $manufacturer)
-    {
-        $skip = $skip * $limit;
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `ManufacturerId`='{$manufacturer}' LIMIT $limit OFFSET $skip");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
-
-    /**
-     * Получение товаров категорий
-     * @param int $skip
-     * @param int $limit
-     * @param $category
-     * @return array
-     */
-
-    public function getAllWithLimitCategory($skip = 0, $limit = 8, $category)
-    {
-        $skip = $skip * $limit;
-        $prod = new Db();
-        $prod->connect();
-        $items = $prod->db->query("SELECT * FROM `{$this->modelname}` WHERE `CategoryId`='{$category}' LIMIT $limit OFFSET $skip");
-        $data = [];
-        foreach ($items as $row) {
-            $data[] = $row;
-        }
-        return $data;
-    }
 
     /**
      * Добавление товара и загрузка изображения товара
@@ -80,6 +42,8 @@ class Product extends Model
      * @param string $description
      * @param int $price
      */
+
+    //ПЕРЕПИСАТЬ И УБРАТЬ
 
     public function setProduct(string $name, string $description, int $price, int $manufacturer, int $category)
     {
